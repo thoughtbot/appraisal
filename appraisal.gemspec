@@ -1,8 +1,8 @@
 Gem::Specification.new do |s|
     s.name        = %q{appraisal}
     s.version     = '0.1'
-    s.summary     = %q{Find out how much your Ruby gems are worth}
-    s.description = %q{appraisal integrates with bundler and rake to test your library against different versions of dependencies in repeatable scenarios called "appraisals."}
+    s.summary     = %q{Find out what your Ruby gems are worth}
+    s.description = %q{Appraisal integrates with bundler and rake to test your library against different versions of dependencies in repeatable scenarios called "appraisals."}
 
     s.files        = Dir['[A-Z]*', 'lib/**/*.rb', 'features/**/*']
     s.require_path = 'lib'
