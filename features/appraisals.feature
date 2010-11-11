@@ -28,6 +28,11 @@ Feature: run a rake task through several appraisals
       require 'factory_girl'
       puts "Loaded #{Factory::VERSION}"
     end
+    task :fail do
+      require 'factory_girl'
+      puts "Fail #{Factory::VERSION}"
+      raise
+    end
     task :default => :version
     """
     When I successfully run "rake appraisal:install --trace"
@@ -54,4 +59,17 @@ Feature: run a rake task through several appraisals
     When I successfully run "rake appraisal --trace"
     Then the output should contain "Loaded 1.3.0"
     And the output should contain "Loaded 1.3.2"
+
+  @disable-bundler
+  Scenario: run a failing task with one appraisal
+    When I run "rake appraisal:1.3.0 fail --trace"
+    Then the output should contain "Fail 1.3.0"
+    And the exit status should be 1
+
+  @disable-bundler
+  Scenario: run a failing task with all appraisals
+    When I run "rake appraisal fail --trace"
+    Then the output should contain "Fail 1.3.2"
+    But the output should not contain "Fail 1.3.0"
+    And the exit status should be 1
 
