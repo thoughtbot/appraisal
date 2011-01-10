@@ -1,4 +1,5 @@
 require 'appraisal/dependency'
+require 'appraisal/gemspec'
 
 module Appraisal
   # Load bundler Gemfiles and merge dependencies
@@ -26,8 +27,7 @@ module Appraisal
     end
 
     def to_s
-      %{source "#{@source}"\n} <<
-        dependencies.values.map { |dependency| dependency.to_s }.join("\n")
+      [source_entry, dependencies_entry, gemspec_entry].join("\n\n")
     end
 
     def dup
@@ -36,7 +36,26 @@ module Appraisal
         dependencies.values.each do |dependency|
           gemfile.gem(dependency.name, *dependency.requirements)
         end
+        gemfile.gemspec(@gemspec.options) if @gemspec
       end
+    end
+
+    def gemspec(options = {})
+      @gemspec = Gemspec.new(options)
+    end
+
+    protected
+
+    def source_entry
+      %(source "#{@source}")
+    end
+
+    def dependencies_entry
+      dependencies.values.map { |dependency| dependency.to_s }.join("\n")
+    end
+
+    def gemspec_entry
+      @gemspec.to_s
     end
   end
 end
