@@ -21,7 +21,6 @@ module Appraisal
     def run
       announce
       with_clean_env do
-        puts @command
         unless Kernel.system(@command)
           exit(1)
         end
