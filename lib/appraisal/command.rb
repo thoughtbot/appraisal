@@ -11,12 +11,17 @@ module Appraisal
     def initialize(command, gemfile = nil)
       @original_env = {}
       @gemfile = gemfile
-      @command = command
+      if command =~ /^bundle/
+        @command = command
+      else
+        @command = "bundle exec #{command}"
+      end
     end
 
     def run
       announce
       with_clean_env do
+        puts @command
         unless Kernel.system(@command)
           exit(1)
         end
