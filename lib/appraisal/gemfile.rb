@@ -1,9 +1,10 @@
 require 'appraisal/dependency'
+require 'appraisal/gemspec'
 
 module Appraisal
   # Load bundler Gemfiles and merge dependencies
   class Gemfile
-    attr_reader :dependencies
+    attr_reader :dependencies, :spec
 
     def initialize
       @dependencies = {}
@@ -27,7 +28,8 @@ module Appraisal
 
     def to_s
       %{source "#{@source}"\n} <<
-        dependencies.values.map { |dependency| dependency.to_s }.join("\n")
+        dependencies.values.map { |dependency| dependency.to_s }.join("\n") <<
+        "\n" << spec.to_s
     end
 
     def dup
@@ -36,7 +38,12 @@ module Appraisal
         dependencies.values.each do |dependency|
           gemfile.gem(dependency.name, *dependency.requirements)
         end
+        gemfile.gemspec(spec.opts)
       end
+    end
+
+    def gemspec(opts = nil)
+      @spec = Gemspec.new(opts)
     end
   end
 end
