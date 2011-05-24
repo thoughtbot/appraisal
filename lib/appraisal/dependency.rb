@@ -20,7 +20,7 @@ module Appraisal
     private
 
     def inspect_requirements
-      requirements.map { |requirement| requirement.inspect }.join(", ")
+      requirements.map { |requirement| requirement.inspect.gsub(/^\{|\}$/, '') }.join(", ")
     end
   end
 end
