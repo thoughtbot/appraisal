@@ -8,31 +8,33 @@ PATH
 GEM
   remote: http://rubygems.org/
   specs:
-    aruba (0.2.4)
-      background_process
-      cucumber (~> 0.9.3)
-    background_process (1.2)
-    builder (2.1.2)
-    cucumber (0.9.4)
-      builder (~> 2.1.2)
-      diff-lcs (~> 1.1.2)
-      gherkin (~> 2.2.9)
-      json (~> 1.4.6)
-      term-ansicolor (~> 1.0.5)
+    aruba (0.3.6)
+      childprocess (>= 0.1.7)
+      cucumber (>= 0.10.0)
+      rspec (>= 2.5.0)
+    builder (3.0.0)
+    childprocess (0.1.9)
+      ffi (~> 1.0.6)
+    cucumber (0.10.3)
+      builder (>= 2.1.2)
+      diff-lcs (>= 1.1.2)
+      gherkin (>= 2.3.8)
+      json (>= 1.4.6)
+      term-ansicolor (>= 1.0.5)
     diff-lcs (1.1.2)
-    gherkin (2.2.9)
-      json (~> 1.4.6)
-      term-ansicolor (~> 1.0.5)
-    json (1.4.6)
-    rake (0.8.7)
-    rspec (2.5.0)
-      rspec-core (~> 2.5.0)
-      rspec-expectations (~> 2.5.0)
-      rspec-mocks (~> 2.5.0)
-    rspec-core (2.5.1)
-    rspec-expectations (2.5.0)
+    ffi (1.0.9)
+    gherkin (2.3.9)
+      json (>= 1.4.6)
+    json (1.5.1)
+    rake (0.9.0)
+    rspec (2.6.0)
+      rspec-core (~> 2.6.0)
+      rspec-expectations (~> 2.6.0)
+      rspec-mocks (~> 2.6.0)
+    rspec-core (2.6.3)
+    rspec-expectations (2.6.0)
       diff-lcs (~> 1.1.2)
-    rspec-mocks (2.5.0)
+    rspec-mocks (2.6.0)
     term-ansicolor (1.0.5)
 
 PLATFORMS
@@ -42,5 +44,4 @@ DEPENDENCIES
   appraisal!
   aruba
   cucumber
-  rake (~> 0.8.7)
   rspec
