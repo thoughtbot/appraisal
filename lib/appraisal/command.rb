@@ -43,7 +43,11 @@ module Appraisal
     end
 
     def announce
-      puts ">> BUNDLE_GEMFILE=#{@gemfile} #{@command}"
+      if @gemfile
+        puts ">> BUNDLE_GEMFILE=#{@gemfile} #{@command}"
+      else
+        puts ">> #{@command}"
+      end
     end
 
     def unset_bundler_env_vars
