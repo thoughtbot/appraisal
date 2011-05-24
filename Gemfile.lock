@@ -1,3 +1,10 @@
+PATH
+  remote: .
+  specs:
+    appraisal (0.2.0)
+      bundler
+      rake
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -18,21 +25,22 @@ GEM
       term-ansicolor (~> 1.0.5)
     json (1.4.6)
     rake (0.8.7)
-    rspec (2.1.0)
-      rspec-core (~> 2.1.0)
-      rspec-expectations (~> 2.1.0)
-      rspec-mocks (~> 2.1.0)
-    rspec-core (2.1.0)
-    rspec-expectations (2.1.0)
+    rspec (2.5.0)
+      rspec-core (~> 2.5.0)
+      rspec-expectations (~> 2.5.0)
+      rspec-mocks (~> 2.5.0)
+    rspec-core (2.5.1)
+    rspec-expectations (2.5.0)
       diff-lcs (~> 1.1.2)
-    rspec-mocks (2.1.0)
+    rspec-mocks (2.5.0)
     term-ansicolor (1.0.5)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  appraisal!
   aruba
   cucumber
-  rake
+  rake (~> 0.8.7)
   rspec
