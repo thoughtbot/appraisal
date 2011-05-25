@@ -14,7 +14,7 @@ module Appraisal
       @appraisals = []
       @gemfile = Gemfile.new
       @gemfile.load('Gemfile')
-      run(IO.read(path))
+      run(IO.read(path)) if ::File.exists?(path)
     end
 
     def each(&block)
