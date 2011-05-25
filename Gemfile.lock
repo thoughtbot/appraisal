@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    appraisal (0.3.1)
+    appraisal (0.3.2)
       aruba (~> 0.3.6)
       bundler
       rake
