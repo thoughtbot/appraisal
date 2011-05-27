@@ -10,7 +10,7 @@ module Appraisal
 
     def initialize(command, gemfile = nil)
       @original_env = {}
-      @gemfile = ::File.expand_path(gemfile || '.')
+      @gemfile = gemfile
       if command =~ /^bundle/
         @command = command
       else
