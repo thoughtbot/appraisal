@@ -6,10 +6,7 @@ module Appraisal
 
     def initialize(options = {})
       @options = options
-
-      # figure out the right path for the gemspec
       @options[:path] ||= '.'
-      @options[:path] = ::File.expand_path(@options[:path])
     end
 
     def exists?
@@ -17,7 +14,20 @@ module Appraisal
     end
 
     def to_s
-      "gemspec #{@options.inspect.gsub(/^\{|\}$/, '')}" if exists?
+      "gemspec #{exported_options.inspect.gsub(/^\{|\}$/, '')}" if exists?
+    end
+
+    private
+
+    def exported_options
+      # Check to see if this is an absolute path
+      if @options[:path] =~ /^(?:\/|\S:)/
+        @options
+      else
+        # Remove leading ./ from path, if any
+        exported_path = ::File.join("..", @options[:path].sub(/^\.\/?/,''))
+        @options.merge(:path => exported_path)
+      end
     end
   end
 end
