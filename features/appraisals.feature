@@ -74,3 +74,11 @@ Feature: run a rake task through several appraisals
     But the output should not contain "Fail 1.3.0"
     And the exit status should be 1
 
+  @disable-bundler
+  Scenario: run a cleanup task
+    When I run `bundle exec rake appraisal:cleanup --trace`
+    Then a file named "gemfiles/1.3.0.gemfile" should not exist
+    And a file named "gemfiles/1.3.0.gemfile.lock" should not exist
+    And a file named "gemfiles/1.3.2.gemfile" should not exist
+    And a file named "gemfiles/1.3.2.gemfile.lock" should not exist
+

@@ -21,6 +21,12 @@ module Appraisal
           end
         end
 
+        desc "Remove all generated gemfiles from gemfiles/ folder"
+        task :cleanup do
+          require 'fileutils'
+          FileUtils.rm_f Dir['gemfiles/*.{gemfile,gemfile.lock}']
+        end
+
         File.each do |appraisal|
           desc "Run the given task for appraisal #{appraisal.name}"
           task appraisal.name do
