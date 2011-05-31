@@ -31,13 +31,13 @@ module Appraisal
     end
 
     def dup
-      Gemfile.new.tap do |gemfile|
-        gemfile.source @source
-        dependencies.values.each do |dependency|
-          gemfile.gem(dependency.name, *dependency.requirements)
-        end
-        gemfile.gemspec(@gemspec.options) if @gemspec
+      gemfile = Gemfile.new
+      gemfile.source @source
+      dependencies.values.each do |dependency|
+        gemfile.gem(dependency.name, *dependency.requirements)
       end
+      gemfile.gemspec(@gemspec.options) if @gemspec
+      gemfile
     end
 
     def gemspec(options = {})

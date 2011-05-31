@@ -22,9 +22,9 @@ module Appraisal
     end
 
     def appraise(name, &block)
-      @appraisals << Appraisal.new(name, gemfile).tap do |appraisal|
-        appraisal.instance_eval(&block)
-      end
+      appraisal = Appraisal.new(name, gemfile)
+      appraisal.instance_eval(&block)
+      @appraisals << appraisal
     end
 
     private
