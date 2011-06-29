@@ -1,21 +1,23 @@
-h1. Appraisal
+Appraisal
+=========
 
 Find out what your Ruby gems are worth.
 
-h2. Synopsis
+Synopsis
+--------
 
 Appraisal integrates with bundler and rake to test your library against
 different versions of dependencies in repeatable scenarios called "appraisals."
 Appraisal is designed to make is easy to check for regressions in your library
 without interfering with day-to-day development using bundler.
 
-h2. Installation
+Installation
+------------
 
-<pre>
-gem install appraisal
-</pre>
+    gem install appraisal
 
-h2. Setup
+Setup
+-----
 
 Setting up appraisal requires an Appraisals file (similar to a Gemfile) in your
 project root, and some slight changes to your project's Rakefile.
@@ -24,15 +26,13 @@ An Appraisals file consists of several appraisal definitions. An appraisal
 definition is simply a list of gem dependencies. For example, to test with a
 few versions of Rails:
 
-<pre>
-appraise "rails2" do
-  gem "rails", "2.3.9"
-end
+    appraise "rails2" do
+      gem "rails", "2.3.9"
+    end
 
-appraise "rails3" do
-  gem "rails", "3.0.0"
-end
-</pre>
+    appraise "rails3" do
+      gem "rails", "3.0.0"
+    end
 
 The dependencies in your Appraisals file are combined with dependencies in your
 Gemfile, so you don't need to repeat anything that's the same for each
@@ -41,48 +41,40 @@ version from the appraisal takes precedence.
 
 Once you have an Appraisals file set up, just require appraisal in your Rakefile:
 
-<pre>
-require 'appraisal'
-</pre>
+    require 'appraisal'
 
 It's also recommended that you setup bundler at the very top of your Rakefile,
 so that you don't need to constantly run bundle exec:
 
-<pre>
-require 'rubygems'
-require 'bundler/setup'
-</pre>
+    require 'rubygems'
+    require 'bundler/setup'
 
-h2. Usage
+Usage
+-----
 
 Once you've configured the appraisals you want to use, you need to install the
 dependencies for each appraisal:
 
-<pre>
-rake appraisal:install
-</pre>
+    rake appraisal:install
 
 This will resolve, install, and lock the dependencies for that appraisal using
 bundler. Once you have your dependencies setup, you can run any rake task in a
 single appraisal:
 
-<pre>
-rake appraisal:rails2 test
-</pre>
+    rake appraisal:rails2 test
 
 This will run your "test" rake task using the dependencies configured for Rails
 2. You can also run each appraisal in turn:
 
-<pre>
-rake appraisal test
-</pre>
+    rake appraisal test
 
 If you want to use only the dependencies from your Gemfile, just run "rake
 test" as normal. This allows you to keep running with the latest versions of
 your dependencies in quick test runs, but keep running the tests in older
 versions to check for regressions.
 
-h2. Under the hood
+Under the hood
+--------------
 
 Running "rake appraisal:install" generates a Gemfile for each appraisal by
 combining your root Gemfile with the specific requirements for each appraisal.
@@ -91,7 +83,18 @@ control to ensure that the same versions are always used. When running rake
 tasks for an appraisal, the rake task is run with the appropriate Gemfile for
 that appraisal, ensuring the correct dependencies are used.
 
-h2. Author
+Credits
+-------
 
-Copyright 2010 Joe Ferris
+![thoughtbot](http://thoughtbot.com/images/tm/logo.png)
 
+Diesel is maintained and funded by [thoughtbot, inc](http://thoughtbot.com/community)
+
+Thank you to all [the contributors](https://github.com/thoughtbot/diesel/contributors)!
+
+The names and logos for thoughtbot are trademarks of thoughtbot, inc.
+
+License
+-------
+
+Diesel is Copyright © 2011 Joe Ferris and thoughtbot. It is free software, and may be redistributed under the terms specified in the MIT-LICENSE file.
