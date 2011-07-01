@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = %q{appraisal}
-  s.version     = '0.3.5'
+  s.version     = '0.3.6'
   s.summary     = %q{Find out what your Ruby gems are worth}
   s.description = %q{Appraisal integrates with bundler and rake to test your library against different versions of dependencies in repeatable scenarios called "appraisals."}
 
