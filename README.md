@@ -14,7 +14,9 @@ without interfering with day-to-day development using bundler.
 Installation
 ------------
 
-    gem install appraisal
+In your Gemfile:
+
+    gem "appraisal"
 
 Setup
 -----
