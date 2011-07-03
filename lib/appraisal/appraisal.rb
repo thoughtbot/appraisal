@@ -39,7 +39,7 @@ module Appraisal
     private
 
     def gemfile_root
-      "gemfiles"
+      ::File.join(Dir.pwd, "gemfiles")
     end
   end
 end
