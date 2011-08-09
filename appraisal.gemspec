@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = %q{appraisal}
-  s.version     = '0.3.7'
+  s.version     = '0.3.8'
   s.summary     = %q{Find out what your Ruby gems are worth}
   s.description = %q{Appraisal integrates with bundler and rake to test your library against different versions of dependencies in repeatable scenarios called "appraisals."}
 
@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency('cucumber', '~> 1.0')
   s.add_development_dependency('rspec', '~> 2.6')
   s.add_development_dependency('aruba', '~> 0.4.2')
-  
+
   s.add_runtime_dependency('rake')
   s.add_runtime_dependency('bundler')
 
