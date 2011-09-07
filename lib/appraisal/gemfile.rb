@@ -22,6 +22,10 @@ module Appraisal
       @dependencies[name] = Dependency.new(name, requirements)
     end
 
+    def group(name)
+      # ignore the group
+    end
+
     def source(source)
       @source = source
     end

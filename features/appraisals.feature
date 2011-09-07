@@ -8,6 +8,9 @@ Feature: run a rake task through several appraisals
     source "http://rubygems.org"
     gem "rake", "0.8.7"
     gem "factory_girl"
+    group :assets do
+      gem 'sass-rails', "  ~> 3.1.0"
+    end
     """
     When I add "appraisal" from this project as a dependency
     And I write to "Appraisals" with:
