@@ -51,7 +51,7 @@ module Appraisal
     protected
 
     def source_entry
-      %(source "#{@source}")
+      %(source #{@source.inspect})
     end
 
     def dependencies_entry
