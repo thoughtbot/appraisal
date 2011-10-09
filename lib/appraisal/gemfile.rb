@@ -53,7 +53,7 @@ module Appraisal
     protected
 
     def source_entry
-      @sources.map { |source| %(source "#{source}") }.join("\n")
+      @sources.map { |source| "source #{source.inspect}" }.join("\n")
     end
 
     def dependencies_entry
