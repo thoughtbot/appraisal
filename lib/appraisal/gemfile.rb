@@ -51,7 +51,11 @@ module Appraisal
     protected
 
     def source_entry
-      %(source "#{@source}")
+      if @source.is_a?(Symbol)
+        %(source :#{@source})
+      else
+        %(source "#{@source}")
+      end
     end
 
     def dependencies_entry

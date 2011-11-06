@@ -68,3 +68,15 @@ Scenario: run a gem in the gemspec via path
   When I run `bundle exec rake appraisal version --trace`
   Then the output should contain "Loaded 1.3.0"
 
+
+@disable-bundler
+Scenario: run a gem in the gemspec with source-as-symbol
+  And I write to "Gemfile" with:
+  """
+  source :rubygems
+  gemspec
+  """
+  When I add "appraisal" from this project as a dependency
+  When I successfully run `bundle exec rake appraisal:install --trace`
+  When I run `bundle exec rake appraisal version --trace`
+  Then the output should contain "Loaded 1.3.2"
