@@ -15,6 +15,8 @@ Gem::Specification.new do |s|
   s.add_development_dependency('cucumber', '~> 1.0')
   s.add_development_dependency('rspec', '~> 2.6')
   s.add_development_dependency('aruba', '~> 0.4.2')
+  s.add_development_dependency('factory_girl', '~> 2.2.0')
+  s.add_development_dependency('mocha', '~> 0.10.0')
 
   s.add_runtime_dependency('rake')
   s.add_runtime_dependency('bundler')
