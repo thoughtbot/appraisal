@@ -21,4 +21,10 @@ describe Appraisal::Gemfile do
     gemfile.gem "three"
     gemfile.to_s.should =~ /one.*two.*three/m
   end
+
+  it "supports symbol sources" do
+    gemfile = Appraisal::Gemfile.new
+    gemfile.source :one
+    gemfile.to_s.strip.should == %{source :one}
+  end
 end
