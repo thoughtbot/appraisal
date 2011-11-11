@@ -13,7 +13,6 @@ Feature: run a rake task through several appraisals
     When I cd to "projecto"
     And I write to "Gemfile" with:
     """
-    source "http://rubygems.org"
     gem "dummy_rake", "0.8.7"
     gem "dummy_girl"
     group :assets do

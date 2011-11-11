@@ -49,7 +49,6 @@ Feature: appraisals using an existing gemspec
   Scenario: run a gem in the gemspec
     And I write to "Gemfile" with:
     """
-    source "http://rubygems.org"
     gemspec
     """
     When I add "appraisal" from this project as a dependency
@@ -62,7 +61,6 @@ Feature: appraisals using an existing gemspec
   Scenario: run a gem in the gemspec via path
     And I write to "Gemfile" with:
     """
-    source "http://rubygems.org"
     gemspec :path => './specdir'
     """
     When I add "appraisal" from this project as a dependency

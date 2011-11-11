@@ -22,9 +22,9 @@ Given /^the following installed dummy gems:$/ do |table|
     SPEC
     write_file(gem_path, spec)
     write_file(version_path, "$#{name}_version = '#{version}'")
-    run_simple("gem build #{gem_path}")
+    in_current_dir { `gem build #{gem_path} 2>&1` }
     set_env("GEM_HOME", TMP_GEM_ROOT)
-    run_simple("gem install #{name}-#{version}.gem")
+    in_current_dir { `gem install #{name}-#{version}.gem 2>&1` }
     FileUtils.rm_rf(File.join(current_dir, name))
     dirs.pop
   end

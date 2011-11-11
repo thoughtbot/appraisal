@@ -7,6 +7,7 @@ module Appraisal
     attr_reader :dependencies
 
     def initialize
+      @sources = []
       @dependencies = {}
     end
 
@@ -27,7 +28,7 @@ module Appraisal
     end
 
     def source(source)
-      @source = source
+      @sources << source
     end
 
     def to_s
@@ -36,7 +37,7 @@ module Appraisal
 
     def dup
       gemfile = Gemfile.new
-      gemfile.source @source
+      @sources.each { |source| gemfile.source source }
       dependencies.values.each do |dependency|
         gemfile.gem(dependency.name, *dependency.requirements)
       end
@@ -51,7 +52,7 @@ module Appraisal
     protected
 
     def source_entry
-      %(source "#{@source}")
+      @sources.map { |source| %(source "#{source}") }.join("\n")
     end
 
     def dependencies_entry
