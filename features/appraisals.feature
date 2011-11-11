@@ -7,14 +7,17 @@ Feature: run a rake task through several appraisals
       | name       | version |
       | dummy_girl | 1.3.0   |
       | dummy_girl | 1.3.2   |
+      | dummy_rake | 0.8.7   |
+      | dummy_rake | 0.9.0   |
+      | dummy_sass | 3.1.0   |
     When I cd to "projecto"
     And I write to "Gemfile" with:
     """
     source "http://rubygems.org"
-    gem "rake"
+    gem "dummy_rake", "0.8.7"
     gem "dummy_girl"
     group :assets do
-      gem 'sass-rails', "  ~> 3.1.0"
+      gem 'dummy_sass', "  ~> 3.1.0"
     end
     """
     When I add "appraisal" from this project as a dependency
@@ -25,7 +28,7 @@ Feature: run a rake task through several appraisals
     end
     appraise "1.3.0" do
       gem "dummy_girl", "1.3.0"
-      gem "rake", "0.9.0"
+      gem "dummy_rake", "0.9.0"
     end
     """
     When I write to "Rakefile" with:
