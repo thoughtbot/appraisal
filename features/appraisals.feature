@@ -49,7 +49,6 @@ Feature: run a rake task through several appraisals
     When I successfully run `bundle install --local`
     And I successfully run `bundle exec rake appraisal:install --trace`
 
-  @puts @announce
   Scenario: run a specific task with one appraisal
     When I successfully run `bundle exec rake appraisal:1.3.0 version --trace`
     Then the output should contain "Loaded 1.3.0"
