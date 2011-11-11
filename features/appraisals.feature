@@ -3,12 +3,16 @@ Feature: run a rake task through several appraisals
 
   Background:
     Given a directory named "projecto"
+    And the following installed dummy gems:
+      | name       | version |
+      | dummy_girl | 1.3.0   |
+      | dummy_girl | 1.3.2   |
     When I cd to "projecto"
     And I write to "Gemfile" with:
     """
     source "http://rubygems.org"
-    gem "rake", "0.8.7"
-    gem "factory_girl"
+    gem "rake"
+    gem "dummy_girl"
     group :assets do
       gem 'sass-rails', "  ~> 3.1.0"
     end
@@ -17,10 +21,10 @@ Feature: run a rake task through several appraisals
     And I write to "Appraisals" with:
     """
     appraise "1.3.2" do
-      gem "factory_girl", "1.3.2"
+      gem "dummy_girl", "1.3.2"
     end
     appraise "1.3.0" do
-      gem "factory_girl", "1.3.0"
+      gem "dummy_girl", "1.3.0"
       gem "rake", "0.9.0"
     end
     """
@@ -30,17 +34,18 @@ Feature: run a rake task through several appraisals
     require 'bundler/setup'
     require 'appraisal'
     task :version do
-      require 'factory_girl'
-      puts "Loaded #{Factory::VERSION}"
+      require 'dummy_girl'
+      puts "Loaded #{$dummy_girl_version}"
     end
     task :fail do
-      require 'factory_girl'
-      puts "Fail #{Factory::VERSION}"
+      require 'dummy_girl'
+      puts "Fail #{$dummy_girl_version}"
       raise
     end
     task :default => :version
     """
-    When I successfully run `bundle exec rake appraisal:install --trace`
+    When I successfully run `bundle install --local`
+    And I successfully run `bundle exec rake appraisal:install --trace`
 
   Scenario: run a specific task with one appraisal
     When I successfully run `bundle exec rake appraisal:1.3.0 version --trace`
