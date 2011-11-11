@@ -13,4 +13,12 @@ describe Appraisal::Gemfile do
     gemfile.source "two"
     gemfile.to_s.strip.should == %{source "one"\nsource "two"}
   end
+
+  it "preserves dependency order" do
+    gemfile = Appraisal::Gemfile.new
+    gemfile.gem "one"
+    gemfile.gem "two"
+    gemfile.gem "three"
+    gemfile.to_s.should =~ /one.*two.*three/m
+  end
 end

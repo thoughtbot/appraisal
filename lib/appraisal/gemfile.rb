@@ -8,7 +8,7 @@ module Appraisal
 
     def initialize
       @sources = []
-      @dependencies = {}
+      @dependencies = []
     end
 
     def load(path)
@@ -20,7 +20,8 @@ module Appraisal
     end
 
     def gem(name, *requirements)
-      @dependencies[name] = Dependency.new(name, requirements)
+      @dependencies.reject! { |dependency| dependency.name == name }
+      @dependencies << Dependency.new(name, requirements)
     end
 
     def group(name)
@@ -38,7 +39,7 @@ module Appraisal
     def dup
       gemfile = Gemfile.new
       @sources.each { |source| gemfile.source source }
-      dependencies.values.each do |dependency|
+      dependencies.each do |dependency|
         gemfile.gem(dependency.name, *dependency.requirements)
       end
       gemfile.gemspec(@gemspec.options) if @gemspec
@@ -56,7 +57,7 @@ module Appraisal
     end
 
     def dependencies_entry
-      dependencies.values.map { |dependency| dependency.to_s }.join("\n")
+      dependencies.map { |dependency| dependency.to_s }.join("\n")
     end
 
     def gemspec_entry
