@@ -13,6 +13,6 @@ Cucumber::Rake::Task.new(:cucumber) do |t|
   t.cucumber_opts = ['--format', (ENV['CUCUMBER_FORMAT'] || 'progress')]
 end
 
-desc "Default: run the cucumber scenarios"
+desc "Default: run the rspec examples and cucumber scenarios"
 task :default => [:spec, :cucumber]
 
