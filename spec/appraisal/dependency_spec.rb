@@ -21,5 +21,13 @@ describe Appraisal::Dependency do
     end
   end
 
+    context "absolute path string key" do
+    let (:deps) { [{"path" => "/foo"}] }
+    
+    it "should maintain absolute path" do
+      dependency.to_s.should == 'gem "foo", "path"=>"/foo"'
+    end
+  end
+
 
 end
