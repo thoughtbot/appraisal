@@ -4,7 +4,7 @@ require 'appraisal/gemspec'
 module Appraisal
   # Load bundler Gemfiles and merge dependencies
   class Gemfile
-    attr_reader :dependencies
+    attr_accessor :dependencies, :sources
 
     def initialize
       @sources = []
@@ -20,8 +20,12 @@ module Appraisal
     end
 
     def gem(name, *requirements)
-      @dependencies.reject! { |dependency| dependency.name == name }
+      reject_dependency!(name)
       @dependencies << Dependency.new(name, requirements)
+    end
+
+    def reject_dependency!(name)
+      @dependencies.reject! { |dependency| dependency.name == name }
     end
 
     def group(name)
@@ -39,8 +43,11 @@ module Appraisal
     def dup
       gemfile = Gemfile.new
       @sources.each { |source| gemfile.source source }
-      dependencies.each do |dependency|
-        gemfile.gem(dependency.name, *dependency.requirements)
+      dependencies.each do |dep|
+        gemfile.reject_dependency!(dep.name)
+        # we want to actualy dup the dependency here 
+        # so that it maintains its rewrite state
+        gemfile.dependencies << dep.dup
       end
       gemfile.gemspec(@gemspec.options) if @gemspec
       gemfile
