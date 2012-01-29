@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'appraisal/group'
 describe Appraisal::Group do
 
-  let(:group) { Appraisal::Group.new('foo', deps) }
+  let(:group) { Appraisal::Group.new(['foo'], deps) }
 
   let(:deps) {   5.times.to_a.map { Appraisal::Dependency.new('foo', []).to_s }.join("\n")}
 

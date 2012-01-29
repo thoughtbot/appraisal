@@ -47,8 +47,8 @@ describe Appraisal::Gemfile do
   end
 
   it "should have a group" do
-    gemfile.group :foo do |foo|
-      foo.gem "foo"
+    gemfile.group :foo do |file|
+      file.gem "foo"
     end
     gemfile.to_s.should =~ /group :foo do/
   end

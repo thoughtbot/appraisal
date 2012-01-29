@@ -30,10 +30,12 @@ module Appraisal
       @dependencies.reject! { |dependency| dependency.name == name }
     end
 
-    def group(name, &block)
-      klass = self.class.new
-      block.call(klass)
-      @groups << Group.new(name, klass.to_s.sub("\n\n", ''))
+    def group(*args, &blk)
+      @orig_deps = @dependencies.dup
+      yield self
+      @groups << Group.new(args, dependencies_entry.sub("\n\n", ''))
+    ensure
+      @dependencies = @orig_deps
     end
 
     def source(source)
@@ -65,6 +67,8 @@ module Appraisal
     protected
 
     def group_entry
+
+      #puts groups.map{|g| [g.name, g.dependencies]}.inspect
       @groups.map(&:to_s).join("\n")
     end
 
