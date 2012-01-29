@@ -46,4 +46,11 @@ describe Appraisal::Gemfile do
     gemfile.dependencies.should be_empty
   end
 
+  it "should have a group" do
+    gemfile.group :foo do |foo|
+      foo.gem "foo"
+    end
+    gemfile.to_s.should =~ /group :foo do/
+  end
+
 end

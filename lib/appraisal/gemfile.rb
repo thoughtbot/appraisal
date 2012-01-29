@@ -1,14 +1,16 @@
 require 'appraisal/dependency'
+require 'appraisal/group'
 require 'appraisal/gemspec'
 
 module Appraisal
   # Load bundler Gemfiles and merge dependencies
   class Gemfile
-    attr_accessor :dependencies, :sources
+    attr_accessor :dependencies, :sources, :groups
 
     def initialize
       @sources = []
       @dependencies = []
+      @groups = []
     end
 
     def load(path)
@@ -28,8 +30,10 @@ module Appraisal
       @dependencies.reject! { |dependency| dependency.name == name }
     end
 
-    def group(name)
-      # ignore the group
+    def group(name, &block)
+      klass = self.class.new
+      block.call(klass)
+      @groups << Group.new(name, klass.to_s.sub("\n\n", ''))
     end
 
     def source(source)
@@ -37,11 +41,12 @@ module Appraisal
     end
 
     def to_s
-      [source_entry, dependencies_entry, gemspec_entry].join("\n\n")
+      [source_entry, dependencies_entry, group_entry, gemspec_entry].join("\n\n")
     end
 
     def dup
       gemfile = Gemfile.new
+      @groups.each { |group| gemfile.groups << group}
       @sources.each { |source| gemfile.source source }
       dependencies.each do |dep|
         gemfile.reject_dependency!(dep.name)
@@ -58,6 +63,10 @@ module Appraisal
     end
 
     protected
+
+    def group_entry
+      @groups.map(&:to_s).join("\n")
+    end
 
     def source_entry
       @sources.map { |source| "source #{source.inspect}" }.join("\n")
