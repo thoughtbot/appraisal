@@ -22,7 +22,7 @@ Setup
 -----
 
 Setting up appraisal requires an Appraisals file (similar to a Gemfile) in your
-project root, and some slight changes to your project's Rakefile.
+project root, named "Appraisals" (note the case), and some slight changes to your project's Rakefile.
 
 An Appraisals file consists of several appraisal definitions. An appraisal
 definition is simply a list of gem dependencies. For example, to test with a
