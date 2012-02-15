@@ -13,7 +13,7 @@ module Appraisal
     def initialize
       @appraisals = []
       @gemfile = Gemfile.new
-      @gemfile.load('Gemfile')
+      @gemfile.load(ENV['BUNDLE_GEMFILE'] || 'Gemfile')
       run(IO.read(path)) if ::File.exists?(path)
     end
 
