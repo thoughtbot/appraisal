@@ -1,14 +1,16 @@
 require 'appraisal/dependency'
+require 'appraisal/group'
 require 'appraisal/gemspec'
 
 module Appraisal
   # Load bundler Gemfiles and merge dependencies
   class Gemfile
-    attr_reader :dependencies
+    attr_accessor :dependencies, :sources, :groups
 
     def initialize
       @sources = []
       @dependencies = []
+      @groups = []
     end
 
     def load(path)
@@ -20,12 +22,20 @@ module Appraisal
     end
 
     def gem(name, *requirements)
-      @dependencies.reject! { |dependency| dependency.name == name }
+      reject_dependency!(name)
       @dependencies << Dependency.new(name, requirements)
     end
 
-    def group(name)
-      # ignore the group
+    def reject_dependency!(name)
+      @dependencies.reject! { |dependency| dependency.name == name }
+    end
+
+    def group(*args, &blk)
+      @orig_deps = @dependencies.dup
+      yield self
+      @groups << Group.new(args, dependencies_entry.sub("\n\n", ''))
+    ensure
+      @dependencies = @orig_deps
     end
 
     def source(source)
@@ -33,14 +43,18 @@ module Appraisal
     end
 
     def to_s
-      [source_entry, dependencies_entry, gemspec_entry].join("\n\n")
+      [source_entry, dependencies_entry, group_entry, gemspec_entry].join("\n\n")
     end
 
     def dup
       gemfile = Gemfile.new
+      @groups.each { |group| gemfile.groups << group}
       @sources.each { |source| gemfile.source source }
-      dependencies.each do |dependency|
-        gemfile.gem(dependency.name, *dependency.requirements)
+      dependencies.each do |dep|
+        gemfile.reject_dependency!(dep.name)
+        # we want to actualy dup the dependency here 
+        # so that it maintains its rewrite state
+        gemfile.dependencies << dep.dup
       end
       gemfile.gemspec(@gemspec.options) if @gemspec
       gemfile
@@ -51,6 +65,12 @@ module Appraisal
     end
 
     protected
+
+    def group_entry
+
+      #puts groups.map{|g| [g.name, g.dependencies]}.inspect
+      @groups.map(&:to_s).join("\n")
+    end
 
     def source_entry
       @sources.map { |source| "source #{source.inspect}" }.join("\n")
