@@ -9,8 +9,7 @@ module Appraisal
     end
 
     def to_s
-      gem_name = %{gem "#{name}"}
-      if requirements.nil? || requirements.empty?
+      if no_requirements?
         gem_name
       else
         "#{gem_name}, #{inspect_requirements}"
@@ -18,6 +17,14 @@ module Appraisal
     end
 
     private
+
+    def gem_name
+      %{gem "#{name}"}
+    end
+
+    def no_requirements?
+      requirements.nil? || requirements.empty?
+    end
 
     def inspect_requirements
       requirements.map { |requirement| requirement.inspect.gsub(/^\{|\}$/, '') }.join(", ")

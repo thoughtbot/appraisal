@@ -68,3 +68,12 @@ Feature: appraisals using an existing gemspec
     When I run `bundle exec rake appraisal version --trace`
     Then the output should contain "Loaded 1.3.0"
 
+  Scenario: run a gem in the gemspec via path
+    And I write to "Gemfile" with:
+    """
+    gemspec :path => './specdir'
+    """
+    When I add "appraisal" from this project as a dependency
+    When I successfully run `bundle exec rake appraisal:install --trace`
+    When I run `bundle exec rake appraisal version --trace`
+    Then the output should contain "Loaded 1.3.0"

@@ -38,7 +38,7 @@ module Appraisal
 
     def dup
       gemfile = Gemfile.new
-      @sources.each { |source| gemfile.source source }
+      @sources.each { |source| gemfile.source(source) }
       dependencies.each do |dependency|
         gemfile.gem(dependency.name, *dependency.requirements)
       end

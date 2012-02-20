@@ -30,7 +30,7 @@ module Appraisal
     private
 
     def run(definitions)
-      instance_eval definitions, __FILE__, __LINE__
+      instance_eval(definitions, __FILE__, __LINE__)
     end
 
     def path

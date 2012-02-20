@@ -14,7 +14,9 @@ module Appraisal
     end
 
     def to_s
-      "gemspec #{exported_options.inspect.gsub(/^\{|\}$/, '')}" if exists?
+      if exists?
+        "gemspec #{exported_options.inspect.gsub(/^\{|\}$/, '')}"
+      end
     end
 
     private
