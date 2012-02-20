@@ -8,7 +8,7 @@ Synopsis
 
 Appraisal integrates with bundler and rake to test your library against
 different versions of dependencies in repeatable scenarios called "appraisals."
-Appraisal is designed to make is easy to check for regressions in your library
+Appraisal is designed to make it easy to check for regressions in your library
 without interfering with day-to-day development using bundler.
 
 Installation
