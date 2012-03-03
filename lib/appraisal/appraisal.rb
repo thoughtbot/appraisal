@@ -25,7 +25,7 @@ module Appraisal
     end
 
     def install
-      Command.new("bundle install --gemfile=#{gemfile_path}").run
+      Command.new("bundle install --gemfile='#{gemfile_path}'").run
     end
 
     def gemfile_path
