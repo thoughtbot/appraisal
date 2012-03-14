@@ -33,13 +33,17 @@ module Appraisal
         FileUtils.mkdir(gemfile_root)
       end
 
-      ::File.join(gemfile_root, "#{name}.gemfile")
+      ::File.join(gemfile_root, "#{clean_name}.gemfile")
     end
 
     private
 
     def gemfile_root
       ::File.join(Dir.pwd, "gemfiles")
+    end
+
+    def clean_name
+      name.gsub(/[^\w\.]/, '')
     end
   end
 end
