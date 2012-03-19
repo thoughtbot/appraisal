@@ -32,7 +32,7 @@ Feature: appraisals using an existing gemspec
     And I write to "Appraisals" with:
     """
     appraise "stock" do
-      gem "shoulda", "2.11.3"
+      gem "rake"
     end
     """
     When I write to "Rakefile" with:
