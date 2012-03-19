@@ -25,7 +25,7 @@ module Appraisal
     end
 
     def install
-      Command.new("bundle install --gemfile=#{gemfile_path}").run
+      Command.new(bundle_command).run
     end
 
     def gemfile_path
@@ -34,6 +34,10 @@ module Appraisal
       end
 
       ::File.join(gemfile_root, "#{name}.gemfile")
+    end
+
+    def bundle_command
+      "bundle install --gemfile='#{gemfile_path}'"
     end
 
     private
