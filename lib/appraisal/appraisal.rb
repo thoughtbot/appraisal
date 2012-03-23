@@ -33,7 +33,7 @@ module Appraisal
         FileUtils.mkdir(gemfile_root)
       end
 
-      ::File.join(gemfile_root, "#{name}.gemfile")
+      ::File.join(gemfile_root, "#{clean_name}.gemfile")
     end
 
     def bundle_command
@@ -44,6 +44,10 @@ module Appraisal
 
     def gemfile_root
       ::File.join(Dir.pwd, "gemfiles")
+    end
+
+    def clean_name
+      name.gsub(/\s+/, '_').gsub(/[^\w]/, '')
     end
   end
 end
