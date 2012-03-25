@@ -1,5 +1,4 @@
-Appraisal
-=========
+# Appraisal [![Build Status](https://secure.travis-ci.org/thoughtbot/appraisal.png)](http://travis-ci.org/thoughtbot/appraisal?branch=master)
 
 Find out what your Ruby gems are worth.
 
