@@ -23,7 +23,7 @@ module Appraisal
 
     def appraise(name, &block)
       appraisal = Appraisal.new(name, gemfile)
-      appraisal.instance_eval(&block, __FILE__, __LINE__)
+      appraisal.instance_eval(&block)
       @appraisals << appraisal
     end
 
