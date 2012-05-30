@@ -10,6 +10,7 @@ Feature: run a rake task through several appraisals
       | dummy_rake | 0.8.7   |
       | dummy_rake | 0.9.0   |
       | dummy_sass | 3.1.0   |
+      | dummy_spec | 3.1.9   |
     When I cd to "projecto"
     And I write to "Gemfile" with:
     """
@@ -17,6 +18,9 @@ Feature: run a rake task through several appraisals
     gem "dummy_girl"
     group :assets do
       gem 'dummy_sass', "  ~> 3.1.0"
+    end
+    group :test, :development do
+      gem 'dummy_spec', "  ~> 3.1.0"
     end
     """
     When I add "appraisal" from this project as a dependency

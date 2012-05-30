@@ -24,7 +24,7 @@ module Appraisal
       @dependencies << Dependency.new(name, requirements)
     end
 
-    def group(name)
+    def group(*names)
       # ignore the group
     end
 
