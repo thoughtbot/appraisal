@@ -28,6 +28,10 @@ module Appraisal
       Command.new(bundle_command).run
     end
 
+    def cruise
+      Command.new(cruise_command).run
+    end
+
     def gemfile_path
       unless ::File.exist?(gemfile_root)
         FileUtils.mkdir(gemfile_root)
@@ -38,6 +42,11 @@ module Appraisal
 
     def bundle_command
       "bundle install --gemfile='#{gemfile_path}'"
+    end
+
+    def cruise_command
+      gemfile = "--gemfile='#{gemfile_path}'"
+      "bundle check #{gemfile} || bundle install #{gemfile} || (rm #{gemfile_path}.lock && bundle install #{gemfile})"
     end
 
     private

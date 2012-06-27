@@ -13,4 +13,12 @@ describe Appraisal::Appraisal do
     appraisal = Appraisal::Appraisal.new("This! is my appraisal name.", "Gemfile")
     appraisal.gemfile_path.should =~ /This_is_my_appraisal_name.gemfile/
   end
+
+  it "creates a proper cruise command" do
+    appraisal = Appraisal::Appraisal.new('fake', 'fake')
+    appraisal.stub(:gemfile_path).and_return("/x.gemfile")
+
+    expected = "bundle check --gemfile='/x.gemfile' || bundle install --gemfile='/x.gemfile' || (rm /x.gemfile.lock && bundle install --gemfile='/x.gemfile')"
+    appraisal.cruise_command.should == expected
+  end
 end
