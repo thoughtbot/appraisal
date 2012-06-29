@@ -1,0 +1,5 @@
+Appraisal hits 1.0.0 when:
+
+* It can reliably reproduce bugs in specific configurations of gems.
+* It has standalone binary for controlling the infrastructure.
+* It is transparent unless specifically interacted with.
