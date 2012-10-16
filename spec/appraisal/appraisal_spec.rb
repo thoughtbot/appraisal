@@ -9,7 +9,7 @@ describe Appraisal::Appraisal do
     appraisal.bundle_command.should == "bundle install --gemfile='/home/test/test directory'"
   end
 
-  it "cleans up spaces and punctunation when outputting its gemfile" do
+  it "cleans up spaces and punctuation when outputting its gemfile" do
     appraisal = Appraisal::Appraisal.new("This! is my appraisal name.", "Gemfile")
     appraisal.gemfile_path.should =~ /This_is_my_appraisal_name.gemfile/
   end
