@@ -51,4 +51,3 @@ module Appraisal
     end
   end
 end
-
