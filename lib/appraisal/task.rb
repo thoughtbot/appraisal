@@ -21,6 +21,13 @@ module Appraisal
           end
         end
 
+        desc "Install dependencies if necessary and force new lock on failure"
+        task :cruise => :gemfiles do
+          File.each do |appraisal|
+            appraisal.cruise
+          end
+        end
+
         desc "Remove all generated gemfiles from gemfiles/ folder"
         task :cleanup do
           require 'fileutils'
