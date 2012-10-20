@@ -37,7 +37,8 @@ module Appraisal
     end
 
     def bundle_command
-      "bundle install --gemfile='#{gemfile_path}'"
+      gemfile = "--gemfile='#{gemfile_path}'"
+      "bundle check #{gemfile} || bundle install #{gemfile}"
     end
 
     private
