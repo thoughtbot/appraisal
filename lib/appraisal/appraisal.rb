@@ -48,7 +48,7 @@ module Appraisal
     end
 
     def clean_name
-      name.gsub(/\s+/, '_').gsub(/[^\w]/, '')
+      name.gsub(/[^\w\.]/, '_')
     end
   end
 end
