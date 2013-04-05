@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'appraisal/gemfile'
+require 'active_support/core_ext/string/strip'
 
 describe Appraisal::Gemfile do
   it "supports gemfiles without sources" do
@@ -28,7 +29,21 @@ describe Appraisal::Gemfile do
     gemfile.to_s.strip.should == %{source :one}
   end
 
-  describe "has no excess new line" do
+  it 'supports group syntax' do
+    gemfile = Appraisal::Gemfile.new
+
+    gemfile.group :development, :test do
+      gem "one"
+    end
+
+    gemfile.to_s.should == <<-GEMFILE.strip_heredoc.strip
+      group :development, :test do
+        gem "one"
+      end
+    GEMFILE
+  end
+
+  context "excess new line" do
     context "no contents" do
       it "shows empty string" do
         gemfile = Appraisal::Gemfile.new

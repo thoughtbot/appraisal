@@ -10,6 +10,7 @@ module Appraisal
       @sources = []
       @dependencies = []
       @gemspec = nil
+      @groups = []
     end
 
     def load(path)
@@ -17,7 +18,7 @@ module Appraisal
     end
 
     def run(definitions)
-      instance_eval(definitions, __FILE__, __LINE__)
+      instance_eval(definitions, __FILE__, __LINE__) if definitions
     end
 
     def gem(name, *requirements)
@@ -25,8 +26,12 @@ module Appraisal
       @dependencies << Dependency.new(name, requirements)
     end
 
-    def group(*names)
-      # ignore the group
+    def group(*names, &block)
+      require 'appraisal/group'
+
+      group = Group.new(names)
+      group.run(&block)
+      @groups << group
     end
 
     def source(source)
@@ -34,7 +39,8 @@ module Appraisal
     end
 
     def to_s
-      [source_entry, dependencies_entry, gemspec_entry].reject {|s| s.nil? || s.empty? }.join("\n\n")
+      [source_entry, dependencies_entry, groups_entry, gemspec_entry].reject{ |s| s.nil? || s.empty? }.
+        join("\n\n").strip
     end
 
     def dup
@@ -55,6 +61,10 @@ module Appraisal
 
     def dependencies_entry
       dependencies.map { |dependency| dependency.to_s }.join("\n")
+    end
+
+    def groups_entry
+      @groups.map(&:to_s).join("\n\n")
     end
 
     def gemspec_entry
