@@ -9,6 +9,7 @@ module Appraisal
     def initialize
       @sources = []
       @dependencies = []
+      @gemspec = nil
     end
 
     def load(path)
