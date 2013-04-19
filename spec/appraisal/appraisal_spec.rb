@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'appraisal/appraisal'
+require 'tempfile'
 
 describe Appraisal::Appraisal do
   it "creates a proper bundle command" do
@@ -22,5 +23,22 @@ describe Appraisal::Appraisal do
   it "keeps dots in the gemfile path" do
     appraisal = Appraisal::Appraisal.new("rails3.0", "Gemfile")
     appraisal.gemfile_path.should =~ /rails3\.0\.gemfile$/
+  end
+
+  describe "with tempfile output" do
+    before do
+      @output = Tempfile.new('output')
+    end
+    after do
+      @output.close
+      @output.unlink
+    end
+
+    it "gemfile end with one newline" do
+      appraisal = Appraisal::Appraisal.new('fake', 'fake')
+      appraisal.stub(:gemfile_path) { @output.path }
+      appraisal.write_gemfile
+      @output.read.should =~ /[^\n]*\n\z/m
+    end
   end
 end

@@ -27,4 +27,32 @@ describe Appraisal::Gemfile do
     gemfile.source :one
     gemfile.to_s.strip.should == %{source :one}
   end
+
+  describe "has no excess new line" do
+    context "no contents" do
+      it "shows empty string" do
+        gemfile = Appraisal::Gemfile.new
+        gemfile.to_s.should eq ""
+      end
+    end
+
+    context "full contents" do
+      it "does not show newline at end" do
+        gemfile = Appraisal::Gemfile.new
+        gemfile.source "source"
+        gemfile.gem "gem"
+        gemfile.gemspec
+        gemfile.to_s.should =~ /[^\n]\z/m
+      end
+    end
+
+    context "no gemspec" do
+      it "does not show newline at end" do
+        gemfile = Appraisal::Gemfile.new
+        gemfile.source "source"
+        gemfile.gem "gem"
+        gemfile.to_s.should =~ /[^\n]\z/m
+      end
+    end
+  end
 end

@@ -34,7 +34,7 @@ module Appraisal
     end
 
     def to_s
-      [source_entry, dependencies_entry, gemspec_entry].join("\n\n")
+      [source_entry, dependencies_entry, gemspec_entry].reject {|s| s.empty? }.join("\n\n")
     end
 
     def dup
