@@ -9,14 +9,8 @@ module Appraisal
       @options[:path] ||= '.'
     end
 
-    def exists?
-      Dir[::File.join(@options[:path], "*.gemspec")].size > 0
-    end
-
     def to_s
-      if exists?
-        "gemspec #{exported_options.inspect.gsub(/^\{|\}$/, '')}"
-      end
+      "gemspec #{exported_options.inspect.gsub(/^\{|\}$/, '')}"
     end
 
     private

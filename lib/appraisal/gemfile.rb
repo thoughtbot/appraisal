@@ -34,16 +34,12 @@ module Appraisal
     end
 
     def to_s
-      [source_entry, dependencies_entry, gemspec_entry].reject {|s| s.empty? }.join("\n\n")
+      [source_entry, dependencies_entry, gemspec_entry].reject {|s| s.nil? || s.empty? }.join("\n\n")
     end
 
     def dup
       gemfile = Gemfile.new
-      @sources.each { |source| gemfile.source(source) }
-      dependencies.each do |dependency|
-        gemfile.gem(dependency.name, *dependency.requirements)
-      end
-      gemfile.gemspec(@gemspec.options) if @gemspec
+      gemfile.run(to_s)
       gemfile
     end
 
