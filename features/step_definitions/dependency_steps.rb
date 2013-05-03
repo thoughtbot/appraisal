@@ -3,29 +3,18 @@ When /^I add "([^"]*)" from this project as a dependency$/ do |gem_name|
 end
 
 Given /^the following installed dummy gems:$/ do |table|
-  table.hashes.each do |hash|
-    name = hash["name"]
-    version = hash["version"]
-    create_dir(name)
-    cd(name)
-    create_dir("lib")
-    gem_path = "#{name}.gemspec"
-    version_path = "lib/#{name}.rb"
-    spec = <<-SPEC
-      Gem::Specification.new do |s|
-        s.name    = '#{name}'
-        s.version = '#{version}'
-        s.authors = 'Mr. Smith'
-        s.summary = 'summary'
-        s.files   = '#{version_path}'
-      end
-    SPEC
-    write_file(gem_path, spec)
-    write_file(version_path, "$#{name}_version = '#{version}'")
-    in_current_dir { `gem build #{gem_path} 2>&1` }
-    set_env("GEM_HOME", TMP_GEM_ROOT)
-    in_current_dir { `gem install #{name}-#{version}.gem 2>&1` }
-    FileUtils.rm_rf(File.join(current_dir, name))
-    dirs.pop
+  table.hashes.each { |hash| build_gem(hash["name"], hash["version"]) }
+end
+
+Given /^a git repository exists for gem "(.*?)" with version "(.*?)"$/ do |gem_name, version|
+  build_gem(gem_name, version)
+  cd gem_name
+  in_current_dir { `git init . && git add . && git commit -a -m 'initial commit'` }
+  dirs.pop
+end
+
+Then /^the file "(.*?)" should contain a correct ruby directive$/ do |filename|
+  in_current_dir do
+    File.read(filename).should match(/^ruby "#{RUBY_VERSION}"$/)
   end
 end
