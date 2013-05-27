@@ -9,7 +9,11 @@ end
 Given /^a git repository exists for gem "(.*?)" with version "(.*?)"$/ do |gem_name, version|
   build_gem(gem_name, version)
   cd gem_name
-  in_current_dir { `git init . && git add . && git commit -a -m 'initial commit'` }
+  run_simple 'git init .'
+  run_simple 'git config user.email "appraisal@thoughtbot.com"'
+  run_simple 'git config user.name "Appraisal"'
+  run_simple 'git add .'
+  run_simple 'git commit -a -m "initial commit"'
   dirs.pop
 end
 
