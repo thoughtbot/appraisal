@@ -96,6 +96,12 @@ Feature: run a rake task through several appraisals
     And a file named "gemfiles/1.3.2.gemfile" should not exist
     And a file named "gemfiles/1.3.2.gemfile.lock" should not exist
 
+  Scenario: run a relativize task
+    When I add a relative path to "gemfiles/1.3.0.gemfile.lock"
+    And I run `bundle exec rake appraisal:relativize --trace`
+    Then the exit status should be 0
+    And the file "gemfiles/1.3.0.gemfile.lock" should only include relative paths
+
   Scenario: install gems within groups
     Then the file "gemfiles/1.3.0.gemfile" should contain:
       """

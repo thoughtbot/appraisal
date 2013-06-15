@@ -27,6 +27,15 @@ module Appraisal
           FileUtils.rm_f Dir['gemfiles/*.{gemfile,gemfile.lock}']
         end
 
+        desc "Remove absolute paths from gemspec"
+        task :relativize do
+          Dir["gemfiles/*.lock"].each do |file|
+            content = ::File.read(file)
+            content.gsub!(Dir.pwd, "..")
+            ::File.open(file, "w") { |f| f.write(content) }
+          end
+        end
+
         File.each do |appraisal|
           desc "Run the given task for appraisal #{appraisal.name}"
           task appraisal.name do
