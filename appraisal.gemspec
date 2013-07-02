@@ -11,7 +11,8 @@ Gem::Specification.new do |s|
   s.homepage    = "http://github.com/thoughtbot/appraisal"
   s.summary     = %q{Find out what your Ruby gems are worth}
   s.description = %q{Appraisal integrates with bundler and rake to test your library against different versions of dependencies in repeatable scenarios called "appraisals."}
-
+  s.license     = 'MIT'
+  
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
