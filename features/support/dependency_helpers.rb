@@ -24,4 +24,6 @@ module DependencyHelpers
   end
 end
 
-World(DependencyHelpers)
+if defined?(World)
+  World(DependencyHelpers)
+end
