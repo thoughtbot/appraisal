@@ -77,7 +77,7 @@ module AcceptanceTestHelpers
       source 'https://rubygems.org'
 
       gem 'dummy'
-      gem 'appraisal', :path => '../../'
+      gem 'appraisal', :path => '#{PROJECT_ROOT}'
     Gemfile
   end
 

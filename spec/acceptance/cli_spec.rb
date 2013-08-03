@@ -36,9 +36,28 @@ describe 'CLI' do
 
         source "https://rubygems.org"
 
-        gem "appraisal", :path=>"../../"
+        gem "appraisal", :path=>"#{PROJECT_ROOT}"
         gem "dummy", "1.0.0"
       gemfile
+    end
+  end
+
+  context 'appraisal install' do
+    it 'installs the dependencies' do
+      build_appraisal_file <<-Appraisal
+        appraise '1.0.0' do
+          gem 'dummy', '1.0.0'
+        end
+
+        appraise '1.1.0' do
+          gem 'dummy', '1.1.0'
+        end
+      Appraisal
+
+      run_simple 'appraisal install'
+
+      expect_file('gemfiles/1.0.0.gemfile.lock').to be_exists
+      expect_file('gemfiles/1.1.0.gemfile.lock').to be_exists
     end
   end
 end

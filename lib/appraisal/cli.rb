@@ -10,5 +10,14 @@ module Appraisal
         appraisal.write_gemfile
       end
     end
+
+    desc 'install', 'Resolve and install dependencies for each appraisal'
+    def install
+      generate
+
+      File.each do |appraisal|
+        appraisal.install
+      end
+    end
   end
 end
