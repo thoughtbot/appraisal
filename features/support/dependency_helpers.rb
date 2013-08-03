@@ -24,6 +24,6 @@ module DependencyHelpers
   end
 end
 
-if defined?(World)
+if respond_to?(:World)
   World(DependencyHelpers)
 end
