@@ -36,16 +36,16 @@ module AcceptanceTestHelpers
     write_file 'Gemfile', content.strip_heredoc
   end
 
-  def expect_file(filename)
-    expect(filename)
+  def content_of(path)
+    file(path).read
   end
 
-  def contains(expected)
-    FileContentMatcher.new(expected)
+  def file(path)
+    Pathname.new(current_dir) + path
   end
 
   def be_exists
-    FileExistsMatcher.new
+    be_exist
   end
 
   private
@@ -79,31 +79,5 @@ module AcceptanceTestHelpers
       gem 'dummy'
       gem 'appraisal', :path => '#{PROJECT_ROOT}'
     Gemfile
-  end
-
-  class FileExistsMatcher
-    include Aruba::Api
-
-    def matches?(expected)
-      @expected = expected
-      in_current_dir { File.exists?(@expected) }
-    end
-
-    def failure_message_for_should
-      "file #{@expected.inspect} does not exist.\n"
-    end
-
-    def failure_message_for_should_not
-      "file #{@expected.inspect} exists.\n"
-    end
-  end
-
-  class FileContentMatcher < RSpec::Matchers::BuiltIn::Eq
-    include Aruba::Api
-
-    def matches?(filename)
-      @actual = in_current_dir { File.read(filename) }
-      expected == actual
-    end
   end
 end
