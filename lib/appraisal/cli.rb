@@ -1,4 +1,5 @@
 require 'thor'
+require 'fileutils'
 
 module Appraisal
   class CLI < Thor
@@ -23,6 +24,11 @@ module Appraisal
       File.each do |appraisal|
         appraisal.write_gemfile
       end
+    end
+
+    desc 'clean', 'Remove all generated gemfiles and lockfiles from gemfiles folder'
+    def clean
+      FileUtils.rm_f Dir['gemfiles/*.{gemfile,gemfile.lock}']
     end
   end
 end
