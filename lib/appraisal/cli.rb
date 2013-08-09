@@ -9,7 +9,7 @@ module Appraisal
       true
     end
 
-    desc '[install]', 'Resolve and install dependencies for each appraisal'
+    desc 'install', 'Resolve and install dependencies for each appraisal'
     def install
       invoke :generate
 
@@ -36,6 +36,14 @@ module Appraisal
       desc "#{name} COMMAND", "Runs a command against '#{name}' appraisal"
       define_method appraisal.name do |*commands|
         Command.new(commands.join(' '), appraisal.gemfile_path).run
+      end
+    end
+
+    private
+
+    def method_missing(name, *args, &block)
+      File.each do |appraisal|
+        Command.new(ARGV.join(' '), appraisal.gemfile_path).run
       end
     end
   end
