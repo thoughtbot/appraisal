@@ -45,9 +45,9 @@ module AcceptanceTestHelpers
 
     write_file "#{gem_name}.gemspec", <<-gemspec
       Gem::Specification.new do |s|
-          s.name        = '#{gem_name}'
-          s.version     = '0.1'
-          s.summary     = 'Awesome Gem!'
+        s.name = '#{gem_name}'
+        s.version = '0.1'
+        s.summary = 'Awesome Gem!'
       end
     gemspec
   end

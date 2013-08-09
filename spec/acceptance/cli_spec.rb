@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'CLI' do
-  context 'appraisal' do
+  context 'appraisal (with no arguments)' do
     it 'runs install command' do
       build_appraisal_file <<-Appraisal
         appraise '1.0.0' do
@@ -13,6 +13,31 @@ describe 'CLI' do
 
       expect(file 'gemfiles/1.0.0.gemfile').to be_exists
       expect(file 'gemfiles/1.0.0.gemfile.lock').to be_exists
+    end
+  end
+
+  context 'appraisal (with arguments)' do
+    context 'with appraisal name' do
+      it 'runs the given command against a correct versions of dependency' do
+        build_appraisal_file <<-Appraisal
+          appraise '1.0.0' do
+            gem 'dummy', '1.0.0'
+          end
+
+          appraise '1.1.0' do
+            gem 'dummy', '1.1.0'
+          end
+        Appraisal
+
+        run_simple 'appraisal install'
+        write_file 'test.rb', 'puts "Running: #{$dummy_version}"'
+
+        test_command = 'appraisal 1.0.0 ruby -rbundler/setup -rdummy test.rb'
+        run_simple test_command
+
+        expect(output_from test_command).to include 'Running: 1.0.0'
+        expect(output_from test_command).to_not include 'Running: 1.1.0'
+      end
     end
   end
 
