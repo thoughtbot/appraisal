@@ -1,4 +1,5 @@
 require 'appraisal/appraisal'
+require 'appraisal/exceptions'
 require 'appraisal/gemfile'
 
 module Appraisal
@@ -14,7 +15,7 @@ module Appraisal
       @appraisals = []
       @gemfile = Gemfile.new
       @gemfile.load(ENV['BUNDLE_GEMFILE'] || 'Gemfile')
-      run(IO.read(path)) if ::File.exists?(path)
+      ::File.exists?(path) ? run(IO.read(path)) : fail(AppraisalsFileNotFound)
     end
 
     def each(&block)
