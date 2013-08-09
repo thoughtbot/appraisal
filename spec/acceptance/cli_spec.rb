@@ -59,5 +59,19 @@ describe 'CLI' do
       expect(file 'gemfiles/1.0.0.gemfile.lock').to be_exists
       expect(file 'gemfiles/1.1.0.gemfile.lock').to be_exists
     end
+
+    it 'relativize directory in gemfile.lock' do
+      build_gemspec
+      add_gemspec_to_gemfile
+      build_appraisal_file <<-Appraisal
+        appraise '1.0.0' do
+          gem 'dummy', '1.0.0'
+        end
+      Appraisal
+
+      run_simple 'appraisal install'
+
+      expect(content_of 'gemfiles/1.0.0.gemfile.lock').not_to include current_dir
+    end
   end
 end

@@ -17,6 +17,7 @@ module Appraisal
 
       File.each do |appraisal|
         appraisal.install
+        appraisal.relativize
       end
     end
   end

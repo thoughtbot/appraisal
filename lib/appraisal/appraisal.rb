@@ -2,6 +2,7 @@ require 'appraisal/gemfile'
 require 'appraisal/command'
 require 'fileutils'
 require 'parallel'
+require 'pathname'
 
 module Appraisal
   # Represents one appraisal and its dependencies
@@ -29,11 +30,21 @@ module Appraisal
     end
 
     def gemfile_path
-      unless ::File.exist?(gemfile_root)
-        FileUtils.mkdir(gemfile_root)
+      unless gemfile_root.exist?
+        gemfile_root.mkdir
       end
 
-      ::File.join(gemfile_root, "#{clean_name}.gemfile")
+      gemfile_root.join("#{clean_name}.gemfile").to_s
+    end
+
+    def relativize
+      current_directory = Pathname.new(Dir.pwd)
+      relative_path = current_directory.relative_path_from(gemfile_root).cleanpath
+      lockfile_content = ::File.read(lockfile_path)
+
+      ::File.open(lockfile_path, 'w') do |file|
+        file.write lockfile_content.gsub(/#{current_directory}/, relative_path.to_s)
+      end
     end
 
     private
@@ -45,7 +56,11 @@ module Appraisal
     end
 
     def gemfile_root
-      ::File.join(Dir.pwd, "gemfiles")
+      Pathname.new(::File.join(Dir.pwd, "gemfiles"))
+    end
+
+    def lockfile_path
+      "#{gemfile_path}.lock"
     end
 
     def clean_name
