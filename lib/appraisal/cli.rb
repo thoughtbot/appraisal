@@ -4,6 +4,10 @@ module Appraisal
   class CLI < Thor
     default_task :install
 
+    def self.exit_on_failure?
+      true
+    end
+
     desc '[install]', 'Resolve and install dependencies for each appraisal'
     def install
       generate
