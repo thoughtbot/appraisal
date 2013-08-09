@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'CLI' do
   context 'appraisal' do
-    it 'runs generate command' do
+    it 'runs install command' do
       build_appraisal_file <<-Appraisal
         appraise '1.0.0' do
           gem 'dummy', '1.0.0'
@@ -12,6 +12,7 @@ describe 'CLI' do
       run_simple 'appraisal'
 
       expect(file 'gemfiles/1.0.0.gemfile').to be_exists
+      expect(file 'gemfiles/1.0.0.gemfile.lock').to be_exists
     end
   end
 
