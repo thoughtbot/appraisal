@@ -31,19 +31,17 @@ module Appraisal
       FileUtils.rm_f Dir['gemfiles/*.{gemfile,gemfile.lock}']
     end
 
-    # Create a subcommand for each of the appraisal
-    File.each do |appraisal|
-      desc "#{name} COMMAND", "Runs a command against '#{name}' appraisal"
-      define_method appraisal.name do |*commands|
-        Command.new(commands.join(' '), appraisal.gemfile_path).run
-      end
-    end
-
     private
 
     def method_missing(name, *args, &block)
-      File.each do |appraisal|
-        Command.new(ARGV.join(' '), appraisal.gemfile_path).run
+      matching_appraisal = File.new.appraisals.detect { |appraisal| appraisal.name == name.to_s }
+
+      if matching_appraisal
+        Command.new(args.join(' '), matching_appraisal.gemfile_path).run
+      else
+        File.each do |appraisal|
+          Command.new(ARGV.join(' '), appraisal.gemfile_path).run
+        end
       end
     end
   end
