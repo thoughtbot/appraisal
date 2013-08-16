@@ -5,6 +5,22 @@ module Appraisal
   class CLI < Thor
     default_task :install
 
+    # Override help command to print out usage
+    def self.help(shell, subcommand = false)
+      shell.say strip_heredoc(<<-help)
+        Appraisal: Find out what your Ruby gems are worth.
+
+        Usage:
+          appraisal [APPRAISAL_NAME] EXTERNAL_COMMAND
+
+          If APPRAISAL_NAME is given, only run that EXTERNAL_COMMAND against the given
+          appraisal, otherwise it runs the EXTERNAL_COMMAND against all appraisals.
+
+      help
+
+      super
+    end
+
     def self.exit_on_failure?
       true
     end
@@ -43,6 +59,11 @@ module Appraisal
           Command.new(ARGV.join(' '), appraisal.gemfile_path).run
         end
       end
+    end
+
+    def self.strip_heredoc(string)
+      indent = string.scan(/^[ \t]*(?=\S)/).min.size || 0
+      string.gsub(/^[ \t]{#{indent}}/, '')
     end
   end
 end
