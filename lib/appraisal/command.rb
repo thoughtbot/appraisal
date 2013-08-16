@@ -12,7 +12,7 @@ module Appraisal
     def initialize(command, gemfile = nil)
       @original_env = {}
       @gemfile = gemfile
-      if command =~ /^bundle/
+      if command =~ /^(bundle|BUNDLE_GEMFILE)/
         @command = command
       else
         @command = "bundle exec #{command}"

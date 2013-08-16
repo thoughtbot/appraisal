@@ -16,6 +16,10 @@ module AcceptanceTestHelpers
       build_default_dummy_gems
     end
 
+    after :all do
+      cleanup_default_gems
+    end
+
     before do
       cleanup_artifacts
       build_default_gemfile
@@ -68,6 +72,10 @@ module AcceptanceTestHelpers
 
   def cleanup_artifacts
     FileUtils.rm_rf(current_dir)
+  end
+
+  def cleanup_default_gems
+    FileUtils.rm_rf(TMP_GEM_ROOT)
   end
 
   def initialize_aruba_instance_variables

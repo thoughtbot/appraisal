@@ -29,6 +29,10 @@ module Appraisal
       Command.new(install_command).run
     end
 
+    def update(gems = [])
+      Command.new(update_command(gems)).run
+    end
+
     def gemfile_path
       unless gemfile_root.exist?
         gemfile_root.mkdir
@@ -53,6 +57,12 @@ module Appraisal
       gemfile = "--gemfile='#{gemfile_path}'"
       commands = ['bundle', 'install', gemfile, bundle_parallel_option]
       "bundle check #{gemfile} || #{commands.compact.join(' ')}"
+    end
+
+    def update_command(gems)
+      gemfile = "BUNDLE_GEMFILE='#{gemfile_path}'"
+      commands = [gemfile, 'bundle', 'update', *gems]
+      commands.compact.join(' ')
     end
 
     def gemfile_root

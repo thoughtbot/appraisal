@@ -54,6 +54,15 @@ module Appraisal
       FileUtils.rm_f Dir['gemfiles/*.{gemfile,gemfile.lock}']
     end
 
+    desc 'update [LIST_OF_GEMS]', 'Remove all generated gemfiles and lockfiles, resolve, and install dependencies again'
+    def update(*gems)
+      invoke :generate, []
+
+      File.each do |appraisal|
+        appraisal.update(gems)
+      end
+    end
+
     private
 
     def method_missing(name, *args, &block)
