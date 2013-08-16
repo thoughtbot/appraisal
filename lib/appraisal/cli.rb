@@ -16,7 +16,14 @@ module Appraisal
           If APPRAISAL_NAME is given, only run that EXTERNAL_COMMAND against the given
           appraisal, otherwise it runs the EXTERNAL_COMMAND against all appraisals.
 
+        Available Appraisal(s):
       help
+
+      File.each do |appraisal|
+        shell.say "  - #{appraisal.name}"
+      end
+
+      shell.say
 
       super
     end
