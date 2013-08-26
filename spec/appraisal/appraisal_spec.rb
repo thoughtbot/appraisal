@@ -6,8 +6,17 @@ describe Appraisal::Appraisal do
   it "creates a proper bundle command" do
     appraisal = Appraisal::Appraisal.new('fake', 'fake')
     appraisal.stub(:gemfile_path).and_return("/home/test/test directory")
+    appraisal.stub(:bundle_parallel_option).and_return(nil)
 
     appraisal.bundle_command.should == "bundle check --gemfile='/home/test/test directory' || bundle install --gemfile='/home/test/test directory'"
+  end
+
+  it "adds bundler parallel option" do
+    appraisal = Appraisal::Appraisal.new('fake', 'fake')
+    appraisal.stub(:gemfile_path).and_return("/home/test/test directory")
+    stub_const('Bundler::VERSION', '1.4.0')
+
+    appraisal.bundle_command.should == "bundle check --gemfile='/home/test/test directory' || bundle install --gemfile='/home/test/test directory' --jobs=4"
   end
 
   it "converts spaces to underscores in the gemfile path" do

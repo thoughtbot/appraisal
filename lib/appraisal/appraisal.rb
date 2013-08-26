@@ -37,7 +37,7 @@ module Appraisal
 
     def bundle_command
       gemfile = "--gemfile='#{gemfile_path}'"
-      commands = ['bundle', 'install', gemfile]
+      commands = ['bundle', 'install', gemfile, bundle_parallel_option]
       "bundle check #{gemfile} || #{commands.compact.join(' ')}"
     end
 
@@ -49,6 +49,12 @@ module Appraisal
 
     def clean_name
       name.gsub(/[^\w\.]/, '_')
+    end
+
+    def bundle_parallel_option
+      if Gem::Version.create(Bundler::VERSION) >= Gem::Version.create('1.4.0.pre.1')
+        '--jobs=4'
+      end
     end
   end
 end
