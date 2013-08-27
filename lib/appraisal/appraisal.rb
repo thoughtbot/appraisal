@@ -1,6 +1,7 @@
 require 'appraisal/gemfile'
 require 'appraisal/command'
 require 'fileutils'
+require 'parallel'
 
 module Appraisal
   # Represents one appraisal and its dependencies
@@ -53,7 +54,7 @@ module Appraisal
 
     def bundle_parallel_option
       if Gem::Version.create(Bundler::VERSION) >= Gem::Version.create('1.4.0.pre.1')
-        '--jobs=4'
+        "--jobs=#{::Parallel.processor_count}"
       end
     end
   end
