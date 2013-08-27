@@ -1,6 +1,7 @@
 require 'appraisal/gemfile'
 require 'appraisal/command'
 require 'fileutils'
+require 'parallel'
 
 module Appraisal
   # Represents one appraisal and its dependencies
@@ -37,7 +38,8 @@ module Appraisal
 
     def bundle_command
       gemfile = "--gemfile='#{gemfile_path}'"
-      "bundle check #{gemfile} || bundle install #{gemfile}"
+      commands = ['bundle', 'install', gemfile, bundle_parallel_option]
+      "bundle check #{gemfile} || #{commands.compact.join(' ')}"
     end
 
     private
@@ -48,6 +50,12 @@ module Appraisal
 
     def clean_name
       name.gsub(/[^\w\.]/, '_')
+    end
+
+    def bundle_parallel_option
+      if Gem::Version.create(Bundler::VERSION) >= Gem::Version.create('1.4.0.pre.1')
+        "--jobs=#{::Parallel.processor_count}"
+      end
     end
   end
 end
