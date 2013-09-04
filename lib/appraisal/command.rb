@@ -4,7 +4,8 @@ module Appraisal
     BUNDLER_ENV_VARS = %w(RUBYOPT BUNDLE_PATH BUNDLE_BIN_PATH BUNDLE_GEMFILE).freeze
 
     def self.from_args(gemfile)
-      command = ([$0] + ARGV.slice(1, ARGV.size)).join(' ')
+      ARGV.shift
+      command = ([$0] + ARGV).join(' ')
       new(command, gemfile)
     end
 
