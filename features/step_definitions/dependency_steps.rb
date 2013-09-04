@@ -22,3 +22,15 @@ Then /^the file "(.*?)" should contain a correct ruby directive$/ do |filename|
     File.read(filename).should match(/^ruby "#{RUBY_VERSION}"$/)
   end
 end
+
+Then /^the file "(.*?)" should only include relative paths$/ do |filename|
+  in_current_dir do
+    File.read(filename).should_not include Dir.pwd
+  end
+end
+
+When /^I add a relative path to "(.*)"$/ do |filename|
+  in_current_dir do
+    File.open(filename, "a") { |f| f.write "# relative path: #{Dir.pwd}" }
+  end
+end
