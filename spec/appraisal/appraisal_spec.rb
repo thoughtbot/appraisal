@@ -3,23 +3,6 @@ require 'appraisal/appraisal'
 require 'tempfile'
 
 describe Appraisal::Appraisal do
-  it "creates a proper bundle command" do
-    appraisal = Appraisal::Appraisal.new('fake', 'fake')
-    appraisal.stub(:gemfile_path).and_return("/home/test/test directory")
-    stub_const('Bundler::VERSION', '1.3.0')
-
-    appraisal.bundle_command.should == "bundle check --gemfile='/home/test/test directory' || bundle install --gemfile='/home/test/test directory'"
-  end
-
-  it "adds bundler parallel option" do
-    appraisal = Appraisal::Appraisal.new('fake', 'fake')
-    appraisal.stub(:gemfile_path).and_return("/home/test/test directory")
-    stub_const('Bundler::VERSION', '1.4.0')
-    Parallel.stub(:processor_count).and_return(42)
-
-    appraisal.bundle_command.should == "bundle check --gemfile='/home/test/test directory' || bundle install --gemfile='/home/test/test directory' --jobs=42"
-  end
-
   it "converts spaces to underscores in the gemfile path" do
     appraisal = Appraisal::Appraisal.new("one two", "Gemfile")
     appraisal.gemfile_path.should =~ /one_two\.gemfile$/
@@ -35,20 +18,58 @@ describe Appraisal::Appraisal do
     appraisal.gemfile_path.should =~ /rails3\.0\.gemfile$/
   end
 
-  describe "with tempfile output" do
+  context 'gemfiles generation' do
     before do
       @output = Tempfile.new('output')
     end
+
     after do
       @output.close
       @output.unlink
     end
 
-    it "gemfile end with one newline" do
+    it 'generates a gemfile with a newline at the end of file' do
       appraisal = Appraisal::Appraisal.new('fake', 'fake')
       appraisal.stub(:gemfile_path) { @output.path }
       appraisal.write_gemfile
       @output.read.should =~ /[^\n]*\n\z/m
+    end
+  end
+
+  context 'parallel installation' do
+    before do
+      @appraisal = Appraisal::Appraisal.new('fake', 'fake')
+      @appraisal.stub(:gemfile_path).and_return("/home/test/test directory")
+      Appraisal::Command.stub(:new => double(:run => true))
+    end
+
+    it 'runs single install command on Bundler < 1.4.0' do
+      stub_const('Bundler::VERSION', '1.3.0')
+      @appraisal.install
+
+      Appraisal::Command.should have_received(:new).
+        with("#{bundle_check_command} || #{bundle_single_install_command}")
+    end
+
+    it 'runs parallel install command on Bundler >= 1.4.0' do
+      stub_const('Bundler::VERSION', '1.4.0')
+      Parallel.stub(:processor_count).and_return(42)
+      @appraisal.install
+
+      Appraisal::Command.should have_received(:new).
+        with("#{bundle_check_command} || #{bundle_parallel_install_command}")
+    end
+
+    def bundle_check_command
+      "bundle check --gemfile='/home/test/test directory'"
+    end
+
+    def bundle_single_install_command
+      "bundle install --gemfile='/home/test/test directory'"
+    end
+
+    def bundle_parallel_install_command
+      "bundle install --gemfile='/home/test/test directory' --jobs=42"
     end
   end
 end
