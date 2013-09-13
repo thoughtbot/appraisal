@@ -7,38 +7,40 @@ module Appraisal
   class Task < Rake::TaskLib
     def initialize
       namespace :appraisal do
-        desc "Generate a Gemfile for each appraisal"
+        desc "DEPRECATED: Generate a Gemfile for each appraisal"
         task :gemfiles do
-          File.each do |appraisal|
-            appraisal.write_gemfile
-          end
+          warn "`rake appraisal:gemfile` task is deprecated and will be removed soon. " +
+            "Please use `appraisal generate`."
+          exec 'bundle exec appraisal generate'
         end
 
-        desc "Resolve and install dependencies for each appraisal"
-        task :install => :gemfiles do
-          File.each do |appraisal|
-            appraisal.install
-          end
+        desc "DEPRECATED: Resolve and install dependencies for each appraisal"
+        task :install do
+          warn "`rake appraisal:install` task is deprecated and will be removed soon. " +
+            "Please use `appraisal install`."
+          exec 'bundle exec appraisal install'
         end
 
-        desc "Remove all generated gemfiles from gemfiles/ folder"
+        desc "DEPRECATED: Remove all generated gemfiles from gemfiles/ folder"
         task :cleanup do
-          require 'fileutils'
-          FileUtils.rm_f Dir['gemfiles/*.{gemfile,gemfile.lock}']
+          warn "`rake appraisal:cleanup` task is deprecated and will be removed soon. " +
+            "Please use `appraisal clean`."
+          exec 'bundle exec appraisal clean'
         end
 
         File.each do |appraisal|
-          desc "Run the given task for appraisal #{appraisal.name}"
+          desc "DEPRECATED: Run the given task for appraisal #{appraisal.name}"
           task appraisal.name do
-            Command.from_args(appraisal.gemfile_path).exec
+            ARGV.shift
+            warn "`rake appraisal:#{appraisal.name}` task is deprecated and will be removed soon. " +
+              "Please use `appraisal #{appraisal.name} rake #{ARGV.join(' ')}`."
+            exec "bundle exec appraisal #{appraisal.name} rake #{ARGV.join(' ')}"
           end
         end
 
         task :all do
-          File.each do |appraisal|
-            Command.from_args(appraisal.gemfile_path).run
-          end
-          exit
+          ARGV.shift
+          exec "bundle exec appraisal rake #{ARGV.join(' ')}"
         end
       end
 
