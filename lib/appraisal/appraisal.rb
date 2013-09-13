@@ -26,7 +26,7 @@ module Appraisal
     end
 
     def install(job_size = 1)
-      Command.new(install_command(job_size)).run
+      Command.new(check_command + ' || ' + install_command(job_size)).run
     end
 
     def update(gems = [])
@@ -53,16 +53,19 @@ module Appraisal
 
     private
 
+    def check_command
+      gemfile_option = "--gemfile='#{gemfile_path}'"
+      ['bundle', 'check', gemfile_option].join(' ')
+    end
+
     def install_command(job_size)
-      gemfile = "--gemfile='#{gemfile_path}'"
-      commands = ['bundle', 'install', gemfile, bundle_parallel_option(job_size)]
-      "bundle check #{gemfile} || #{commands.compact.join(' ')}"
+      gemfile_option = "--gemfile='#{gemfile_path}'"
+      ['bundle', 'install', gemfile_option, bundle_parallel_option(job_size)].compact.join(' ')
     end
 
     def update_command(gems)
-      gemfile = "BUNDLE_GEMFILE='#{gemfile_path}'"
-      commands = [gemfile, 'bundle', 'update', *gems]
-      commands.compact.join(' ')
+      gemfile_config = "BUNDLE_GEMFILE='#{gemfile_path}'"
+      [gemfile_config, 'bundle', 'update', *gems].compact.join(' ')
     end
 
     def gemfile_root
