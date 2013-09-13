@@ -6,8 +6,8 @@ Gem::Specification.new do |s|
   s.name        = 'appraisal'
   s.version     = Appraisal::VERSION.dup
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ['Joe Ferris']
-  s.email       = 'jferris@thoughtbot.com'
+  s.authors     = ['Joe Ferris', 'Prem Sichanugrist']
+  s.email       = ['jferris@thoughtbot.com', 'prem@thoughtbot.com']
   s.homepage    = 'http://github.com/thoughtbot/appraisal'
   s.summary     = 'Find out what your Ruby gems are worth'
   s.description = 'Appraisal integrates with bundler and rake to test your library against different versions of dependencies in repeatable scenarios called "appraisals."'
