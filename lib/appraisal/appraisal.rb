@@ -1,7 +1,7 @@
 require 'appraisal/gemfile'
 require 'appraisal/command'
+require 'appraisal/utils'
 require 'fileutils'
-require 'parallel'
 require 'pathname'
 
 module Appraisal
@@ -25,8 +25,8 @@ module Appraisal
       end
     end
 
-    def install
-      Command.new(install_command).run
+    def install(job_size = 1)
+      Command.new(install_command(job_size)).run
     end
 
     def update(gems = [])
@@ -53,9 +53,9 @@ module Appraisal
 
     private
 
-    def install_command
+    def install_command(job_size)
       gemfile = "--gemfile='#{gemfile_path}'"
-      commands = ['bundle', 'install', gemfile, bundle_parallel_option]
+      commands = ['bundle', 'install', gemfile, bundle_parallel_option(job_size)]
       "bundle check #{gemfile} || #{commands.compact.join(' ')}"
     end
 
@@ -77,9 +77,14 @@ module Appraisal
       name.gsub(/[^\w\.]/, '_')
     end
 
-    def bundle_parallel_option
-      if Gem::Version.create(Bundler::VERSION) >= Gem::Version.create('1.4.0.pre.1')
-        "--jobs=#{::Parallel.processor_count}"
+    def bundle_parallel_option(job_size)
+      if job_size > 1
+        if Utils.support_parallel_installation?
+          "--jobs=#{job_size}"
+        else
+          warn 'Your current version of Bundler does not support parallel installation. Please ' +
+            'upgrade Bundler to version >= 1.4.0, or invoke `appraisal` without `--jobs` option.'
+        end
       end
     end
   end

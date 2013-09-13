@@ -20,6 +20,12 @@ module AcceptanceTestHelpers
       cleanup_default_gems
     end
 
+    before parallel: true do
+      unless Appraisal::Utils.support_parallel_installation?
+        pending 'This Bundler version does not support --jobs flag.'
+      end
+    end
+
     before do
       cleanup_artifacts
       build_default_gemfile

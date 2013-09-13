@@ -33,11 +33,13 @@ module Appraisal
     end
 
     desc 'install', 'Resolve and install dependencies for each appraisal'
+    method_option 'jobs', aliases: 'j', type: :numeric, default: 1, banner: 'SIZE',
+      desc: 'Install gems in parallel using the given number of workers.'
     def install
-      invoke :generate
+      invoke :generate, [], {}
 
       File.each do |appraisal|
-        appraisal.install
+        appraisal.install(options[:jobs])
         appraisal.relativize
       end
     end
