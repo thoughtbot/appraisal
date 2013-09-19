@@ -33,6 +33,18 @@ describe 'CLI' do
       write_file 'test.rb', 'puts "Running: #{$dummy_version}"'
     end
 
+    it 'sets APPRAISAL_INITIALIZED environment variable' do
+      write_file 'test.rb', <<-TEST_FILE.strip_heredoc
+        if ENV['APPRAISAL_INITIALIZED']
+          puts "Appraisal initialized!"
+        end
+      TEST_FILE
+
+      test_command = 'appraisal 1.0.0 ruby -rbundler/setup -rdummy test.rb'
+      run_simple test_command
+      expect(output_from test_command).to include 'Appraisal initialized!'
+    end
+
     context 'with appraisal name' do
       it 'runs the given command against a correct versions of dependency' do
         test_command = 'appraisal 1.0.0 ruby -rbundler/setup -rdummy test.rb'

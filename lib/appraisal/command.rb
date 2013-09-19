@@ -38,6 +38,7 @@ module Appraisal
     def with_clean_env
       unset_bundler_env_vars
       ENV['BUNDLE_GEMFILE'] = @gemfile
+      ENV['APPRAISAL_INITIALIZED'] = '1'
       yield
     ensure
       restore_env
