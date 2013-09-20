@@ -1,6 +1,12 @@
-# Appraisal [![Build Status](https://secure.travis-ci.org/thoughtbot/appraisal.png)](http://travis-ci.org/thoughtbot/appraisal?branch=master)
+Appraisal
+=========
+
+[![Build Status][Build Status Image]][Build Status]
 
 Find out what your Ruby gems are worth.
+
+[Build Status Image]: https://secure.travis-ci.org/thoughtbot/appraisal.png?branch=master
+[Build Status]: http://travis-ci.org/thoughtbot/appraisal
 
 Synopsis
 --------
@@ -8,7 +14,7 @@ Synopsis
 Appraisal integrates with bundler and rake to test your library against
 different versions of dependencies in repeatable scenarios called "appraisals."
 Appraisal is designed to make it easy to check for regressions in your library
-without interfering with day-to-day development using bundler.
+without interfering with day-to-day development using Bundler.
 
 Installation
 ------------
@@ -21,18 +27,19 @@ Setup
 -----
 
 Setting up appraisal requires an Appraisals file (similar to a Gemfile) in your
-project root, named "Appraisals" (note the case), and some slight changes to your project's Rakefile.
+project root, named "Appraisals" (note the case), and some slight changes to
+your project's Rakefile.
 
 An Appraisals file consists of several appraisal definitions. An appraisal
 definition is simply a list of gem dependencies. For example, to test with a
 few versions of Rails:
 
-    appraise "rails2" do
-      gem "rails", "2.3.9"
+    appraise "rails-3" do
+      gem "rails", "3.2.14"
     end
 
-    appraise "rails3" do
-      gem "rails", "3.0.0"
+    appraise "rails-4" do
+      gem "rails", "4.0.0"
     end
 
 The dependencies in your Appraisals file are combined with dependencies in your
@@ -40,15 +47,11 @@ Gemfile, so you don't need to repeat anything that's the same for each
 appraisal. If something is specified in both the Gemfile and an appraisal, the
 version from the appraisal takes precedence.
 
-Once you have an Appraisals file set up, just require appraisal in your Rakefile:
-
-    require 'appraisal'
-
 It's also recommended that you setup bundler at the very top of your Rakefile,
 so that you don't need to constantly run bundle exec:
 
-    require 'rubygems'
-    require 'bundler/setup'
+    require "rubygems"
+    require "bundler/setup"
 
 Usage
 -----
@@ -56,42 +59,60 @@ Usage
 Once you've configured the appraisals you want to use, you need to install the
 dependencies for each appraisal:
 
-    rake appraisal:install
+    appraisal install
 
 This will resolve, install, and lock the dependencies for that appraisal using
-bundler. Once you have your dependencies setup, you can run any rake task in a
+bundler. Once you have your dependencies set up, you can run any command in a
 single appraisal:
 
-    rake appraisal:rails2 test
+    appraisal rails-3 rake test
 
-This will run your "test" rake task using the dependencies configured for Rails
-2. You can also run each appraisal in turn:
+This will run `rake test` using the dependencies configured for Rails 3. You can
+also run each appraisal in turn:
 
-    rake appraisal test
+    appraisal rake test
 
-If you want to use only the dependencies from your Gemfile, just run "rake
-test" as normal. This allows you to keep running with the latest versions of
+If you want to use only the dependencies from your Gemfile, just run `rake
+test` as normal. This allows you to keep running with the latest versions of
 your dependencies in quick test runs, but keep running the tests in older
 versions to check for regressions.
+
+In the case that you want to run all the appraisals by default when you run
+`rake`, you can override your default Rake task by put this into your Rakefile:
+
+    if !ENV["APPRAISAL_INITIALIZED"] && !ENV["TRAVIS"]
+      task :default => :appraisal
+    end
+
+(Appraisal sets `APPRAISAL_INITIALIZED` environment variable when it runs your
+process. We put a check here to ensure that `appraisal rake` command should run
+your real default task, which usually is your `test` task.)
+
+Note that this may conflict with your CI setup if you decide to split the test
+into multiple processes by Appraisal and you are using `rake` to run tests by
+default. Please see **Travis CI Integration** for more detail.
 
 Under the hood
 --------------
 
-Running "rake appraisal:install" generates a Gemfile for each appraisal by
-combining your root Gemfile with the specific requirements for each appraisal.
-These are stored in the "gemfiles" directory, and should be added to version
-control to ensure that the same versions are always used. When running rake
-tasks for an appraisal, the rake task is run with the appropriate Gemfile for
-that appraisal, ensuring the correct dependencies are used.
+Running `appraisal install` generates a Gemfile for each appraisal by combining
+your root Gemfile with the specific requirements for each appraisal. These are
+stored in the `gemfiles` directory, and should be added to version control to
+ensure that the same versions are always used.
+
+When you prefix a command with `appraisal`, the command is run with the
+appropriate Gemfile for that appraisal, ensuring the correct dependencies
+are used.
 
 Version Control
 ---------------
 
-When using Appraisal, we recommend that you check your Gemfile.lock into
-version control, as well as the gemfiles directory generated by Appraisal. This
-will ensure that your tests are always green when you check out a fresh copy.
-It also allows you to create reproducible regression tests for version-specific
-bugs.
+When using Appraisal, we recommend you check in the Gemfiles that Appraisal
+generates within the gemfiles directory, but exclude the lockfiles there
+(`*.gemfile.lock`.) The Gemfiles are useful when running your tests against a
+continuous integration server such as [Travis CI][Travis CI].
+
+[Travis CI]: https://travis-ci.org
 
 Travis CI integration
 ---------------------
@@ -109,8 +130,8 @@ by using `gemfile` setting:
 Please note that if you've set your default rake task to run the test against
 all versions of its dependency, you might have to set a `script` setting:
 
-    script: "bundle exec rake spec cucumber"
-    
+    script: "bundle exec rake test"
+
 That will make sure that each of the test sub-job are not getting run more than
 one time.
 
@@ -119,13 +140,18 @@ Credits
 
 ![thoughtbot](http://thoughtbot.com/images/tm/logo.png)
 
-Appraisal is maintained and funded by [thoughtbot, inc](http://thoughtbot.com/community)
+Appraisal is maintained and funded by [thoughtbot, inc][thoughtbot]
 
-Thank you to all [the contributors](https://github.com/thoughtbot/appraisal/contributors)!
+Thank you to all [the contributors][contributors]
 
 The names and logos for thoughtbot are trademarks of thoughtbot, inc.
+
+[thoughtbot]: http://thoughtbot.com/community
+[contributors]: https://github.com/thoughtbot/appraisal/contributors
 
 License
 -------
 
-Appraisal is Copyright © 2010-2013 Joe Ferris and thoughtbot, inc. It is free software, and may be redistributed under the terms specified in the MIT-LICENSE file.
+Appraisal is Copyright © 2010-2013 Joe Ferris and thoughtbot, inc. It is free
+software, and may be redistributed under the terms specified in the MIT-LICENSE
+file.
