@@ -24,4 +24,6 @@ module DependencyHelpers
   end
 end
 
-World(DependencyHelpers)
+if respond_to?(:World)
+  World(DependencyHelpers)
+end

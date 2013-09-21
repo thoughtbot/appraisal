@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+require 'rubygems'
+require 'bundler/setup'
+require 'appraisal'
+require 'appraisal/cli'
+
+Appraisal::CLI.start

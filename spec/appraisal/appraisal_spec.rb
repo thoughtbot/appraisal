@@ -1,6 +1,7 @@
 require 'spec_helper'
 require 'appraisal/appraisal'
 require 'tempfile'
+require 'active_support/core_ext/kernel/reporting'
 
 describe Appraisal::Appraisal do
   it "converts spaces to underscores in the gemfile path" do
@@ -45,16 +46,20 @@ describe Appraisal::Appraisal do
 
     it 'runs single install command on Bundler < 1.4.0' do
       stub_const('Bundler::VERSION', '1.3.0')
-      @appraisal.install
+
+      warning = capture(:stderr) do
+        @appraisal.install(42)
+      end
 
       Appraisal::Command.should have_received(:new).
         with("#{bundle_check_command} || #{bundle_single_install_command}")
+      warning.should include 'Please upgrade Bundler'
     end
 
     it 'runs parallel install command on Bundler >= 1.4.0' do
       stub_const('Bundler::VERSION', '1.4.0')
-      Parallel.stub(:processor_count).and_return(42)
-      @appraisal.install
+
+      @appraisal.install(42)
 
       Appraisal::Command.should have_received(:new).
         with("#{bundle_check_command} || #{bundle_parallel_install_command}")

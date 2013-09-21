@@ -1,7 +1,8 @@
 require 'appraisal/gemfile'
 require 'appraisal/command'
+require 'appraisal/utils'
 require 'fileutils'
-require 'parallel'
+require 'pathname'
 
 module Appraisal
   # Represents one appraisal and its dependencies
@@ -24,37 +25,69 @@ module Appraisal
       end
     end
 
-    def install
-      Command.new(install_command).run
+    def install(job_size = 1)
+      Command.new(check_command + ' || ' + install_command(job_size)).run
+    end
+
+    def update(gems = [])
+      Command.new(update_command(gems)).run
     end
 
     def gemfile_path
-      unless ::File.exist?(gemfile_root)
-        FileUtils.mkdir(gemfile_root)
+      unless gemfile_root.exist?
+        gemfile_root.mkdir
       end
 
-      ::File.join(gemfile_root, "#{clean_name}.gemfile")
+      gemfile_root.join("#{clean_name}.gemfile").to_s
+    end
+
+    def relativize
+      current_directory = Pathname.new(Dir.pwd)
+      relative_path = current_directory.relative_path_from(gemfile_root).cleanpath
+      lockfile_content = ::File.read(lockfile_path)
+
+      ::File.open(lockfile_path, 'w') do |file|
+        file.write lockfile_content.gsub(/#{current_directory}/, relative_path.to_s)
+      end
     end
 
     private
 
-    def install_command
-      gemfile = "--gemfile='#{gemfile_path}'"
-      commands = ['bundle', 'install', gemfile, bundle_parallel_option]
-      "bundle check #{gemfile} || #{commands.compact.join(' ')}"
+    def check_command
+      gemfile_option = "--gemfile='#{gemfile_path}'"
+      ['bundle', 'check', gemfile_option].join(' ')
+    end
+
+    def install_command(job_size)
+      gemfile_option = "--gemfile='#{gemfile_path}'"
+      ['bundle', 'install', gemfile_option, bundle_parallel_option(job_size)].compact.join(' ')
+    end
+
+    def update_command(gems)
+      gemfile_config = "BUNDLE_GEMFILE='#{gemfile_path}'"
+      [gemfile_config, 'bundle', 'update', *gems].compact.join(' ')
     end
 
     def gemfile_root
-      ::File.join(Dir.pwd, "gemfiles")
+      Pathname.new(::File.join(Dir.pwd, "gemfiles"))
+    end
+
+    def lockfile_path
+      "#{gemfile_path}.lock"
     end
 
     def clean_name
       name.gsub(/[^\w\.]/, '_')
     end
 
-    def bundle_parallel_option
-      if Gem::Version.create(Bundler::VERSION) >= Gem::Version.create('1.4.0.pre.1')
-        "--jobs=#{::Parallel.processor_count}"
+    def bundle_parallel_option(job_size)
+      if job_size > 1
+        if Utils.support_parallel_installation?
+          "--jobs=#{job_size}"
+        else
+          warn 'Your current version of Bundler does not support parallel installation. Please ' +
+            'upgrade Bundler to version >= 1.4.0, or invoke `appraisal` without `--jobs` option.'
+        end
       end
     end
   end
