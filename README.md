@@ -23,7 +23,7 @@ In your Gemfile:
 
     gem "appraisal"
 
-Note that gems must be bundled in the global namespace. Bundling gems to a local 
+Note that gems must be bundled in the global namespace. Bundling gems to a local
 location or vendoring plugins is not supported. If you do not want to pollute the
 global namespace, one alternative is [RVM's Gemsets](http://rvm.io/gemsets).
 
