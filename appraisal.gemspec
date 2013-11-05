@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
 
   s.add_runtime_dependency('rake')
   s.add_runtime_dependency('bundler')
-  s.add_runtime_dependency('thor', '~> 0.18.1')
+  s.add_runtime_dependency('thor', '>= 0.14.0')
 
   s.add_development_dependency('activesupport', '>= 3.2.13')
   s.add_development_dependency('cucumber', '~> 1.0')
