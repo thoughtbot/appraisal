@@ -47,8 +47,6 @@ module Appraisal
       @platforms << platform
     end
 
-    alias platform platforms
-
     def source(source)
       @sources << source
     end
