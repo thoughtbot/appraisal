@@ -12,6 +12,7 @@ module Appraisal
       @dependencies = []
       @gemspec = nil
       @groups = []
+      @platforms = []
       @git_sources = []
     end
 
@@ -36,6 +37,18 @@ module Appraisal
       @groups << group
     end
 
+    alias groups group
+
+    def platforms(*names, &block)
+      require 'appraisal/platform'
+
+      platform = Platform.new(names)
+      platform.run(&block)
+      @platforms << platform
+    end
+
+    alias platform platforms
+
     def source(source)
       @sources << source
     end
@@ -53,8 +66,8 @@ module Appraisal
     end
 
     def to_s
-      [source_entry, ruby_version_entry, git_sources_entry, dependencies_entry, groups_entry,
-        gemspec_entry].reject{ |s| s.nil? || s.empty? }.join("\n\n").strip
+      [source_entry, ruby_version_entry, git_sources_entry, dependencies_entry, groups_entry, platforms_entry,
+       gemspec_entry].reject{ |s| s.nil? || s.empty? }.join("\n\n").strip
     end
 
     def dup
@@ -89,6 +102,10 @@ module Appraisal
 
     def groups_entry
       @groups.map(&:to_s).join("\n\n")
+    end
+
+    def platforms_entry
+      @platforms.map(&:to_s).join("\n\n")
     end
 
     def gemspec_entry
