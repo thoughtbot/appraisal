@@ -43,6 +43,20 @@ describe Appraisal::Gemfile do
     GEMFILE
   end
 
+  it 'supports platforms syntax' do
+    gemfile = Appraisal::Gemfile.new
+
+    gemfile.platforms :jruby do
+      gem "one"
+    end
+
+    gemfile.to_s.should == <<-GEMFILE.strip_heredoc.strip
+      platforms :jruby do
+        gem "one"
+      end
+    GEMFILE
+  end
+
   context "excess new line" do
     context "no contents" do
       it "shows empty string" do
