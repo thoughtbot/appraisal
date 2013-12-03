@@ -37,7 +37,7 @@ module Appraisal
       @groups << group
     end
 
-    alias groups group
+    alias_method :groups, :group
 
     def platforms(*names, &block)
       require 'appraisal/platform'
