@@ -1,16 +1,18 @@
-before_install: gem install bundler --pre
+before_install: gem install bundler
 
 rvm:
   - 1.9.3
   - 2.0.0
+  - 2.1.0
+  - rbx
   - jruby-19mode
-  - rbx-19mode
   - ruby-head
   - jruby-head
 
 matrix:
+  fast_finish: true
   allow_failures:
-    - rvm: rbx-19mode
+    - rvm: rbx
     - rvm: jruby-19mode
     - rvm: ruby-head
     - rvm: jruby-head
