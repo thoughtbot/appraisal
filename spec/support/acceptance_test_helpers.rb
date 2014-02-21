@@ -74,6 +74,16 @@ module AcceptanceTestHelpers
     be_exist
   end
 
+  def run_simple(command, fail_on_error = true)
+    super "bundle exec #{command}", fail_on_error
+  end
+
+  def output_from(command)
+    super "bundle exec #{command}"
+  rescue ArgumentError
+    super command
+  end
+
   private
 
   def cleanup_artifacts
