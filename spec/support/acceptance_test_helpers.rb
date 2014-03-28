@@ -5,14 +5,15 @@ require './features/support/dependency_helpers'
 
 module AcceptanceTestHelpers
   extend ActiveSupport::Concern
-  include Aruba::Api
   include DependencyHelpers
+
+  BUNDLER_ENVIRONMENT_VARIABLES = %w(RUBYOPT BUNDLE_PATH BUNDLE_BIN_PATH
+    BUNDLE_GEMFILE)
 
   included do
     metadata[:type] = :acceptance
 
     before :all do
-      initialize_aruba_instance_variables
       build_default_dummy_gems
     end
 
@@ -28,13 +29,38 @@ module AcceptanceTestHelpers
 
     before do
       cleanup_artifacts
+      save_environment_variables
+      unset_bundler_environment_variables
+      add_binstub_path
       build_default_gemfile
-      unset_bundler_env_vars
-      ENV["GEM_PATH"] = [TMP_GEM_ROOT, ENV["GEM_PATH"]].join(":")
     end
 
     after do
-      restore_env
+      restore_environment_variables
+    end
+  end
+
+  def save_environment_variables
+    @original_environment_variables = {}
+
+    (BUNDLER_ENVIRONMENT_VARIABLES + %w(PATH)).each do |key|
+      @original_environment_variables[key] = ENV[key]
+    end
+  end
+
+  def unset_bundler_environment_variables
+    BUNDLER_ENVIRONMENT_VARIABLES.each do |key|
+      ENV[key] = nil
+    end
+  end
+
+  def add_binstub_path
+    ENV['PATH'] = "bin:#{ENV['PATH']}"
+  end
+
+  def restore_environment_variables
+    @original_environment_variables.each_pair do |key, value|
+      ENV[key] = value
     end
   end
 
@@ -47,15 +73,15 @@ module AcceptanceTestHelpers
   end
 
   def add_gemspec_to_gemfile
-    append_to_file 'gemfile', 'gemspec'
+    in_test_directory do
+      File.open('Gemfile', 'a') { |file| file.puts 'gemspec' }
+    end
   end
 
   def build_gemspec
-    gem_name = dirs.last
-
-    write_file "#{gem_name}.gemspec", <<-gemspec
+    write_file "stage.gemspec", <<-gemspec
       Gem::Specification.new do |s|
-        s.name = '#{gem_name}'
+        s.name = 'stage'
         s.version = '0.1'
         s.summary = 'Awesome Gem!'
       end
@@ -67,41 +93,29 @@ module AcceptanceTestHelpers
   end
 
   def file(path)
-    Pathname.new(current_dir) + path
+    Pathname.new(current_directory) + path
   end
 
   def be_exists
     be_exist
   end
 
-  def run_simple(command, fail_on_error = true)
-    super "bundle exec #{command}", fail_on_error
-  end
-
-  def output_from(command)
-    super "bundle exec #{command}"
-  rescue ArgumentError
-    super command
-  end
-
   private
 
+  def current_directory
+    File.expand_path('tmp/stage')
+  end
+
+  def write_file(filename, content)
+    in_test_directory { File.open(filename, 'w') { |file| file.puts content } }
+  end
+
   def cleanup_artifacts
-    FileUtils.rm_rf(current_dir)
+    FileUtils.rm_rf current_directory
   end
 
   def cleanup_default_gems
-    FileUtils.rm_rf(TMP_GEM_ROOT)
-  end
-
-  def initialize_aruba_instance_variables
-    @announce_stdout = nil
-    @announce_stderr = nil
-    @announce_cmd = nil
-    @announce_dir = nil
-    @announce_env = nil
-    @aruba_timeout_seconds = 60
-    @aruba_io_wait_seconds = nil
+    FileUtils.rm_rf TMP_GEM_ROOT
   end
 
   def build_default_dummy_gems
@@ -119,5 +133,29 @@ module AcceptanceTestHelpers
       gem 'dummy'
       gem 'appraisal', :path => '#{PROJECT_ROOT}'
     Gemfile
+
+    in_test_directory do
+      `bundle install --binstubs --local`
+    end
+  end
+
+  def in_test_directory(&block)
+    FileUtils.mkdir_p current_directory
+    Dir.chdir current_directory, &block
+  end
+
+  def run(command)
+    in_test_directory do
+      `#{command}`.tap do |output|
+        exitstatus = $?.exitstatus
+
+        if exitstatus != 0
+          raise RuntimeError, <<-error_message.strip_heredoc
+            Command #{command.inspect} exited with status #{exitstatus}. Output:
+            #{output.gsub(/^/, '  ')}
+          error_message
+        end
+      end
+    end
   end
 end

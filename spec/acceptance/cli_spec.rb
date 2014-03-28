@@ -10,7 +10,7 @@ describe 'CLI' do
         end
       Appraisal
 
-      run_simple 'appraisal'
+      run 'appraisal'
 
       expect(file 'gemfiles/1.0.0.gemfile').to be_exists
       expect(file 'gemfiles/1.0.0.gemfile.lock').to be_exists
@@ -29,7 +29,7 @@ describe 'CLI' do
         end
       Appraisal
 
-      run_simple 'appraisal install'
+      run 'appraisal install'
       write_file 'test.rb', 'puts "Running: #{$dummy_version}"'
     end
 
@@ -40,28 +40,25 @@ describe 'CLI' do
         end
       TEST_FILE
 
-      test_command = 'appraisal 1.0.0 ruby -rbundler/setup -rdummy test.rb'
-      run_simple test_command
-      expect(output_from test_command).to include 'Appraisal initialized!'
+      output = run 'appraisal 1.0.0 ruby -rbundler/setup -rdummy test.rb'
+      expect(output).to include 'Appraisal initialized!'
     end
 
     context 'with appraisal name' do
       it 'runs the given command against a correct versions of dependency' do
-        test_command = 'appraisal 1.0.0 ruby -rbundler/setup -rdummy test.rb'
-        run_simple test_command
+        output = run 'appraisal 1.0.0 ruby -rbundler/setup -rdummy test.rb'
 
-        expect(output_from test_command).to include 'Running: 1.0.0'
-        expect(output_from test_command).to_not include 'Running: 1.1.0'
+        expect(output).to include 'Running: 1.0.0'
+        expect(output).not_to include 'Running: 1.1.0'
       end
     end
 
     context 'without appraisal name' do
       it 'runs the given command against all versions of dependency' do
-        test_command = 'appraisal ruby -rbundler/setup -rdummy test.rb'
-        run_simple test_command
+        output = run 'appraisal ruby -rbundler/setup -rdummy test.rb'
 
-        expect(output_from test_command).to include 'Running: 1.0.0'
-        expect(output_from test_command).to include 'Running: 1.1.0'
+        expect(output).to include 'Running: 1.0.0'
+        expect(output).to include 'Running: 1.1.0'
       end
     end
   end
@@ -78,7 +75,7 @@ describe 'CLI' do
         end
       Appraisal
 
-      run_simple 'appraisal generate'
+      run 'appraisal generate'
 
       expect(file 'gemfiles/1.0.0.gemfile').to be_exists
       expect(file 'gemfiles/1.1.0.gemfile').to be_exists
@@ -105,7 +102,7 @@ describe 'CLI' do
         end
       Appraisal
 
-      run_simple 'appraisal install'
+      run 'appraisal install'
 
       expect(file 'gemfiles/1.0.0.gemfile.lock').to be_exists
       expect(file 'gemfiles/1.1.0.gemfile.lock').to be_exists
@@ -114,15 +111,17 @@ describe 'CLI' do
     it 'relativize directory in gemfile.lock' do
       build_gemspec
       add_gemspec_to_gemfile
+
       build_appraisal_file <<-Appraisal
         appraise '1.0.0' do
           gem 'dummy', '1.0.0'
         end
       Appraisal
 
-      run_simple 'appraisal install'
+      run 'appraisal install'
 
-      expect(content_of 'gemfiles/1.0.0.gemfile.lock').not_to include current_dir
+      expect(content_of 'gemfiles/1.0.0.gemfile.lock').not_to include
+        current_directory
     end
 
     context 'with job size', parallel: true do
@@ -135,20 +134,20 @@ describe 'CLI' do
       end
 
       it 'accepts --jobs option to set job size' do
-        run_simple 'appraisal install --jobs=2'
+        output = run 'appraisal install --jobs=2'
 
-        expect(output_from 'appraisal install --jobs=2').to include
+        expect(output).to include
           'bundle install --gemfile=gemfiles/1.0.0.gemfile --jobs=2'
       end
 
       it 'ignores --jobs option if the job size is less than or equal to 1' do
-        run_simple 'appraisal install --jobs=0'
+        output = run 'appraisal install --jobs=0'
 
-        expect(output_from 'appraisal install --jobs=0').not_to include
+        expect(output).not_to include
           'bundle install --gemfile=gemfiles/1.0.0.gemfile'
-        expect(output_from 'appraisal install --jobs=0').not_to include
+        expect(output).not_to include
           'bundle install --gemfile=gemfiles/1.0.0.gemfile --jobs=0'
-        expect(output_from 'appraisal install --jobs=0').not_to include
+        expect(output).not_to include
           'bundle install --gemfile=gemfiles/1.0.0.gemfile --jobs=1'
       end
     end
@@ -162,10 +161,10 @@ describe 'CLI' do
         end
       Appraisal
 
-      run_simple 'appraisal install'
+      run 'appraisal install'
       write_file 'gemfiles/non_related_file', ''
 
-      run_simple 'appraisal clean'
+      run 'appraisal clean'
 
       expect(file 'gemfiles/1.0.0.gemfile').not_to be_exists
       expect(file 'gemfiles/1.0.0.gemfile.lock').not_to be_exists
@@ -184,13 +183,13 @@ describe 'CLI' do
         end
       Appraisal
 
-      run_simple 'appraisal install'
+      run 'appraisal install'
       build_gem 'dummy', '1.0.1'
       build_gem 'dummy2', '1.0.1'
     end
 
     after do
-      in_current_dir do
+      in_test_directory do
         `gem uninstall dummy -v 1.0.1`
         `gem uninstall dummy2 -a`
       end
@@ -198,7 +197,7 @@ describe 'CLI' do
 
     context 'with no arguments' do
       it 'updates all the gems' do
-        run_simple 'appraisal update'
+        run 'appraisal update'
 
         expect(content_of 'gemfiles/dummy.gemfile.lock').to include 'dummy (1.0.1)'
         expect(content_of 'gemfiles/dummy.gemfile.lock').to include 'dummy2 (1.0.1)'
@@ -207,7 +206,7 @@ describe 'CLI' do
 
     context 'with a list of gems' do
       it 'only updates specified gems' do
-        run_simple 'appraisal update dummy'
+        run 'appraisal update dummy'
 
         expect(content_of 'gemfiles/dummy.gemfile.lock').to include 'dummy (1.0.1)'
         expect(content_of 'gemfiles/dummy.gemfile.lock').to include 'dummy2 (1.0.0)'
@@ -223,11 +222,11 @@ describe 'CLI' do
         end
       Appraisal
 
-      run_simple 'appraisal help'
+      output = run 'appraisal help'
 
-      expect(output_from 'appraisal help').to include 'Usage:'
-      expect(output_from 'appraisal help').to include 'appraisal [APPRAISAL_NAME] EXTERNAL_COMMAND'
-      expect(output_from 'appraisal help').to include '1.0.0'
+      expect(output).to include 'Usage:'
+      expect(output).to include 'appraisal [APPRAISAL_NAME] EXTERNAL_COMMAND'
+      expect(output).to include '1.0.0'
     end
   end
 end

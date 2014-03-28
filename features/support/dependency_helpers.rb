@@ -1,26 +1,32 @@
 module DependencyHelpers
-  def build_gem(name, version)
-    create_dir(name)
-    cd(name)
-    create_dir("lib")
-    gem_path = "#{name}.gemspec"
-    version_path = "lib/#{name}.rb"
-    spec = <<-SPEC
-      Gem::Specification.new do |s|
-        s.name    = '#{name}'
-        s.version = '#{version}'
-        s.authors = 'Mr. Smith'
-        s.summary = 'summary'
-        s.files   = '#{version_path}'
+  def build_gem(gem_name, version)
+    FileUtils.mkdir_p "tmp/aruba/#{gem_name}/lib"
+
+    FileUtils.cd "tmp/aruba/#{gem_name}" do
+      gemspec = "#{gem_name}.gemspec"
+      lib_file = "lib/#{gem_name}.rb"
+
+      File.open gemspec, 'w' do |file|
+        file.puts <<-gemspec
+          Gem::Specification.new do |s|
+            s.name    = #{gem_name.inspect}
+            s.version = #{version.inspect}
+            s.authors = 'Mr. Smith'
+            s.summary = 'summary'
+            s.files   = #{lib_file.inspect}
+          end
+        gemspec
       end
-    SPEC
-    write_file(gem_path, spec)
-    write_file(version_path, "$#{name}_version = '#{version}'")
-    in_current_dir { `gem build #{gem_path} 2>&1` }
-    set_env("GEM_HOME", TMP_GEM_ROOT)
-    in_current_dir { `gem install #{name}-#{version}.gem 2>&1` }
-    FileUtils.rm_rf(File.join(current_dir, name))
-    dirs.pop
+
+      File.open lib_file, 'w' do |file|
+        file.puts "$#{gem_name}_version = '#{version}'"
+      end
+
+      `gem build #{gemspec} 2>&1`
+
+      ENV['GEM_HOME'] = TMP_GEM_ROOT
+      `gem install #{gem_name}-#{version}.gem 2>&1`
+    end
   end
 end
 
