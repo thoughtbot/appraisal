@@ -1,6 +1,5 @@
 require 'rubygems'
 require 'bundler/setup'
-require 'aruba/api'
 require './spec/support/acceptance_test_helpers'
 
 PROJECT_ROOT = File.expand_path(File.join(File.dirname(__FILE__), '..')).freeze
