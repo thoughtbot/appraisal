@@ -145,12 +145,12 @@ module AcceptanceTestHelpers
     Dir.chdir current_directory, &block
   end
 
-  def run(command)
+  def run(command, raise_on_error = true)
     in_test_directory do
       `#{command}`.tap do |output|
         exitstatus = $?.exitstatus
 
-        if exitstatus != 0
+        if raise_on_error && exitstatus != 0
           raise RuntimeError, <<-error_message.strip_heredoc
             Command #{command.inspect} exited with status #{exitstatus}. Output:
             #{output.gsub(/^/, '  ')}

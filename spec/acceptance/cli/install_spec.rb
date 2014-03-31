@@ -1,6 +1,12 @@
 require 'spec_helper'
 
 describe 'CLI', 'appraisal install' do
+  it 'raises error when there is no Appraisals file' do
+    output = run 'appraisal install 2>&1', false
+
+    expect(output).to include "Unable to locate 'Appraisals' file"
+  end
+
   it 'installs the dependencies' do
     build_appraisal_file <<-Appraisal
       appraise '1.0.0' do
