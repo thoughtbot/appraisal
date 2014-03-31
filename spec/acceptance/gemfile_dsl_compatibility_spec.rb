@@ -54,6 +54,23 @@ describe 'Gemfile DSL compatibility' do
         gem "bacon"
       end
     Gemfile
+
+    expect(content_of 'gemfiles/english.gemfile').to include <<-Gemfile.strip_heredoc
+      source "https://rubygems.org"
+
+      ruby "#{RUBY_VERSION}"
+
+      git "../gems/egg" do
+        gem "egg"
+      end
+
+      gem "appraisal", :path=>#{PROJECT_ROOT.inspect}
+      gem "bread"
+
+      group :breakfast do
+        gem "bacon"
+      end
+    Gemfile
   end
 
   def build_git_gem(gem_name, version)
