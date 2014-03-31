@@ -2,6 +2,7 @@ require 'rspec/expectations/expectation_target'
 require 'active_support/core_ext/string/strip'
 require 'active_support/concern'
 require './features/support/dependency_helpers'
+require 'appraisal/utils'
 
 module AcceptanceTestHelpers
   extend ActiveSupport::Concern

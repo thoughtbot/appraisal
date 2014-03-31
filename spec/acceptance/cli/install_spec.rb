@@ -1,0 +1,64 @@
+require 'spec_helper'
+
+describe 'CLI', 'appraisal install' do
+  it 'installs the dependencies' do
+    build_appraisal_file <<-Appraisal
+      appraise '1.0.0' do
+        gem 'dummy', '1.0.0'
+      end
+
+      appraise '1.1.0' do
+        gem 'dummy', '1.1.0'
+      end
+    Appraisal
+
+    run 'appraisal install'
+
+    expect(file 'gemfiles/1.0.0.gemfile.lock').to be_exists
+    expect(file 'gemfiles/1.1.0.gemfile.lock').to be_exists
+  end
+
+  it 'relativize directory in gemfile.lock' do
+    build_gemspec
+    add_gemspec_to_gemfile
+
+    build_appraisal_file <<-Appraisal
+      appraise '1.0.0' do
+        gem 'dummy', '1.0.0'
+      end
+    Appraisal
+
+    run 'appraisal install'
+
+    expect(content_of 'gemfiles/1.0.0.gemfile.lock').not_to include
+      current_directory
+  end
+
+  context 'with job size', parallel: true do
+    before do
+      build_appraisal_file <<-Appraisal
+        appraise '1.0.0' do
+          gem 'dummy', '1.0.0'
+        end
+      Appraisal
+    end
+
+    it 'accepts --jobs option to set job size' do
+      output = run 'appraisal install --jobs=2'
+
+      expect(output).to include
+        'bundle install --gemfile=gemfiles/1.0.0.gemfile --jobs=2'
+    end
+
+    it 'ignores --jobs option if the job size is less than or equal to 1' do
+      output = run 'appraisal install --jobs=0'
+
+      expect(output).not_to include
+        'bundle install --gemfile=gemfiles/1.0.0.gemfile'
+      expect(output).not_to include
+        'bundle install --gemfile=gemfiles/1.0.0.gemfile --jobs=0'
+      expect(output).not_to include
+        'bundle install --gemfile=gemfiles/1.0.0.gemfile --jobs=1'
+    end
+  end
+end
