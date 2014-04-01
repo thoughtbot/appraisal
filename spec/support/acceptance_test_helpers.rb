@@ -19,7 +19,7 @@ module AcceptanceTestHelpers
     end
 
     after :all do
-      cleanup_default_gems
+      cleanup_gem_home
     end
 
     before parallel: true do
@@ -115,7 +115,7 @@ module AcceptanceTestHelpers
     FileUtils.rm_rf current_directory
   end
 
-  def cleanup_default_gems
+  def cleanup_gem_home
     FileUtils.rm_rf TMP_GEM_ROOT
   end
 

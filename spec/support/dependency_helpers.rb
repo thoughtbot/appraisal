@@ -1,31 +1,45 @@
 module DependencyHelpers
-  def build_gem(gem_name, version)
-    FileUtils.mkdir_p "tmp/gems/#{gem_name}/lib"
+  def build_gem(gem_name, version = '1.0.0')
+    ENV['GEM_HOME'] = TMP_GEM_ROOT
 
-    FileUtils.cd "tmp/gems/#{gem_name}" do
-      gemspec = "#{gem_name}.gemspec"
-      lib_file = "lib/#{gem_name}.rb"
+    unless File.exist? "tmp/gems/gems/#{gem_name}-#{version}"
+      FileUtils.mkdir_p "tmp/gems/#{gem_name}/lib"
 
-      File.open gemspec, 'w' do |file|
-        file.puts <<-gemspec
-          Gem::Specification.new do |s|
-            s.name    = #{gem_name.inspect}
-            s.version = #{version.inspect}
-            s.authors = 'Mr. Smith'
-            s.summary = 'summary'
-            s.files   = #{lib_file.inspect}
-          end
-        gemspec
+      FileUtils.cd "tmp/gems/#{gem_name}" do
+        gemspec = "#{gem_name}.gemspec"
+        lib_file = "lib/#{gem_name}.rb"
+
+        File.open gemspec, 'w' do |file|
+          file.puts <<-gemspec
+            Gem::Specification.new do |s|
+              s.name    = #{gem_name.inspect}
+              s.version = #{version.inspect}
+              s.authors = 'Mr. Smith'
+              s.summary = 'summary'
+              s.files   = #{lib_file.inspect}
+            end
+          gemspec
+        end
+
+        File.open lib_file, 'w' do |file|
+          file.puts "$#{gem_name}_version = '#{version}'"
+        end
+
+        `gem build #{gemspec} 2>&1`
+        `gem install #{gem_name}-#{version}.gem 2>&1`
       end
+    end
+  end
 
-      File.open lib_file, 'w' do |file|
-        file.puts "$#{gem_name}_version = '#{version}'"
-      end
+  def build_git_gem(gem_name, version = '1.0.0')
+    build_gem gem_name, version
 
-      `gem build #{gemspec} 2>&1`
-
-      ENV['GEM_HOME'] = TMP_GEM_ROOT
-      `gem install #{gem_name}-#{version}.gem 2>&1`
+    Dir.chdir "tmp/gems/#{gem_name}" do
+      `git init .`
+      `git config user.email "appraisal@thoughtbot.com"`
+      `git config user.name "Appraisal"`
+      `git add .`
+      `git commit -a -m "initial commit"`
     end
   end
 end

@@ -2,11 +2,12 @@ require 'spec_helper'
 
 describe 'Gemfile DSL compatibility' do
   it 'supports all Bundler DSL in Gemfile' do
-    build_gem 'bacon', '1.0.0'
-    build_gem 'bread', '1.0.0'
-    build_gem 'miso_soup', '1.0.0'
-    build_gem 'rice', '1.0.0'
-    build_git_gem 'egg', '1.0.0'
+    build_gem 'bacon'
+    build_gem 'bread'
+    build_gem 'miso_soup'
+    build_gem 'rice'
+    build_gem 'waffle'
+    build_git_gem 'egg'
 
     build_gemfile <<-Gemfile
       source "https://rubygems.org"
@@ -18,6 +19,10 @@ describe 'Gemfile DSL compatibility' do
 
       group :breakfast do
         gem "bacon"
+      end
+
+      platforms :ruby, :jruby do
+        gem "waffle"
       end
 
       gem 'appraisal', path: #{PROJECT_ROOT.inspect}
@@ -53,6 +58,10 @@ describe 'Gemfile DSL compatibility' do
       group :breakfast do
         gem "bacon"
       end
+
+      platforms :ruby, :jruby do
+        gem "waffle"
+      end
     Gemfile
 
     expect(content_of 'gemfiles/english.gemfile').to include <<-Gemfile.strip_heredoc
@@ -70,18 +79,10 @@ describe 'Gemfile DSL compatibility' do
       group :breakfast do
         gem "bacon"
       end
+
+      platforms :ruby, :jruby do
+        gem "waffle"
+      end
     Gemfile
-  end
-
-  def build_git_gem(gem_name, version)
-    build_gem gem_name, version
-
-    Dir.chdir "tmp/gems/#{gem_name}" do
-      `git init .`
-      `git config user.email "appraisal@thoughtbot.com"`
-      `git config user.name "Appraisal"`
-      `git add .`
-      `git commit -a -m "initial commit"`
-    end
   end
 end
