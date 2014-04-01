@@ -2,13 +2,8 @@ require 'spec_helper'
 
 describe 'Appraisals file Bundler DSL compatibility' do
   it 'supports all Bundler DSL in Appraisals file' do
-    build_gem 'bacon'
-    build_gem 'bagel'
-    build_gem 'bread'
-    build_gem 'orange_juice'
-    build_gem 'milk'
+    build_gems %w(bagel orange_juice milk)
     build_git_gem 'egg'
-    duplicate_egg_gemspec_as_porched_egg
 
     build_gemfile <<-Gemfile
       source 'https://rubygems.org'
@@ -52,7 +47,7 @@ describe 'Appraisals file Bundler DSL compatibility' do
       end
     Appraisals
 
-    run 'bundle install --local --binstubs'
+    run 'bundle install --local'
     run 'appraisal generate'
 
     expect(content_of 'gemfiles/breakfast.gemfile').to eq <<-Gemfile.strip_heredoc
@@ -82,11 +77,5 @@ describe 'Appraisals file Bundler DSL compatibility' do
         gem "yoghurt"
       end
     Gemfile
-  end
-
-  def duplicate_egg_gemspec_as_porched_egg
-    File.open('tmp/gems/egg/porched_egg.gemspec', 'w') do |f|
-      f.write File.read('tmp/gems/egg/egg.gemspec').gsub(/egg/, 'porched_egg')
-    end
   end
 end

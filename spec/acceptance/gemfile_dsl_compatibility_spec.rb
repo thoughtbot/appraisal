@@ -2,11 +2,7 @@ require 'spec_helper'
 
 describe 'Gemfile DSL compatibility' do
   it 'supports all Bundler DSL in Gemfile' do
-    build_gem 'bacon'
-    build_gem 'bread'
-    build_gem 'miso_soup'
-    build_gem 'rice'
-    build_gem 'waffle'
+    build_gems %w(bacon waffle)
     build_git_gem 'egg'
 
     build_gemfile <<-Gemfile
@@ -39,7 +35,7 @@ describe 'Gemfile DSL compatibility' do
       end
     Appraisals
 
-    run 'bundle install --local --binstubs'
+    run 'bundle install --local'
     run 'appraisal generate'
 
     expect(content_of 'gemfiles/japanese.gemfile').to eq <<-Gemfile.strip_heredoc

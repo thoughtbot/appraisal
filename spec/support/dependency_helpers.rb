@@ -26,9 +26,13 @@ module DependencyHelpers
         end
 
         `gem build #{gemspec} 2>&1`
-        `gem install #{gem_name}-#{version}.gem 2>&1`
+        `gem install -lN #{gem_name}-#{version}.gem 2>&1`
       end
     end
+  end
+
+  def build_gems(gems)
+    gems.each { |gem| build_gem(gem) }
   end
 
   def build_git_gem(gem_name, version = '1.0.0')

@@ -131,7 +131,6 @@ module AcceptanceTestHelpers
     build_gemfile <<-Gemfile
       source 'https://rubygems.org'
 
-      gem 'dummy'
       gem 'appraisal', :path => '#{PROJECT_ROOT}'
     Gemfile
 
