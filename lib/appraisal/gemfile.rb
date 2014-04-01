@@ -1,5 +1,8 @@
-require 'appraisal/dependency'
+require 'appraisal/dependency_list'
 require 'appraisal/gemspec'
+require 'appraisal/git_source'
+require 'appraisal/group'
+require 'appraisal/platform'
 
 module Appraisal
   # Load bundler Gemfiles and merge dependencies
@@ -9,7 +12,7 @@ module Appraisal
     def initialize
       @sources = []
       @ruby_version = nil
-      @dependencies = []
+      @dependencies = DependencyList.new
       @gemspec = nil
       @groups = {}
       @platforms = {}
@@ -25,13 +28,10 @@ module Appraisal
     end
 
     def gem(name, *requirements)
-      @dependencies.reject! { |dependency| dependency.name == name }
-      @dependencies << Dependency.new(name, requirements)
+      @dependencies.add(name, requirements)
     end
 
     def group(*names, &block)
-      require 'appraisal/group'
-
       @groups[names] ||= Group.new(names)
       @groups[names].run(&block)
     end
@@ -39,8 +39,6 @@ module Appraisal
     alias_method :groups, :group
 
     def platforms(*names, &block)
-      require 'appraisal/platform'
-
       @platforms[names] ||= Platform.new(names)
       @platforms[names].run(&block)
     end
@@ -54,8 +52,6 @@ module Appraisal
     end
 
     def git(source, options = {}, &block)
-      require 'appraisal/git_source'
-
       @git_sources[source] ||= GitSource.new(source, options)
       @git_sources[source].run(&block)
     end
@@ -92,7 +88,7 @@ module Appraisal
     end
 
     def dependencies_entry
-      dependencies.map(&:to_s).join("\n")
+      @dependencies.to_s
     end
 
     def groups_entry

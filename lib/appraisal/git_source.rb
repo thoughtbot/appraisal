@@ -1,9 +1,15 @@
+require 'appraisal/dependency_list'
+
 module Appraisal
-  class GitSource < Gemfile
+  class GitSource
     def initialize(source, options = {})
-      super()
+      @dependencies = DependencyList.new
       @source = source
       @options = options
+    end
+
+    def gem(name, *requirements)
+      @dependencies.add(name, requirements)
     end
 
     def run(&block)
@@ -11,7 +17,7 @@ module Appraisal
     end
 
     def to_s
-      dependencies = super.strip.gsub(/^/, '  ')
+      dependencies = @dependencies.to_s.strip.gsub(/^/, '  ')
 
       if @options.empty?
         "git #{@source.inspect} do\n#{dependencies}\nend"

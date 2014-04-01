@@ -1,8 +1,12 @@
 module Appraisal
-  class Platform < Gemfile
+  class Platform
     def initialize(platform_names)
-      super()
+      @dependencies = DependencyList.new
       @platform_names = platform_names
+    end
+
+    def gem(name, *requirements)
+      @dependencies.add(name, requirements)
     end
 
     def run(&block)
@@ -11,7 +15,7 @@ module Appraisal
 
     def to_s
       "platforms #{@platform_names.map(&:inspect).join(', ')} do\n" +
-        super.strip.gsub(/^/, '  ') + "\nend"
+        @dependencies.to_s.strip.gsub(/^/, '  ') + "\nend"
     end
   end
 end
