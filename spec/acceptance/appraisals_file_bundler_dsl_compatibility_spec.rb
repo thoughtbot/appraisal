@@ -66,7 +66,7 @@ describe 'Appraisals file Bundler DSL compatibility' do
       end
 
       gem "bagel"
-      gem "appraisal", :path=>#{PROJECT_ROOT.inspect}
+      gem "appraisal", :path => #{PROJECT_ROOT.inspect}
       gem "bread"
 
       group :breakfast do
@@ -79,7 +79,7 @@ describe 'Appraisals file Bundler DSL compatibility' do
         gem "yoghurt"
       end
 
-      gemspec :path=>"../"
+      gemspec :path => "../"
     Gemfile
   end
 end

@@ -52,7 +52,7 @@ describe 'Gemfile DSL compatibility' do
         gem "egg"
       end
 
-      gem "appraisal", :path=>#{PROJECT_ROOT.inspect}
+      gem "appraisal", :path => #{PROJECT_ROOT.inspect}
       gem "rice"
       gem "miso_soup"
 
@@ -64,7 +64,7 @@ describe 'Gemfile DSL compatibility' do
         gem "waffle"
       end
 
-      gemspec :path=>"../"
+      gemspec :path => "../"
     Gemfile
 
     expect(content_of 'gemfiles/english.gemfile').to eq <<-Gemfile.strip_heredoc
@@ -78,7 +78,7 @@ describe 'Gemfile DSL compatibility' do
         gem "egg"
       end
 
-      gem "appraisal", :path=>#{PROJECT_ROOT.inspect}
+      gem "appraisal", :path => #{PROJECT_ROOT.inspect}
       gem "bread"
 
       group :breakfast do
@@ -89,7 +89,7 @@ describe 'Gemfile DSL compatibility' do
         gem "waffle"
       end
 
-      gemspec :path=>"../"
+      gemspec :path => "../"
     Gemfile
   end
 end

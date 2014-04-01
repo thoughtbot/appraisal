@@ -1,3 +1,5 @@
+require 'appraisal/utils'
+
 module Appraisal
   # Dependency on a gem and optional version requirements
   class Dependency
@@ -12,7 +14,7 @@ module Appraisal
       if no_requirements?
         gem_name
       else
-        "#{gem_name}, #{inspect_requirements}"
+        "#{gem_name}, #{Utils.format_arguments(requirements)}"
       end
     end
 
@@ -24,10 +26,6 @@ module Appraisal
 
     def no_requirements?
       requirements.nil? || requirements.empty?
-    end
-
-    def inspect_requirements
-      requirements.map { |requirement| requirement.inspect.gsub(/^\{|\}$/, '') }.join(", ")
     end
   end
 end

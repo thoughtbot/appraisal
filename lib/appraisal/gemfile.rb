@@ -57,8 +57,13 @@ module Appraisal
     end
 
     def to_s
-      [source_entry, ruby_version_entry, git_sources_entry, dependencies_entry, groups_entry, platforms_entry,
-       gemspec_entry].reject{ |s| s.nil? || s.empty? }.join("\n\n").strip
+      [source_entry,
+        ruby_version_entry,
+        git_sources_entry,
+        dependencies_entry,
+        groups_entry,
+        platforms_entry,
+        gemspec_entry].reject{ |s| s.nil? || s.empty? }.join("\n\n").strip
     end
 
     def dup

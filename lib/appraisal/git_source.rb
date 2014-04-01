@@ -1,4 +1,5 @@
 require 'appraisal/dependency_list'
+require 'appraisal/utils'
 
 module Appraisal
   class GitSource
@@ -22,7 +23,8 @@ module Appraisal
       if @options.empty?
         "git #{@source.inspect} do\n#{dependencies}\nend"
       else
-        "git #{@source.inspect}, #{@options.inspect} do\n#{dependencies}\nend"
+        "git #{@source.inspect}, #{Utils.format_string(@options)} do\n" +
+          "#{dependencies}\nend"
       end
     end
   end

@@ -1,4 +1,5 @@
 require 'appraisal/dependency_list'
+require 'appraisal/utils'
 
 module Appraisal
   class Platform
@@ -16,8 +17,9 @@ module Appraisal
     end
 
     def to_s
-      "platforms #{@platform_names.map(&:inspect).join(', ')} do\n" +
-        @dependencies.to_s.strip.gsub(/^/, '  ') + "\nend"
+      "platforms #{Utils.format_arguments(@platform_names)} do\n" +
+        @dependencies.to_s.strip.gsub(/^/, '  ') +
+        "\nend"
     end
   end
 end

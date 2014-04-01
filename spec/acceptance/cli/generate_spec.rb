@@ -21,7 +21,7 @@ describe 'CLI', 'appraisal generate' do
 
       source "https://rubygems.org"
 
-      gem "appraisal", :path=>"#{PROJECT_ROOT}"
+      gem "appraisal", :path => "#{PROJECT_ROOT}"
       gem "dummy", "1.0.0"
     gemfile
   end

@@ -7,7 +7,7 @@ describe Appraisal::Gemspec do
       it 'returns the path as-is' do
         gemspec = Appraisal::Gemspec.new(path: '/tmp')
 
-        expect(gemspec.to_s).to eq 'gemspec :path=>"/tmp"'
+        expect(gemspec.to_s).to eq 'gemspec :path => "/tmp"'
       end
     end
 
@@ -15,7 +15,7 @@ describe Appraisal::Gemspec do
       it 'strips out "./"' do
         gemspec = Appraisal::Gemspec.new(path: './tmp/./appraisal././')
 
-        expect(gemspec.to_s).to eq 'gemspec :path=>"../tmp/appraisal./"'
+        expect(gemspec.to_s).to eq 'gemspec :path => "../tmp/appraisal./"'
       end
     end
   end

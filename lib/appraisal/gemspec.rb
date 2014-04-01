@@ -1,4 +1,4 @@
-require 'pathname'
+require 'appraisal/utils'
 
 module Appraisal
   class Gemspec
@@ -10,7 +10,7 @@ module Appraisal
     end
 
     def to_s
-      "gemspec #{exported_options.inspect.gsub(/^\{|\}$/, '')}"
+      "gemspec #{Utils.format_string(exported_options)}"
     end
 
     private

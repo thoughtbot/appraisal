@@ -1,4 +1,5 @@
 require 'appraisal/dependency_list'
+require 'appraisal/utils'
 
 module Appraisal
   class Group
@@ -16,7 +17,7 @@ module Appraisal
     end
 
     def to_s
-      "group #{@group_names.map(&:inspect).join(', ')} do\n" +
+      "group #{Utils.format_arguments(@group_names)} do\n" +
         @dependencies.to_s.strip.gsub(/^/, '  ') + "\nend"
     end
   end
