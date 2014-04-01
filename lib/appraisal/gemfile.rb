@@ -11,9 +11,9 @@ module Appraisal
       @ruby_version = nil
       @dependencies = []
       @gemspec = nil
-      @groups = []
-      @platforms = []
-      @git_sources = []
+      @groups = {}
+      @platforms = {}
+      @git_sources = {}
     end
 
     def load(path)
@@ -32,9 +32,8 @@ module Appraisal
     def group(*names, &block)
       require 'appraisal/group'
 
-      group = Group.new(names)
-      group.run(&block)
-      @groups << group
+      @groups[names] ||= Group.new(names)
+      @groups[names].run(&block)
     end
 
     alias_method :groups, :group
@@ -42,9 +41,8 @@ module Appraisal
     def platforms(*names, &block)
       require 'appraisal/platform'
 
-      platform = Platform.new(names)
-      platform.run(&block)
-      @platforms << platform
+      @platforms[names] ||= Platform.new(names)
+      @platforms[names].run(&block)
     end
 
     def source(source)
@@ -58,9 +56,8 @@ module Appraisal
     def git(source, options = {}, &block)
       require 'appraisal/git_source'
 
-      git_source = GitSource.new(source, options)
-      git_source.run(&block)
-      @git_sources << git_source
+      @git_sources[source] ||= GitSource.new(source, options)
+      @git_sources[source].run(&block)
     end
 
     def to_s
@@ -91,7 +88,7 @@ module Appraisal
     end
 
     def git_sources_entry
-      @git_sources.map(&:to_s).join("\n\n")
+      @git_sources.values.map(&:to_s).join("\n\n")
     end
 
     def dependencies_entry
@@ -99,11 +96,11 @@ module Appraisal
     end
 
     def groups_entry
-      @groups.map(&:to_s).join("\n\n")
+      @groups.values.map(&:to_s).join("\n\n")
     end
 
     def platforms_entry
-      @platforms.map(&:to_s).join("\n\n")
+      @platforms.values.map(&:to_s).join("\n\n")
     end
 
     def gemspec_entry

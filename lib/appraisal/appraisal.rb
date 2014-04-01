@@ -14,8 +14,28 @@ module Appraisal
       @gemfile = source_gemfile.dup
     end
 
-    def gem(name, *requirements)
-      gemfile.gem(name, *requirements)
+    def gem(*args)
+      gemfile.gem(*args)
+    end
+
+    def source(*args)
+      gemfile.source(*args)
+    end
+
+    def ruby(*args)
+      gemfile.ruby(*args)
+    end
+
+    def git(*args, &block)
+      gemfile.git(*args, &block)
+    end
+
+    def group(*args, &block)
+      gemfile.group(*args, &block)
+    end
+
+    def platforms(*args, &block)
+      gemfile.platforms(*args, &block)
     end
 
     def write_gemfile
