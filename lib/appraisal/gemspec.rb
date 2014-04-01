@@ -17,11 +17,12 @@ module Appraisal
 
     def exported_options
       # Check to see if this is an absolute path
-      if @options[:path] =~ /^(?:\/|\S:)/
+      if @options[:path] =~ /^(?:\/|\S:)/ || @options[:path] == '../'
         @options
       else
         # Remove leading ./ from path, if any
-        exported_path = ::File.join("..", @options[:path].sub(/^\.\/?/,''))
+        cleaned_path = @options[:path].gsub(/(^|\/)\.\/?/, '\1')
+        exported_path = ::File.join("..", cleaned_path)
         @options.merge(:path => exported_path)
       end
     end

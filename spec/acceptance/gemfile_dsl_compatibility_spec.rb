@@ -4,6 +4,7 @@ describe 'Gemfile DSL compatibility' do
   it 'supports all Bundler DSL in Gemfile' do
     build_gems %w(bacon waffle)
     build_git_gem 'egg'
+    build_gemspec
 
     build_gemfile <<-Gemfile
       source "https://rubygems.org"
@@ -22,6 +23,8 @@ describe 'Gemfile DSL compatibility' do
       end
 
       gem 'appraisal', path: #{PROJECT_ROOT.inspect}
+
+      gemspec
     Gemfile
 
     build_appraisal_file <<-Appraisals
@@ -60,6 +63,8 @@ describe 'Gemfile DSL compatibility' do
       platforms :ruby, :jruby do
         gem "waffle"
       end
+
+      gemspec :path=>"../"
     Gemfile
 
     expect(content_of 'gemfiles/english.gemfile').to eq <<-Gemfile.strip_heredoc
@@ -83,6 +88,8 @@ describe 'Gemfile DSL compatibility' do
       platforms :ruby, :jruby do
         gem "waffle"
       end
+
+      gemspec :path=>"../"
     Gemfile
   end
 end

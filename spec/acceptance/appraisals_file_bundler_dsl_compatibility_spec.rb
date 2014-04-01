@@ -44,6 +44,8 @@ describe 'Appraisals file Bundler DSL compatibility' do
         platforms :ruby, :jruby do
           gem 'yoghurt'
         end
+
+        gemspec
       end
     Appraisals
 
@@ -76,6 +78,8 @@ describe 'Appraisals file Bundler DSL compatibility' do
         gem "milk"
         gem "yoghurt"
       end
+
+      gemspec :path=>"../"
     Gemfile
   end
 end
