@@ -1,3 +1,5 @@
+require 'appraisal/dependency_list'
+
 module Appraisal
   class Platform
     def initialize(platform_names)

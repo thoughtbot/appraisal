@@ -1,3 +1,5 @@
+require 'appraisal/dependency_list'
+
 module Appraisal
   class Group
     def initialize(group_names)
