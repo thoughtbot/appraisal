@@ -30,6 +30,10 @@ module Appraisal
       gemfile.git(*args, &block)
     end
 
+    def path(*args, &block)
+      gemfile.path(*args, &block)
+    end
+
     def group(*args, &block)
       gemfile.group(*args, &block)
     end

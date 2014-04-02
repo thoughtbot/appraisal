@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'Appraisals file Bundler DSL compatibility' do
   it 'supports all Bundler DSL in Appraisals file' do
-    build_gems %w(bagel orange_juice milk)
+    build_gems %w(bagel orange_juice milk waffle)
     build_git_gem 'egg'
 
     build_gemfile <<-Gemfile
@@ -13,6 +13,10 @@ describe 'Appraisals file Bundler DSL compatibility' do
 
       git '../gems/egg' do
         gem 'egg'
+      end
+
+      path '../gems/waffle' do
+        gem 'waffle'
       end
 
       group :breakfast do
@@ -35,6 +39,10 @@ describe 'Appraisals file Bundler DSL compatibility' do
 
         git '../gems/egg' do
           gem 'porched_egg'
+        end
+
+        path '../gems/waffle' do
+          gem 'chocolate_waffle'
         end
 
         group :breakfast do
@@ -63,6 +71,11 @@ describe 'Appraisals file Bundler DSL compatibility' do
       git "../gems/egg" do
         gem "egg"
         gem "porched_egg"
+      end
+
+      path "../gems/waffle" do
+        gem "waffle"
+        gem "chocolate_waffle"
       end
 
       gem "bagel"

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'Gemfile DSL compatibility' do
   it 'supports all Bundler DSL in Gemfile' do
-    build_gems %w(bacon waffle)
+    build_gems %w(bacon orange_juice waffle)
     build_git_gem 'egg'
     build_gemspec
 
@@ -12,6 +12,10 @@ describe 'Gemfile DSL compatibility' do
 
       git "../gems/egg" do
         gem "egg"
+      end
+
+      path "../gems/orange_juice" do
+        gem "orange_juice"
       end
 
       group :breakfast do
@@ -52,6 +56,10 @@ describe 'Gemfile DSL compatibility' do
         gem "egg"
       end
 
+      path "../gems/orange_juice" do
+        gem "orange_juice"
+      end
+
       gem "appraisal", :path => #{PROJECT_ROOT.inspect}
       gem "rice"
       gem "miso_soup"
@@ -76,6 +84,10 @@ describe 'Gemfile DSL compatibility' do
 
       git "../gems/egg" do
         gem "egg"
+      end
+
+      path "../gems/orange_juice" do
+        gem "orange_juice"
       end
 
       gem "appraisal", :path => #{PROJECT_ROOT.inspect}

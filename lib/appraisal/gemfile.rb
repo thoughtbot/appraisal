@@ -1,6 +1,7 @@
 require 'appraisal/dependency_list'
 require 'appraisal/gemspec'
 require 'appraisal/git_source'
+require 'appraisal/path_source'
 require 'appraisal/group'
 require 'appraisal/platform'
 
@@ -17,6 +18,7 @@ module Appraisal
       @groups = {}
       @platforms = {}
       @git_sources = {}
+      @path_sources = {}
     end
 
     def load(path)
@@ -56,10 +58,16 @@ module Appraisal
       @git_sources[source].run(&block)
     end
 
+    def path(source, options = {}, &block)
+      @path_sources[source] ||= PathSource.new(source, options)
+      @path_sources[source].run(&block)
+    end
+
     def to_s
       [source_entry,
         ruby_version_entry,
         git_sources_entry,
+        path_sources_entry,
         dependencies_entry,
         groups_entry,
         platforms_entry,
@@ -90,6 +98,10 @@ module Appraisal
 
     def git_sources_entry
       @git_sources.values.map(&:to_s).join("\n\n")
+    end
+
+    def path_sources_entry
+      @path_sources.values.map(&:to_s).join("\n\n")
     end
 
     def dependencies_entry
