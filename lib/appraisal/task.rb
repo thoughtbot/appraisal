@@ -28,14 +28,17 @@ module Appraisal
           exec 'bundle exec appraisal clean'
         end
 
-        File.each do |appraisal|
-          desc "DEPRECATED: Run the given task for appraisal #{appraisal.name}"
-          task appraisal.name do
-            ARGV.shift
-            warn "`rake appraisal:#{appraisal.name}` task is deprecated and will be removed soon. " +
-              "Please use `appraisal #{appraisal.name} rake #{ARGV.join(' ')}`."
-            exec "bundle exec appraisal #{appraisal.name} rake #{ARGV.join(' ')}"
+        begin
+          File.each do |appraisal|
+            desc "DEPRECATED: Run the given task for appraisal #{appraisal.name}"
+            task appraisal.name do
+              ARGV.shift
+              warn "`rake appraisal:#{appraisal.name}` task is deprecated and will be removed soon. " +
+                "Please use `appraisal #{appraisal.name} rake #{ARGV.join(' ')}`."
+              exec "bundle exec appraisal #{appraisal.name} rake #{ARGV.join(' ')}"
+            end
           end
+        rescue AppraisalsNotFound
         end
 
         task :all do

@@ -4,4 +4,9 @@ require 'bundler/setup'
 require 'appraisal'
 require 'appraisal/cli'
 
-Appraisal::CLI.start
+begin
+  Appraisal::CLI.start
+rescue Appraisal::AppraisalsNotFound => e
+  puts e.message
+  exit 127
+end
