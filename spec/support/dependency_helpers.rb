@@ -26,7 +26,7 @@ module DependencyHelpers
         end
 
         `gem build #{gemspec} 2>&1`
-        `gem install -lN #{gem_name}-#{version}.gem 2>&1`
+        `gem install -lN #{gem_name}-#{version}.gem -v #{version} 2>&1`
       end
     end
   end
