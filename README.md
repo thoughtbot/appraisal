@@ -139,6 +139,8 @@ all versions of its dependency, you might have to set a `script` setting:
 That will make sure that each of the test sub-job are not getting run more than
 one time.
 
+To run on all rubies / gemfiles, see [WWTD](https://github.com/grosser/wwtd)
+
 Credits
 -------
 
