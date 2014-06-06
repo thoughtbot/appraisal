@@ -59,12 +59,12 @@ describe 'CLI', 'appraisal install' do
     it 'ignores --jobs option if the job size is less than or equal to 1' do
       output = run 'appraisal install --jobs=0'
 
-      expect(output).not_to include
-        'bundle install --gemfile=gemfiles/1.0.0.gemfile'
-      expect(output).not_to include
-        'bundle install --gemfile=gemfiles/1.0.0.gemfile --jobs=0'
-      expect(output).not_to include
-        'bundle install --gemfile=gemfiles/1.0.0.gemfile --jobs=1'
+      expect(output).not_to include(
+        'bundle install --gemfile=gemfiles/1.0.0.gemfile')
+      expect(output).not_to include(
+        'bundle install --gemfile=gemfiles/1.0.0.gemfile --jobs=0')
+      expect(output).not_to include(
+        'bundle install --gemfile=gemfiles/1.0.0.gemfile --jobs=1')
     end
   end
 end

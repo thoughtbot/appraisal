@@ -5,14 +5,14 @@ require 'active_support/core_ext/string/strip'
 describe Appraisal::Gemfile do
   it "supports gemfiles without sources" do
     gemfile = Appraisal::Gemfile.new
-    gemfile.to_s.strip.should == ""
+    expect(gemfile.to_s.strip).to eq ''
   end
 
   it "supports multiple sources" do
     gemfile = Appraisal::Gemfile.new
     gemfile.source "one"
     gemfile.source "two"
-    gemfile.to_s.strip.should == %{source "one"\nsource "two"}
+    expect(gemfile.to_s.strip).to eq %{source "one"\nsource "two"}
   end
 
   it "preserves dependency order" do
@@ -20,13 +20,13 @@ describe Appraisal::Gemfile do
     gemfile.gem "one"
     gemfile.gem "two"
     gemfile.gem "three"
-    gemfile.to_s.should =~ /one.*two.*three/m
+    expect(gemfile.to_s).to match(/one.*two.*three/m)
   end
 
   it "supports symbol sources" do
     gemfile = Appraisal::Gemfile.new
     gemfile.source :one
-    gemfile.to_s.strip.should == %{source :one}
+    expect(gemfile.to_s.strip).to eq %{source :one}
   end
 
   it 'supports group syntax' do
@@ -36,7 +36,7 @@ describe Appraisal::Gemfile do
       gem "one"
     end
 
-    gemfile.to_s.should == <<-GEMFILE.strip_heredoc.strip
+    expect(gemfile.to_s).to eq <<-GEMFILE.strip_heredoc.strip
       group :development, :test do
         gem "one"
       end
@@ -50,7 +50,7 @@ describe Appraisal::Gemfile do
       gem "one"
     end
 
-    gemfile.to_s.should == <<-GEMFILE.strip_heredoc.strip
+    expect(gemfile.to_s).to eq <<-GEMFILE.strip_heredoc.strip
       platforms :jruby do
         gem "one"
       end
@@ -61,7 +61,7 @@ describe Appraisal::Gemfile do
     context "no contents" do
       it "shows empty string" do
         gemfile = Appraisal::Gemfile.new
-        gemfile.to_s.should eq ""
+        expect(gemfile.to_s).to eq ''
       end
     end
 
@@ -71,7 +71,7 @@ describe Appraisal::Gemfile do
         gemfile.source "source"
         gemfile.gem "gem"
         gemfile.gemspec
-        gemfile.to_s.should =~ /[^\n]\z/m
+        expect(gemfile.to_s).to match(/[^\n]\z/m)
       end
     end
 
@@ -80,7 +80,7 @@ describe Appraisal::Gemfile do
         gemfile = Appraisal::Gemfile.new
         gemfile.source "source"
         gemfile.gem "gem"
-        gemfile.to_s.should =~ /[^\n]\z/m
+        expect(gemfile.to_s).to match(/[^\n]\z/m)
       end
     end
   end
