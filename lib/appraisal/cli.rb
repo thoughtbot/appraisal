@@ -69,6 +69,11 @@ module Appraisal
       end
     end
 
+    desc 'list', 'List the names of the defined appraisals'
+    def list
+      File.new.appraisals.each { |appraisal| puts appraisal.name }
+    end
+
     private
 
     def method_missing(name, *args, &block)
