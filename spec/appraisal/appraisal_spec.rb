@@ -19,22 +19,14 @@ describe Appraisal::Appraisal do
     expect(appraisal.gemfile_path).to match(/rails3\.0\.gemfile$/)
   end
 
-  context 'gemfiles generation' do
-    before do
-      @output = Tempfile.new('output')
-    end
+  it "generates a gemfile with a newline at the end of file" do
+    output_file = Tempfile.new("gemfile")
+    appraisal = Appraisal::Appraisal.new("fake", "fake")
+    allow(appraisal).to receive(:gemfile_path).and_return(output_file.path)
 
-    after do
-      @output.close
-      @output.unlink
-    end
+    appraisal.write_gemfile
 
-    it 'generates a gemfile with a newline at the end of file' do
-      appraisal = Appraisal::Appraisal.new('fake', 'fake')
-      allow(appraisal).to receive(:gemfile_path).and_return(@output.path)
-      appraisal.write_gemfile
-      expect(@output.read).to match(/[^\n]*\n\z/m)
-    end
+    expect(output_file.read).to match(/[^\n]*\n\z/m)
   end
 
   context 'parallel installation' do
