@@ -3,7 +3,8 @@ require 'appraisal/utils'
 module Appraisal
   # Dependency on a gem and optional version requirements
   class Dependency
-    attr_reader :name, :requirements
+    attr_accessor :requirements
+    attr_reader :name
 
     def initialize(name, requirements)
       @name = name
