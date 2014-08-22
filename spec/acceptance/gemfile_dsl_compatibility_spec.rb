@@ -104,4 +104,36 @@ describe 'Gemfile DSL compatibility' do
       gemspec :path => "../"
     Gemfile
   end
+
+  it "merges gem requirements" do
+    build_gem "bacon", "1.0.0"
+    build_gem "bacon", "1.1.0"
+    build_gem "bacon", "1.2.0"
+
+    build_gemfile <<-Gemfile
+      gem "appraisal", path: #{PROJECT_ROOT.inspect}
+      gem "bacon", "1.2.0"
+    Gemfile
+
+    build_appraisal_file <<-Appraisals
+      appraise "1.0.0" do
+        gem "bacon", "1.0.0"
+      end
+
+      appraise "1.1.0" do
+        gem "bacon", "1.1.0"
+      end
+
+      appraise "1.2.0" do
+        gem "bacon", "1.2.0"
+      end
+    Appraisals
+
+    run 'bundle install --local'
+    run 'appraisal generate'
+
+    expect(content_of "gemfiles/1.0.0.gemfile").to include('gem "bacon", "1.0.0"')
+    expect(content_of "gemfiles/1.1.0.gemfile").to include('gem "bacon", "1.1.0"')
+    expect(content_of "gemfiles/1.2.0.gemfile").to include('gem "bacon", "1.2.0"')
+  end
 end
