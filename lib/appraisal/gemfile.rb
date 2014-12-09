@@ -25,8 +25,12 @@ module Appraisal
       run(IO.read(path))
     end
 
-    def run(definitions)
-      instance_eval(definitions, __FILE__, __LINE__) if definitions
+    def run(source = nil, &block)
+      if block_given?
+        instance_eval(&block)
+      else
+        instance_eval(source, __FILE__, __LINE__) if source
+      end
     end
 
     def gem(name, *requirements)
