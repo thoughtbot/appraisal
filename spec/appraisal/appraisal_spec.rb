@@ -1,7 +1,6 @@
 require 'spec_helper'
 require 'appraisal/appraisal'
 require 'tempfile'
-require 'active_support/core_ext/kernel/reporting'
 
 describe Appraisal::Appraisal do
   it "converts spaces to underscores in the gemfile path" do
@@ -30,6 +29,8 @@ describe Appraisal::Appraisal do
   end
 
   context 'parallel installation' do
+    include StreamHelpers
+
     before do
       @appraisal = Appraisal::Appraisal.new('fake', 'fake')
       allow(@appraisal).to receive(:gemfile_path).and_return("/home/test/test directory")
