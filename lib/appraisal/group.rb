@@ -4,21 +4,17 @@ require 'appraisal/utils'
 module Appraisal
   class Group
     def initialize(group_names)
-      @dependencies = DependencyList.new
+      @nested = Gemfile.new
       @group_names = group_names
     end
 
     def run(&block)
-      instance_exec(&block)
-    end
-
-    def gem(name, *requirements)
-      @dependencies.add(name, requirements)
+      @nested.run(&block)
     end
 
     def to_s
       "group #{Utils.format_arguments(@group_names)} do\n" +
-        @dependencies.to_s.strip.gsub(/^/, '  ') + "\nend"
+        @nested.to_s.strip.gsub(/^/, '  ') + "\nend"
     end
   end
 end
