@@ -6,6 +6,7 @@ module Appraisal
     def initialize(group_names)
       @dependencies = DependencyList.new
       @group_names = group_names
+      @gemspec = nil
     end
 
     def run(&block)
@@ -16,9 +17,26 @@ module Appraisal
       @dependencies.add(name, requirements)
     end
 
+    def gemspec(options = {})
+      @gemspec = Gemspec.new(options)
+    end
+
     def to_s
-      "group #{Utils.format_arguments(@group_names)} do\n" +
-        @dependencies.to_s.strip.gsub(/^/, '  ') + "\nend"
+      <<-OUTPUT.strip
+group #{Utils.format_arguments(@group_names)} do
+  #{dependencies_list}
+end
+      OUTPUT
+    end
+
+    private
+
+    def dependencies_list
+      [@dependencies.to_s, @gemspec.to_s].
+        reject(&:empty?).
+        join("\n\n").
+        gsub(/^/, "  ").
+        strip
     end
   end
 end
