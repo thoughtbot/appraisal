@@ -4,6 +4,7 @@ require 'fileutils'
 module Appraisal
   class CLI < Thor
     default_task :install
+    map ["-v", "--version"] => "version"
 
     # Override help command to print out usage
     def self.help(shell, subcommand = false)
@@ -72,6 +73,11 @@ module Appraisal
     desc 'list', 'List the names of the defined appraisals'
     def list
       File.new.appraisals.each { |appraisal| puts appraisal.name }
+    end
+
+    desc "version", "Display the version and exit"
+    def version
+      puts "Appraisal #{VERSION}"
     end
 
     private
