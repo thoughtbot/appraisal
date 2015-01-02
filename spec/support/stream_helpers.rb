@@ -1,3 +1,5 @@
+require "tempfile"
+
 module StreamHelpers
   def capture(stream)
     stream = stream.to_s
