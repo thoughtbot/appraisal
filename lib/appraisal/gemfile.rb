@@ -38,12 +38,22 @@ module Appraisal
       @groups[names].run(&block)
     end
 
-    alias_method :groups, :group
+    # :nodoc:
+    def groups(*names, &block)
+      $stderr.puts <<-WARNING.gsub(/\n\s+/, " ").strip
+        Warning: `#groups` is deprecated and will be removed in 2.0.0.
+        Please use `#group` instead.
+      WARNING
+
+      group(*names, &block)
+    end
 
     def platforms(*names, &block)
       @platforms[names] ||= Platform.new(names)
       @platforms[names].run(&block)
     end
+
+    alias_method :platform, :platforms
 
     def source(source)
       @sources << source
