@@ -25,5 +25,9 @@ module Appraisal
     def self.format_arguments(arguments)
       arguments.map { |object| format_string(object, false) }.join(', ')
     end
+
+    def self.join_parts(parts)
+      parts.reject(&:nil?).reject(&:empty?).join("\n\n").strip
+    end
   end
 end
