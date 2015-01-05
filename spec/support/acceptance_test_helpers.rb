@@ -149,6 +149,10 @@ module AcceptanceTestHelpers
       `#{command}`.tap do |output|
         exitstatus = $?.exitstatus
 
+        if ENV["VERBOSE"]
+          puts output
+        end
+
         if raise_on_error && exitstatus != 0
           raise RuntimeError, <<-error_message.strip_heredoc
             Command #{command.inspect} exited with status #{exitstatus}. Output:
