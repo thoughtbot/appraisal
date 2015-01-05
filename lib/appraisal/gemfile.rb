@@ -10,6 +10,9 @@ module Appraisal
   class Gemfile
     attr_reader :dependencies
 
+    PARTS = %w(source ruby_version git_sources path_sources dependencies groups
+      platforms gemspec)
+
     def initialize
       @sources = []
       @ruby_version = nil
@@ -74,27 +77,24 @@ module Appraisal
     end
 
     def to_s
-      [source_entry,
-        ruby_version_entry,
-        git_sources_entry,
-        path_sources_entry,
-        dependencies_entry,
-        groups_entry,
-        platforms_entry,
-        gemspec_entry].reject{ |s| s.nil? || s.empty? }.join("\n\n").strip
+      Utils.join_parts PARTS.map { |part| send("#{part}_entry") }
     end
 
     def dup
-      gemfile = Gemfile.new
-      gemfile.run(to_s)
-      gemfile
+      Gemfile.new.tap do |gemfile|
+        gemfile.run(to_raw_s)
+      end
     end
 
     def gemspec(options = {})
       @gemspec = Gemspec.new(options)
     end
 
-    protected
+    def to_raw_s
+      Utils.join_parts PARTS.map { |part| send("raw_#{part}_entry") }
+    end
+
+    private
 
     def source_entry
       @sources.map { |source| "source #{source.inspect}" }.join("\n")
@@ -118,16 +118,30 @@ module Appraisal
       @dependencies.to_s
     end
 
-    def groups_entry
-      @groups.values.map(&:to_s).join("\n\n")
-    end
-
     def platforms_entry
       @platforms.values.map(&:to_s).join("\n\n")
     end
 
+    (PARTS - ["groups", "gemspec"]).each do |method_name|
+      alias_method "raw_#{method_name}_entry", "#{method_name}_entry"
+    end
+
+    def groups_entry
+      @groups.values.map(&:to_s).join("\n\n")
+    end
+
+    def raw_groups_entry
+      @groups.values.map(&:to_raw_s).join("\n\n")
+    end
+
     def gemspec_entry
       @gemspec.to_s
+    end
+
+    def raw_gemspec_entry
+      if @gemspec
+        @gemspec.to_raw_s
+      end
     end
   end
 end

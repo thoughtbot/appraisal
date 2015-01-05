@@ -24,7 +24,16 @@ module Appraisal
     def to_s
       <<-OUTPUT.strip
 group #{Utils.format_arguments(@group_names)} do
-  #{dependencies_list}
+#{dependencies_list}
+end
+      OUTPUT
+    end
+
+    # :nodoc:
+    def to_raw_s
+      <<-OUTPUT.strip
+group #{Utils.format_arguments(@group_names)} do
+#{raw_dependencies_list}
 end
       OUTPUT
     end
@@ -32,11 +41,25 @@ end
     private
 
     def dependencies_list
-      [@dependencies.to_s, @gemspec.to_s].
-        reject(&:empty?).
-        join("\n\n").
-        gsub(/^/, "  ").
-        strip
+      Utils.join_parts([dependencies_entry, gemspec_entry]).gsub(/^/, "  ")
+    end
+
+    def raw_dependencies_list
+      Utils.join_parts([dependencies_entry, raw_gemspec_entry]).gsub(/^/, "  ")
+    end
+
+    def dependencies_entry
+      @dependencies.to_s
+    end
+
+    def gemspec_entry
+      @gemspec.to_s
+    end
+
+    def raw_gemspec_entry
+      if @gemspec
+        @gemspec.to_raw_s
+      end
     end
   end
 end
