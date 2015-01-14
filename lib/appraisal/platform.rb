@@ -1,28 +1,30 @@
-require 'appraisal/dependency_list'
+require "appraisal/bundler_dsl"
 require 'appraisal/utils'
 
 module Appraisal
-  class Platform
+  class Platform < BundlerDSL
     def initialize(platform_names)
-      @dependencies = DependencyList.new
+      super()
       @platform_names = platform_names
     end
 
-    def gem(name, *requirements)
-      @dependencies.add(name, requirements)
-    end
-
-    def run(&block)
-      instance_exec(&block)
-    end
-
     def to_s
-      "platforms #{Utils.format_arguments(@platform_names)} do\n" +
-        @dependencies.to_s.strip.gsub(/^/, '  ') +
-        "\nend"
+      formatted_output indent(super)
     end
 
     # :nodoc:
-    alias_method :for_dup, :to_s
+    def for_dup
+      formatted_output indent(super)
+    end
+
+    private
+
+    def formatted_output(output_dependencies)
+      <<-OUTPUT.strip
+platforms #{Utils.format_arguments(@platform_names)} do
+#{output_dependencies}
+end
+      OUTPUT
+    end
   end
 end

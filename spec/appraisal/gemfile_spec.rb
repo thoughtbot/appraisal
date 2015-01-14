@@ -52,6 +52,38 @@ describe Appraisal::Gemfile do
     GEMFILE
   end
 
+  it "supports nested DSL within group syntax" do
+    gemfile = Appraisal::Gemfile.new
+
+    gemfile.group :development, :test do
+      platforms :jruby do
+        gem "one"
+      end
+      git "git://example.com/repo.git" do
+        gem "two"
+      end
+      path ".." do
+        gem "three"
+      end
+    end
+
+    expect(gemfile.to_s).to eq <<-GEMFILE.strip_heredoc.strip
+      group :development, :test do
+        git "git://example.com/repo.git" do
+          gem "two"
+        end
+
+        path "../.." do
+          gem "three"
+        end
+
+        platforms :jruby do
+          gem "one"
+        end
+      end
+    GEMFILE
+  end
+
   it 'supports platform syntax' do
     gemfile = Appraisal::Gemfile.new
 
@@ -66,16 +98,126 @@ describe Appraisal::Gemfile do
     GEMFILE
   end
 
-  it 'supports platforms syntax' do
+  it "supports nested DSL within platform syntax" do
     gemfile = Appraisal::Gemfile.new
 
-    gemfile.platforms :jruby do
-      gem "one"
+    gemfile.platform :jruby do
+      group :development, :test do
+        gem "one"
+      end
+      git "git://example.com/repo.git" do
+        gem "two"
+      end
+      path ".." do
+        gem "three"
+      end
     end
 
     expect(gemfile.to_s).to eq <<-GEMFILE.strip_heredoc.strip
       platforms :jruby do
+        git "git://example.com/repo.git" do
+          gem "two"
+        end
+
+        path "../.." do
+          gem "three"
+        end
+
+        group :development, :test do
+          gem "one"
+        end
+      end
+    GEMFILE
+  end
+
+  it "supports git syntax" do
+    gemfile = Appraisal::Gemfile.new
+
+    gemfile.git "git://example.com/repo.git" do
+      gem "one"
+    end
+
+    expect(gemfile.to_s).to eq <<-GEMFILE.strip_heredoc.strip
+      git "git://example.com/repo.git" do
         gem "one"
+      end
+    GEMFILE
+  end
+
+  it "supports nested DSL within git syntax" do
+    gemfile = Appraisal::Gemfile.new
+
+    gemfile.git "git://example.com/repo.git" do
+      group :development, :test do
+        gem "one"
+      end
+      platforms :jruby do
+        gem "two"
+      end
+      path ".." do
+        gem "three"
+      end
+    end
+
+    expect(gemfile.to_s).to eq <<-GEMFILE.strip_heredoc.strip
+      git "git://example.com/repo.git" do
+        path "../.." do
+          gem "three"
+        end
+
+        group :development, :test do
+          gem "one"
+        end
+
+        platforms :jruby do
+          gem "two"
+        end
+      end
+    GEMFILE
+  end
+
+  it "supports path syntax" do
+    gemfile = Appraisal::Gemfile.new
+
+    gemfile.path "../path" do
+      gem "one"
+    end
+
+    expect(gemfile.to_s).to eq <<-GEMFILE.strip_heredoc.strip
+      path "../../path" do
+        gem "one"
+      end
+    GEMFILE
+  end
+
+  it "supports nested DSL within path syntax" do
+    gemfile = Appraisal::Gemfile.new
+
+    gemfile.path "../path" do
+      group :development, :test do
+        gem "one"
+      end
+      platforms :jruby do
+        gem "two"
+      end
+      git "git://example.com/repo.git" do
+        gem "three"
+      end
+    end
+
+    expect(gemfile.to_s).to eq <<-GEMFILE.strip_heredoc.strip
+      path "../../path" do
+        git "git://example.com/repo.git" do
+          gem "three"
+        end
+
+        group :development, :test do
+          gem "one"
+        end
+
+        platforms :jruby do
+          gem "two"
+        end
       end
     GEMFILE
   end
