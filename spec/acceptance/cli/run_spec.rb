@@ -47,12 +47,10 @@ describe 'CLI appraisal (with arguments)' do
   end
 
   context 'when one of the arguments contains spaces' do
-    it 'preserves those spaces without raising an error' do
-      assertion = -> {
-        run 'appraisal 1.0.0 ruby -rbundler/setup -rdummy "test with spaces.rb"'
-      }
-
-      expect(&assertion).not_to raise_error
+    it 'preserves those spaces' do
+      command = 'appraisal 1.0.0 ruby -rbundler/setup -rdummy "test with spaces.rb"'
+      output = run(command)
+      expect(output).to include 'Running: 1.0.0'
     end
   end
 end
