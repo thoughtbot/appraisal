@@ -14,6 +14,7 @@ describe 'CLI appraisal (with arguments)' do
 
     run 'appraisal install'
     write_file 'test.rb', 'puts "Running: #{$dummy_version}"'
+    write_file 'test with spaces.rb', 'puts "Running: #{$dummy_version}"'
   end
 
   it 'sets APPRAISAL_INITIALIZED environment variable' do
@@ -42,6 +43,16 @@ describe 'CLI appraisal (with arguments)' do
 
       expect(output).to include 'Running: 1.0.0'
       expect(output).to include 'Running: 1.1.0'
+    end
+  end
+
+  context 'when one of the arguments contains spaces' do
+    it 'preserves those spaces without raising an error' do
+      assertion = -> {
+        run 'appraisal 1.0.0 ruby -rbundler/setup -rdummy "test with spaces.rb"'
+      }
+
+      expect(&assertion).not_to raise_error
     end
   end
 end
