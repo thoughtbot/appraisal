@@ -23,11 +23,22 @@ module Appraisal
     end
 
     def self.format_arguments(arguments)
-      arguments.map { |object| format_string(object, false) }.join(', ')
+      unless arguments.empty?
+        arguments.map { |object| format_string(object, false) }.join(', ')
+      end
     end
 
     def self.join_parts(parts)
       parts.reject(&:nil?).reject(&:empty?).join("\n\n").strip
+    end
+
+    def self.prefix_path(path)
+      if path !~ /^(?:\/|\S:)/ && path !~ /^\S+:\/\// && path !~ /^\S+@\S+:/
+        cleaned_path = path.gsub(/(^|\/)\.(?:\/|$)/, "\\1")
+        ::File.join("..", cleaned_path)
+      else
+        path
+      end
     end
   end
 end

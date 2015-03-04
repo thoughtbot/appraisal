@@ -22,30 +22,36 @@ module Appraisal
     end
 
     def to_s
-      <<-OUTPUT.strip
-group #{Utils.format_arguments(@group_names)} do
-#{dependencies_list}
-end
-      OUTPUT
+      formatted_output dependencies_list
     end
 
     # :nodoc:
-    def to_raw_s
-      <<-OUTPUT.strip
-group #{Utils.format_arguments(@group_names)} do
-#{raw_dependencies_list}
-end
-      OUTPUT
+    def for_dup
+      formatted_output dependencies_list_for_dup
     end
 
     private
 
     def dependencies_list
-      Utils.join_parts([dependencies_entry, gemspec_entry]).gsub(/^/, "  ")
+      Utils.join_parts([
+        dependencies_entry,
+        gemspec_entry
+      ]).gsub(/^/, "  ")
     end
 
-    def raw_dependencies_list
-      Utils.join_parts([dependencies_entry, raw_gemspec_entry]).gsub(/^/, "  ")
+    def dependencies_list_for_dup
+      Utils.join_parts([
+        dependencies_entry,
+        gemspec_entry_for_dup
+      ]).gsub(/^/, "  ")
+    end
+
+    def formatted_output(output_dependencies)
+      <<-OUTPUT.strip
+group #{Utils.format_arguments(@group_names)} do
+#{output_dependencies}
+end
+      OUTPUT
     end
 
     def dependencies_entry
@@ -56,9 +62,9 @@ end
       @gemspec.to_s
     end
 
-    def raw_gemspec_entry
+    def gemspec_entry_for_dup
       if @gemspec
-        @gemspec.to_raw_s
+        @gemspec.for_dup
       end
     end
   end

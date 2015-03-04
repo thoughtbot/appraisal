@@ -13,5 +13,10 @@ module Appraisal
     def to_s
       @dependencies.values.map(&:to_s).join("\n")
     end
+
+    # :nodoc:
+    def for_dup
+      @dependencies.values.map(&:for_dup).join("\n")
+    end
   end
 end

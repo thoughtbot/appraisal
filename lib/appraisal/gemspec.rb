@@ -13,22 +13,17 @@ module Appraisal
       "gemspec #{Utils.format_string(exported_options)}"
     end
 
-    def to_raw_s
+    # :nodoc:
+    def for_dup
       "gemspec #{Utils.format_string(@options)}"
     end
 
     private
 
     def exported_options
-      # Check to see if this is an absolute path
-      if @options[:path] =~ /^(?:\/|\S:)/
-        @options
-      else
-        # Remove leading ./ from path, if any
-        cleaned_path = @options[:path].gsub(/(^|\/)\.(?:\/|$)/, "\\1")
-        exported_path = ::File.join("..", cleaned_path)
-        @options.merge(:path => exported_path)
-      end
+      @options.merge(
+        path: Utils.prefix_path(@options[:path])
+      )
     end
   end
 end

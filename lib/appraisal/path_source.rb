@@ -21,6 +21,18 @@ module Appraisal
       dependencies = @dependencies.to_s.strip.gsub(/^/, '  ')
 
       if @options.empty?
+        "path #{Utils.prefix_path(@source).inspect} do\n#{dependencies}\nend"
+      else
+        "path #{Utils.prefix_path(@source).inspect}, #{Utils.format_string(@options)} do\n" +
+          "#{dependencies}\nend"
+      end
+    end
+
+    # :nodoc:
+    def for_dup
+      dependencies = @dependencies.for_dup.strip.gsub(/^/, '  ')
+
+      if @options.empty?
         "path #{@source.inspect} do\n#{dependencies}\nend"
       else
         "path #{@source.inspect}, #{Utils.format_string(@options)} do\n" +

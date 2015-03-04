@@ -21,5 +21,8 @@ module Appraisal
         @dependencies.to_s.strip.gsub(/^/, '  ') +
         "\nend"
     end
+
+    # :nodoc:
+    alias_method :for_dup, :to_s
   end
 end

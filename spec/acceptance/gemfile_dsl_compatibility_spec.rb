@@ -52,11 +52,11 @@ describe 'Gemfile DSL compatibility' do
 
       ruby "#{RUBY_VERSION}"
 
-      git "../gems/egg" do
+      git "../../gems/egg" do
         gem "egg"
       end
 
-      path "../gems/orange_juice" do
+      path "../../gems/orange_juice" do
         gem "orange_juice"
       end
 
@@ -82,11 +82,11 @@ describe 'Gemfile DSL compatibility' do
 
       ruby "#{RUBY_VERSION}"
 
-      git "../gems/egg" do
+      git "../../gems/egg" do
         gem "egg"
       end
 
-      path "../gems/orange_juice" do
+      path "../../gems/orange_juice" do
         gem "orange_juice"
       end
 

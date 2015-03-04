@@ -68,12 +68,12 @@ describe 'Appraisals file Bundler DSL compatibility' do
 
       ruby "1.8.7"
 
-      git "../gems/egg" do
+      git "../../gems/egg" do
         gem "egg"
         gem "porched_egg"
       end
 
-      path "../gems/waffle" do
+      path "../../gems/waffle" do
         gem "waffle"
         gem "chocolate_waffle"
       end
