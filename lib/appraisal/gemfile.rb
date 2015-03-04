@@ -82,16 +82,14 @@ module Appraisal
 
     def dup
       Gemfile.new.tap do |gemfile|
-        gemfile.run(to_raw_s)
+        gemfile.run(
+          Utils.join_parts PARTS.map { |part| send("#{part}_entry_for_dup") }
+        )
       end
     end
 
     def gemspec(options = {})
       @gemspec = Gemspec.new(options)
-    end
-
-    def to_raw_s
-      Utils.join_parts PARTS.map { |part| send("raw_#{part}_entry") }
     end
 
     private
@@ -100,48 +98,46 @@ module Appraisal
       @sources.map { |source| "source #{source.inspect}" }.join("\n")
     end
 
+    alias_method :source_entry_for_dup, :source_entry
+
     def ruby_version_entry
       if @ruby_version
         "ruby #{@ruby_version.inspect}"
       end
     end
 
-    def git_sources_entry
-      @git_sources.values.map(&:to_s).join("\n\n")
+    alias_method :ruby_version_entry_for_dup, :ruby_version_entry
+
+    [:dependencies, :gemspec].each do |method_name|
+      class_eval <<-METHODS, __FILE__, __LINE__
+        private
+
+        def #{method_name}_entry
+          if @#{method_name}
+            @#{method_name}.to_s
+          end
+        end
+
+        def #{method_name}_entry_for_dup
+          if @#{method_name}
+            @#{method_name}.for_dup
+          end
+        end
+      METHODS
     end
 
-    def path_sources_entry
-      @path_sources.values.map(&:to_s).join("\n\n")
-    end
+    [:git_sources, :path_sources, :platforms, :groups].each do |method_name|
+      class_eval <<-METHODS, __FILE__, __LINE__
+        private
 
-    def dependencies_entry
-      @dependencies.to_s
-    end
+        def #{method_name}_entry
+          @#{method_name}.values.map(&:to_s).join("\n\n")
+        end
 
-    def platforms_entry
-      @platforms.values.map(&:to_s).join("\n\n")
-    end
-
-    (PARTS - ["groups", "gemspec"]).each do |method_name|
-      alias_method "raw_#{method_name}_entry", "#{method_name}_entry"
-    end
-
-    def groups_entry
-      @groups.values.map(&:to_s).join("\n\n")
-    end
-
-    def raw_groups_entry
-      @groups.values.map(&:to_raw_s).join("\n\n")
-    end
-
-    def gemspec_entry
-      @gemspec.to_s
-    end
-
-    def raw_gemspec_entry
-      if @gemspec
-        @gemspec.to_raw_s
-      end
+        def #{method_name}_entry_for_dup
+          @#{method_name}.values.map(&:for_dup).join("\n\n")
+        end
+      METHODS
     end
   end
 end

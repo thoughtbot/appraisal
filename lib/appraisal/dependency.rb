@@ -12,14 +12,35 @@ module Appraisal
     end
 
     def to_s
-      if no_requirements?
-        gem_name
-      else
-        "#{gem_name}, #{Utils.format_arguments(requirements)}"
-      end
+      formatted_output Utils.format_arguments(path_prefixed_requirements)
+    end
+
+    # :nodoc:
+    def for_dup
+      formatted_output Utils.format_arguments(requirements)
     end
 
     private
+
+    def path_prefixed_requirements
+      requirements.map do |requirement|
+        if requirement.is_a?(Hash)
+          if requirement[:path]
+            requirement[:path] = Utils.prefix_path(requirement[:path])
+          end
+
+          if requirement[:git]
+            requirement[:git] = Utils.prefix_path(requirement[:git])
+          end
+        end
+
+        requirement
+      end
+    end
+
+    def formatted_output(output_requirements)
+      [gem_name, output_requirements].compact.join(", ")
+    end
 
     def gem_name
       %{gem "#{name}"}
