@@ -15,7 +15,9 @@ module Appraisal
     end
 
     def run
+      with_clean_env { ensure_bundler_is_available }
       announce
+
       with_clean_env do
         unless Kernel.system(env, command_as_string)
           exit(1)
@@ -32,6 +34,21 @@ module Appraisal
       yield
     ensure
       restore_env
+    end
+
+    def ensure_bundler_is_available
+      unless system %(gem list -q "^bundler$" | grep -q bundler)
+        puts ">> Reinstall Bundler into #{ENV["GEM_HOME"]}"
+
+        unless system "gem install bundler"
+          puts
+          puts <<-ERROR.strip.gsub(/\s+/, " ")
+            Bundler installation failed. Please try running
+            `GEM_HOME="#{ENV["GEM_HOME"]}" gem install bundler` manually.
+          ERROR
+          exit(1)
+        end
+      end
     end
 
     def announce
