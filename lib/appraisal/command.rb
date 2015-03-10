@@ -23,11 +23,6 @@ module Appraisal
       end
     end
 
-    def exec
-      announce
-      with_clean_env { Kernel.exec(env, command_as_string) }
-    end
-
     private
 
     def with_clean_env
