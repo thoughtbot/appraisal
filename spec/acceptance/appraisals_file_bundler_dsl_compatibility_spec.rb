@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'Appraisals file Bundler DSL compatibility' do
   it 'supports all Bundler DSL in Appraisals file' do
-    build_gems %w(bagel orange_juice milk waffle)
+    build_gems %w(bagel orange_juice milk waffle coffee ham)
     build_git_gem 'egg'
 
     build_gemfile <<-Gemfile
@@ -25,6 +25,10 @@ describe 'Appraisals file Bundler DSL compatibility' do
 
       platforms :ruby, :jruby do
         gem 'milk'
+
+        group :lunch do
+          gem 'coffee'
+        end
       end
 
       gem 'appraisal', path: #{PROJECT_ROOT.inspect}
@@ -47,6 +51,10 @@ describe 'Appraisals file Bundler DSL compatibility' do
 
         group :breakfast do
           gem 'bacon'
+
+          platforms :rbx do
+            gem 'ham'
+          end
         end
 
         platforms :ruby, :jruby do
@@ -85,11 +93,19 @@ describe 'Appraisals file Bundler DSL compatibility' do
       group :breakfast do
         gem "orange_juice"
         gem "bacon"
+
+        platforms :rbx do
+          gem "ham"
+        end
       end
 
       platforms :ruby, :jruby do
         gem "milk"
         gem "yoghurt"
+
+        group :lunch do
+          gem "coffee"
+        end
       end
 
       gemspec :path => "../"
