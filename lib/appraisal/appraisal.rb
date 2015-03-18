@@ -65,7 +65,7 @@ module Appraisal
 
     def update(gems = [])
       command, env = update_command(gems)
-      Command.new(command, env: env).run
+      Command.new(command, :env => env).run
     end
 
     def gemfile_path

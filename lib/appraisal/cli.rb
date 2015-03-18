@@ -86,10 +86,10 @@ module Appraisal
       matching_appraisal = File.new.appraisals.detect { |appraisal| appraisal.name == name.to_s }
 
       if matching_appraisal
-        Command.new(args, gemfile: matching_appraisal.gemfile_path).run
+        Command.new(args, :gemfile => matching_appraisal.gemfile_path).run
       else
         File.each do |appraisal|
-          Command.new(ARGV, gemfile: appraisal.gemfile_path).run
+          Command.new(ARGV, :gemfile => appraisal.gemfile_path).run
         end
       end
     end
