@@ -14,4 +14,8 @@ RSpec.configure do |config|
   end
 
   config.include AcceptanceTestHelpers, :type => :acceptance
+
+  config.before :suite do
+    FileUtils.rm_rf TMP_GEM_ROOT
+  end
 end

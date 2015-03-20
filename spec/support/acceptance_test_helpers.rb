@@ -1,5 +1,6 @@
 require 'rspec/expectations/expectation_target'
 require 'active_support/core_ext/string/strip'
+require 'active_support/core_ext/string/filters'
 require 'active_support/concern'
 require 'appraisal/utils'
 require_relative 'dependency_helpers'
@@ -14,14 +15,6 @@ module AcceptanceTestHelpers
   included do
     metadata[:type] = :acceptance
 
-    before :all do
-      build_default_dummy_gems
-    end
-
-    after :all do
-      cleanup_gem_home
-    end
-
     before parallel: true do
       unless Appraisal::Utils.support_parallel_installation?
         pending 'This Bundler version does not support --jobs flag.'
@@ -32,6 +25,8 @@ module AcceptanceTestHelpers
       cleanup_artifacts
       save_environment_variables
       unset_bundler_environment_variables
+      build_default_dummy_gems
+      ensure_bundler_is_available
       add_binstub_path
       build_default_gemfile
     end
@@ -115,16 +110,24 @@ module AcceptanceTestHelpers
     FileUtils.rm_rf current_directory
   end
 
-  def cleanup_gem_home
-    FileUtils.rm_rf TMP_GEM_ROOT
-  end
-
   def build_default_dummy_gems
-    FileUtils.rm_rf(TMP_GEM_ROOT)
     FileUtils.mkdir_p(TMP_GEM_ROOT)
 
     build_gem 'dummy', '1.0.0'
     build_gem 'dummy', '1.1.0'
+  end
+
+  def ensure_bundler_is_available
+    run "bundle -v 2>&1", false
+
+    if $?.exitstatus != 0
+      puts <<-WARNING.squish.strip_heredoc
+        Reinstall Bundler to #{TMP_GEM_ROOT} as `BUNDLE_DISABLE_SHARED_GEMS`
+        is enabled.
+      WARNING
+
+      run "gem install bundler --install-dir '#{TMP_GEM_ROOT}'"
+    end
   end
 
   def build_default_gemfile

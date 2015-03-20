@@ -45,5 +45,12 @@ module DependencyHelpers
       `git add .`
       `git commit -a -m "initial commit"`
     end
+
+    # Cleanup Bundler cache path manually for now
+    git_cache_path = File.join(ENV["GEM_HOME"], "cache", "bundler", "git")
+
+    Dir[File.join(git_cache_path, "#{gem_name}-*")].each do |path|
+      FileUtils.rm_r(path)
+    end
   end
 end
