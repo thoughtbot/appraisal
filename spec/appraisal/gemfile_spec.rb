@@ -52,24 +52,6 @@ describe Appraisal::Gemfile do
     GEMFILE
   end
 
-  it 'supports groups syntax, but with deprecation warning' do
-    gemfile = Appraisal::Gemfile.new
-
-    warning = capture(:stderr) do
-      gemfile.groups :development, :test do
-        gem "one"
-      end
-    end
-
-    expect(gemfile.to_s).to eq <<-GEMFILE.strip_heredoc.strip
-      group :development, :test do
-        gem "one"
-      end
-    GEMFILE
-
-    expect(warning).to match(/deprecated/)
-  end
-
   it 'supports platform syntax' do
     gemfile = Appraisal::Gemfile.new
 
