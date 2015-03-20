@@ -19,7 +19,11 @@ module Appraisal
       announce
 
       with_clean_env do
-        unless Kernel.system(env, command_as_string)
+        env.each_pair do |key, value|
+          ENV[key] = value
+        end
+
+        unless Kernel.system(command_as_string)
           exit(1)
         end
       end

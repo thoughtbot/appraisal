@@ -26,7 +26,7 @@ describe 'Gemfile DSL compatibility' do
         gem "waffle"
       end
 
-      gem 'appraisal', path: #{PROJECT_ROOT.inspect}
+      gem 'appraisal', :path => #{PROJECT_ROOT.inspect}
 
       gemspec
     Gemfile
@@ -111,7 +111,7 @@ describe 'Gemfile DSL compatibility' do
     build_gem "bacon", "1.2.0"
 
     build_gemfile <<-Gemfile
-      gem "appraisal", path: #{PROJECT_ROOT.inspect}
+      gem "appraisal", :path => #{PROJECT_ROOT.inspect}
       gem "bacon", "1.2.0"
     Gemfile
 
@@ -142,7 +142,7 @@ describe 'Gemfile DSL compatibility' do
     build_gemspec
 
     build_gemfile <<-Gemfile
-      gem "appraisal", path: #{PROJECT_ROOT.inspect}
+      gem "appraisal", :path => #{PROJECT_ROOT.inspect}
 
       group :plugin do
         gemspec

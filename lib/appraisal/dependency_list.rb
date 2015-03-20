@@ -1,9 +1,10 @@
 require 'appraisal/dependency'
+require "active_support/ordered_hash"
 
 module Appraisal
   class DependencyList
     def initialize
-      @dependencies = {}
+      @dependencies = ActiveSupport::OrderedHash.new
     end
 
     def add(name, requirements)

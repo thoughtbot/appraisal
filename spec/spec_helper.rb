@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'bundler/setup'
-require_relative 'support/acceptance_test_helpers'
-require_relative 'support/stream_helpers'
+require "./spec/support/acceptance_test_helpers"
+require "./spec/support/stream_helpers"
 
 PROJECT_ROOT = File.expand_path(File.join(File.dirname(__FILE__), '..')).freeze
 TMP_GEM_ROOT = File.join(PROJECT_ROOT, "tmp", "gems")

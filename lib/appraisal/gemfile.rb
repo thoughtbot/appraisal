@@ -4,6 +4,7 @@ require 'appraisal/git_source'
 require 'appraisal/path_source'
 require 'appraisal/group'
 require 'appraisal/platform'
+require "active_support/ordered_hash"
 
 module Appraisal
   # Load bundler Gemfiles and merge dependencies
@@ -18,10 +19,10 @@ module Appraisal
       @ruby_version = nil
       @dependencies = DependencyList.new
       @gemspec = nil
-      @groups = {}
-      @platforms = {}
-      @git_sources = {}
-      @path_sources = {}
+      @groups = ActiveSupport::OrderedHash.new
+      @platforms = ActiveSupport::OrderedHash.new
+      @git_sources = ActiveSupport::OrderedHash.new
+      @path_sources = ActiveSupport::OrderedHash.new
     end
 
     def load(path)

@@ -10,7 +10,7 @@ describe 'Gemspec' do
     build_gemspec
 
     write_file 'Gemfile', <<-Gemfile
-      gem 'appraisal', path: #{PROJECT_ROOT.inspect}
+      gem 'appraisal', :path => #{PROJECT_ROOT.inspect}
 
       gemspec
     Gemfile
@@ -26,9 +26,9 @@ describe 'Gemspec' do
     build_gemspec 'specdir'
 
     write_file 'Gemfile', <<-Gemfile
-      gem 'appraisal', path: #{PROJECT_ROOT.inspect}
+      gem 'appraisal', :path => #{PROJECT_ROOT.inspect}
 
-      gemspec path: './specdir'
+      gemspec :path => './specdir'
     Gemfile
 
     run 'bundle install --local'

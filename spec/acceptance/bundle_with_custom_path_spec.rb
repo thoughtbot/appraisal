@@ -5,7 +5,7 @@ describe "Bundle with custom path" do
     build_gemfile <<-Gemfile
       source "https://rubygems.org"
 
-      gem 'appraisal', path: #{PROJECT_ROOT.inspect}
+      gem 'appraisal', :path => #{PROJECT_ROOT.inspect}
     Gemfile
 
     build_appraisal_file <<-Appraisals

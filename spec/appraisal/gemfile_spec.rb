@@ -112,21 +112,21 @@ describe Appraisal::Gemfile do
     context "in :path option" do
       it "handles dot path" do
         gemfile = Appraisal::Gemfile.new
-        gemfile.gem "bacon", path: "."
+        gemfile.gem "bacon", :path => "."
 
         expect(gemfile.to_s).to eq %(gem "bacon", :path => "../")
       end
 
       it "handles relative path" do
         gemfile = Appraisal::Gemfile.new
-        gemfile.gem "bacon", path: "../bacon"
+        gemfile.gem "bacon", :path => "../bacon"
 
         expect(gemfile.to_s).to eq %(gem "bacon", :path => "../../bacon")
       end
 
       it "handles absolute path" do
         gemfile = Appraisal::Gemfile.new
-        gemfile.gem "bacon", path: "/tmp"
+        gemfile.gem "bacon", :path => "/tmp"
 
         expect(gemfile.to_s).to eq %(gem "bacon", :path => "/tmp")
       end
@@ -135,28 +135,28 @@ describe Appraisal::Gemfile do
     context "in :git option" do
       it "handles dot git path" do
         gemfile = Appraisal::Gemfile.new
-        gemfile.gem "bacon", git: "."
+        gemfile.gem "bacon", :git => "."
 
         expect(gemfile.to_s).to eq %(gem "bacon", :git => "../")
       end
 
       it "handles relative git path" do
         gemfile = Appraisal::Gemfile.new
-        gemfile.gem "bacon", git: "../bacon"
+        gemfile.gem "bacon", :git => "../bacon"
 
         expect(gemfile.to_s).to eq %(gem "bacon", :git => "../../bacon")
       end
 
       it "handles absolute git path" do
         gemfile = Appraisal::Gemfile.new
-        gemfile.gem "bacon", git: "/tmp"
+        gemfile.gem "bacon", :git => "/tmp"
 
         expect(gemfile.to_s).to eq %(gem "bacon", :git => "/tmp")
       end
 
       it "handles git uri" do
         gemfile = Appraisal::Gemfile.new
-        gemfile.gem "bacon", git: "git@github.com:bacon/bacon.git"
+        gemfile.gem "bacon", :git => "git@github.com:bacon/bacon.git"
 
         expect(gemfile.to_s).
           to eq %(gem "bacon", :git => "git@github.com:bacon/bacon.git")
@@ -268,7 +268,7 @@ describe Appraisal::Gemfile do
     context "in gemspec directive" do
       it "handles gemspec path" do
         gemfile = Appraisal::Gemfile.new
-        gemfile.gemspec path: "."
+        gemfile.gemspec :path => "."
 
         expect(gemfile.to_s).to eq %(gemspec :path => "../")
       end

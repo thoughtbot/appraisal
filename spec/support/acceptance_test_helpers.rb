@@ -3,7 +3,7 @@ require 'active_support/core_ext/string/strip'
 require 'active_support/core_ext/string/filters'
 require 'active_support/concern'
 require 'appraisal/utils'
-require_relative 'dependency_helpers'
+require "./spec/support/dependency_helpers"
 
 module AcceptanceTestHelpers
   extend ActiveSupport::Concern
@@ -15,7 +15,7 @@ module AcceptanceTestHelpers
   included do
     metadata[:type] = :acceptance
 
-    before parallel: true do
+    before :parallel => true do
       unless Appraisal::Utils.support_parallel_installation?
         pending 'This Bundler version does not support --jobs flag.'
       end
@@ -135,11 +135,14 @@ module AcceptanceTestHelpers
       source 'https://rubygems.org'
 
       gem 'appraisal', :path => '#{PROJECT_ROOT}'
+
+      if RUBY_VERSION < "1.9"
+        gem "i18n", "~> 0.6.0"
+        gem "activesupport", "~> 3.2.21"
+      end
     Gemfile
 
-    in_test_directory do
-      `bundle install --binstubs --local`
-    end
+    run "bundle install --binstubs --local"
   end
 
   def in_test_directory(&block)

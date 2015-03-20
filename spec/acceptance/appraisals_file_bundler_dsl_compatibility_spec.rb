@@ -27,7 +27,7 @@ describe 'Appraisals file Bundler DSL compatibility' do
         gem 'milk'
       end
 
-      gem 'appraisal', path: #{PROJECT_ROOT.inspect}
+      gem 'appraisal', :path => #{PROJECT_ROOT.inspect}
     Gemfile
 
     build_appraisal_file <<-Appraisals

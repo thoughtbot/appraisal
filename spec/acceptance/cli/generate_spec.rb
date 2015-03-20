@@ -2,6 +2,12 @@ require 'spec_helper'
 
 describe 'CLI', 'appraisal generate' do
   it 'generates the gemfiles' do
+    build_gemfile <<-Gemfile
+      source "https://rubygems.org"
+
+      gem "appraisal", :path => "#{PROJECT_ROOT}"
+    Gemfile
+
     build_appraisal_file <<-Appraisal
       appraise '1.0.0' do
         gem 'dummy', '1.0.0'
