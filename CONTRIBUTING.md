@@ -1,4 +1,9 @@
-We love pull requests. Here's a quick guide:
+# Contributing
+
+We love pull requests from everyone. By participating in this project, you agree
+to abide by the thoughtbot [code of conduct].
+
+[code of conduct]: https://thoughtbot.com/open-source-code-of-conduct
 
 1. Fork the repo.
 
@@ -12,7 +17,6 @@ a test!
 4. Make the test pass.
 
 5. Push to your fork and submit a pull request.
-
 
 At this point you're waiting on us. We like to at least comment on, if not
 accept, pull requests within three business days (and, typically, one business
