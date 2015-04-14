@@ -12,9 +12,12 @@ module Appraisal
       `appraisal generate --travis` to get the correct configuration.
     WARNING
 
+    # @see http://docs.travis-ci.com/user/languages/ruby/
+    GEMFILES_CONFIGURATION_KEY = "gemfile".freeze
+
     def self.display_instruction
       puts "# Put this in your .travis.yml"
-      puts "gemfiles:"
+      puts "#{GEMFILES_CONFIGURATION_KEY}:"
 
       File.each do |appraisal|
         puts "  - #{appraisal.relative_gemfile_path}"
@@ -45,14 +48,14 @@ module Appraisal
       end
 
       def has_no_gemfiles_configuration?
-        !(configuration && configuration.has_key?("gemfiles"))
+        !(configuration && configuration.has_key?(GEMFILES_CONFIGURATION_KEY))
       end
 
       def has_invalid_gemfiles_configuration?
-        if configuration && configuration["gemfiles"]
+        if configuration && configuration[GEMFILES_CONFIGURATION_KEY]
           appraisal_paths =
             File.new.appraisals.map(&:relative_gemfile_path).sort
-          travis_gemfile_paths = configuration["gemfiles"].sort
+          travis_gemfile_paths = configuration[GEMFILES_CONFIGURATION_KEY].sort
           appraisal_paths != travis_gemfile_paths
         end
       end
