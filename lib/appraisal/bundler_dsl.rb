@@ -1,5 +1,5 @@
 require "appraisal/dependency_list"
-require "active_support/ordered_hash"
+require "appraisal/ordered_hash"
 
 module Appraisal
   class BundlerDSL
@@ -13,10 +13,10 @@ module Appraisal
       @ruby_version = nil
       @dependencies = DependencyList.new
       @gemspec = nil
-      @groups = ActiveSupport::OrderedHash.new
-      @platforms = ActiveSupport::OrderedHash.new
-      @git_sources = ActiveSupport::OrderedHash.new
-      @path_sources = ActiveSupport::OrderedHash.new
+      @groups = OrderedHash.new
+      @platforms = OrderedHash.new
+      @git_sources = OrderedHash.new
+      @path_sources = OrderedHash.new
     end
 
     def run(&block)
