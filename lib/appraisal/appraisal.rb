@@ -60,7 +60,12 @@ module Appraisal
         install_command(job_size)
       ].flatten.join(" ")
 
-      Command.new(command).run
+      if Bundler.settings[:path]
+        env = { 'BUNDLE_DISABLE_SHARED_GEMS' => '1' }
+        Command.new(command, :env => env).run
+      else
+        Command.new(command).run
+      end
     end
 
     def update(gems = [])
