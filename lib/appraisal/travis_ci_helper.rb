@@ -3,8 +3,9 @@ require "yaml"
 
 module Appraisal
   class TravisCIHelper
-    NO_CONFIGURATION_WARNING = <<-WARNING.strip
-      Note: Run with --travis to generate Travis CI configuration.
+    NO_CONFIGURATION_WARNING = <<-WARNING.strip.gsub(/\s+/, " ")
+      Note: Run `appraisal generate --travis` to generate Travis CI
+      configuration.
     WARNING
 
     INVALID_CONFIGURATION_WARNING = <<-WARNING.strip.gsub(/\s+/, " ")
