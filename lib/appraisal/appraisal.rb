@@ -18,8 +18,8 @@ module Appraisal
       gemfile.gem(*args)
     end
 
-    def source(*args)
-      gemfile.source(*args)
+    def source(*args, &block)
+      gemfile.source(*args, &block)
     end
 
     def ruby(*args)

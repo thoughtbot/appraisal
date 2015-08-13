@@ -3,9 +3,10 @@ require "appraisal/bundler_dsl"
 module Appraisal
   autoload :Gemspec, "appraisal/gemspec"
   autoload :GitSource, "appraisal/git_source"
-  autoload :PathSource, "appraisal/path_source"
   autoload :Group, "appraisal/group"
+  autoload :PathSource, "appraisal/path_source"
   autoload :Platform, "appraisal/platform"
+  autoload :Source, "appraisal/source"
 
   # Load bundler Gemfiles and merge dependencies
   class Gemfile < BundlerDSL

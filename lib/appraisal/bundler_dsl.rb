@@ -6,7 +6,7 @@ module Appraisal
     attr_reader :dependencies
 
     PARTS = %w(source ruby_version git_sources path_sources dependencies groups
-      platforms gemspec)
+      platforms source_blocks gemspec)
 
     def initialize
       @sources = []
@@ -17,6 +17,7 @@ module Appraisal
       @platforms = OrderedHash.new
       @git_sources = OrderedHash.new
       @path_sources = OrderedHash.new
+      @source_blocks = OrderedHash.new
     end
 
     def run(&block)
@@ -39,8 +40,13 @@ module Appraisal
 
     alias_method :platform, :platforms
 
-    def source(source)
-      @sources << source
+    def source(source, &block)
+      if block_given?
+        @source_blocks[source] ||= Source.new(source)
+        @source_blocks[source].run(&block)
+      else
+        @sources << source
+      end
     end
 
     def ruby(ruby_version)
@@ -103,7 +109,8 @@ module Appraisal
       METHODS
     end
 
-    [:git_sources, :path_sources, :platforms, :groups].each do |method_name|
+    [:git_sources, :path_sources, :platforms, :groups, :source_blocks].
+      each do |method_name|
       class_eval <<-METHODS, __FILE__, __LINE__
         private
 
