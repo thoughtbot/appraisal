@@ -16,7 +16,7 @@ module Appraisal
       @gemfile = Gemfile.new
       @gemfile.load(ENV['BUNDLE_GEMFILE'] || 'Gemfile')
 
-      if ::File.exist? path
+      if File.exist? path
         run IO.read(path)
       else
         raise AppraisalsNotFound

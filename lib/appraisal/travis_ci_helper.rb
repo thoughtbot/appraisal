@@ -45,7 +45,7 @@ module Appraisal
       private
 
       def has_configuration_file?
-        ::File.exist?(CONFIGURATION_FILE)
+        File.exist?(CONFIGURATION_FILE)
       end
 
       def has_no_gemfiles_configuration?

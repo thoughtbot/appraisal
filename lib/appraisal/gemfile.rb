@@ -11,7 +11,7 @@ module Appraisal
   # Load bundler Gemfiles and merge dependencies
   class Gemfile < BundlerDSL
     def load(path)
-      if ::File.exist?(path)
+      if File.exist?(path)
         run(IO.read(path))
       end
     end

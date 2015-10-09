@@ -19,7 +19,7 @@ module Appraisal
           appraisal, otherwise it runs the EXTERNAL_COMMAND against all appraisals.
       help
 
-      if ::File.exist?('Appraisals')
+      if File.exist?('Appraisals')
         shell.say
         shell.say 'Available Appraisal(s):'
 
