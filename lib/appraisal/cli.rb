@@ -23,7 +23,7 @@ module Appraisal
         shell.say
         shell.say 'Available Appraisal(s):'
 
-        File.each do |appraisal|
+        AppraisalFile.each do |appraisal|
           shell.say "  - #{appraisal.name}"
         end
       end
@@ -44,7 +44,7 @@ module Appraisal
     def install
       invoke :generate, [], {}
 
-      File.each do |appraisal|
+      AppraisalFile.each do |appraisal|
         appraisal.install(options[:jobs])
         appraisal.relativize
       end
@@ -53,7 +53,7 @@ module Appraisal
     desc 'generate', 'Generate a gemfile for each appraisal'
     method_option "travis", :type => :boolean, :default => false
     def generate
-      File.each do |appraisal|
+      AppraisalFile.each do |appraisal|
         appraisal.write_gemfile
       end
 
@@ -73,14 +73,14 @@ module Appraisal
     def update(*gems)
       invoke :generate, []
 
-      File.each do |appraisal|
+      AppraisalFile.each do |appraisal|
         appraisal.update(gems)
       end
     end
 
     desc 'list', 'List the names of the defined appraisals'
     def list
-      File.new.appraisals.each { |appraisal| puts appraisal.name }
+      AppraisalFile.new.appraisals.each { |appraisal| puts appraisal.name }
     end
 
     desc "version", "Display the version and exit"
@@ -91,12 +91,14 @@ module Appraisal
     private
 
     def method_missing(name, *args, &block)
-      matching_appraisal = File.new.appraisals.detect { |appraisal| appraisal.name == name.to_s }
+      matching_appraisal = AppraisalFile.new.appraisals.detect do |appraisal|
+        appraisal.name == name.to_s
+      end
 
       if matching_appraisal
         Command.new(args, :gemfile => matching_appraisal.gemfile_path).run
       else
-        File.each do |appraisal|
+        AppraisalFile.each do |appraisal|
           Command.new(ARGV, :gemfile => appraisal.gemfile_path).run
         end
       end

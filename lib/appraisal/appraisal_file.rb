@@ -4,7 +4,7 @@ require 'appraisal/gemfile'
 
 module Appraisal
   # Loads and parses Appraisals file
-  class File
+  class AppraisalFile
     attr_reader :appraisals, :gemfile
 
     def self.each(&block)

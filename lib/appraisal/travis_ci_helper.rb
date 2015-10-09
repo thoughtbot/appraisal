@@ -1,4 +1,4 @@
-require "appraisal/file"
+require "appraisal/appraisal_file"
 require "yaml"
 
 module Appraisal
@@ -20,7 +20,7 @@ module Appraisal
       puts "# Put this in your .travis.yml"
       puts "#{GEMFILES_CONFIGURATION_KEY}:"
 
-      File.each do |appraisal|
+      AppraisalFile.each do |appraisal|
         puts "  - #{appraisal.relative_gemfile_path}"
       end
     end
@@ -55,7 +55,7 @@ module Appraisal
       def has_invalid_gemfiles_configuration?
         if configuration && configuration[GEMFILES_CONFIGURATION_KEY]
           appraisal_paths =
-            File.new.appraisals.map(&:relative_gemfile_path).sort
+            AppraisalFile.new.appraisals.map(&:relative_gemfile_path).sort
           travis_gemfile_paths = configuration[GEMFILES_CONFIGURATION_KEY].sort
           appraisal_paths != travis_gemfile_paths
         end

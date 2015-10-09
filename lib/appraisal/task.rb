@@ -1,4 +1,4 @@
-require 'appraisal/file'
+require 'appraisal/appraisal_file'
 require 'rake/tasklib'
 
 module Appraisal
@@ -29,7 +29,7 @@ module Appraisal
         end
 
         begin
-          File.each do |appraisal|
+          AppraisalFile.each do |appraisal|
             desc "DEPRECATED: Run the given task for appraisal #{appraisal.name}"
             task appraisal.name do
               ARGV.shift
