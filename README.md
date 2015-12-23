@@ -30,11 +30,11 @@ global namespace, one alternative is [RVM's Gemsets](http://rvm.io/gemsets).
 Setup
 -----
 
-Setting up appraisal requires an Appraisals file (similar to a Gemfile) in your
+Setting up appraisal requires an `Appraisals` file (similar to a `Gemfile`) in your
 project root, named "Appraisals" (note the case), and some slight changes to
-your project's Rakefile.
+your project's `Rakefile`.
 
-An Appraisals file consists of several appraisal definitions. An appraisal
+An `Appraisals` file consists of several appraisal definitions. An appraisal
 definition is simply a list of gem dependencies. For example, to test with a
 few versions of Rails:
 
@@ -46,8 +46,8 @@ few versions of Rails:
       gem "rails", "4.0.0"
     end
 
-The dependencies in your Appraisals file are combined with dependencies in your
-Gemfile, so you don't need to repeat anything that's the same for each
+The dependencies in your `Appraisals` file are combined with dependencies in your
+`Gemfile`, so you don't need to repeat anything that's the same for each
 appraisal. If something is specified in both the Gemfile and an appraisal, the
 version from the appraisal takes precedence.
 
