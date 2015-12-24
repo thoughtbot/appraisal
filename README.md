@@ -5,7 +5,7 @@ Appraisal
 
 Find out what your Ruby gems are worth.
 
-[Build Status Image]: https://secure.travis-ci.org/thoughtbot/appraisal.png?branch=master
+[Build Status Image]: https://secure.travis-ci.org/thoughtbot/appraisal.svg?branch=master
 [Build Status]: http://travis-ci.org/thoughtbot/appraisal
 
 Synopsis
