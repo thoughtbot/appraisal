@@ -2,9 +2,9 @@ require "appraisal/bundler_dsl"
 
 module Appraisal
   autoload :Gemspec, "appraisal/gemspec"
-  autoload :GitSource, "appraisal/git_source"
+  autoload :Git, "appraisal/git"
   autoload :Group, "appraisal/group"
-  autoload :PathSource, "appraisal/path_source"
+  autoload :Path, "appraisal/path"
   autoload :Platform, "appraisal/platform"
   autoload :Source, "appraisal/source"
 

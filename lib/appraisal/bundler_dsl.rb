@@ -5,7 +5,7 @@ module Appraisal
   class BundlerDSL
     attr_reader :dependencies
 
-    PARTS = %w(source ruby_version git_sources path_sources dependencies groups
+    PARTS = %w(source ruby_version gits paths dependencies groups
       platforms source_blocks gemspec)
 
     def initialize
@@ -15,8 +15,8 @@ module Appraisal
       @gemspec = nil
       @groups = OrderedHash.new
       @platforms = OrderedHash.new
-      @git_sources = OrderedHash.new
-      @path_sources = OrderedHash.new
+      @gits = OrderedHash.new
+      @paths = OrderedHash.new
       @source_blocks = OrderedHash.new
     end
 
@@ -54,13 +54,13 @@ module Appraisal
     end
 
     def git(source, options = {}, &block)
-      @git_sources[source] ||= GitSource.new(source, options)
-      @git_sources[source].run(&block)
+      @gits[source] ||= Git.new(source, options)
+      @gits[source].run(&block)
     end
 
     def path(source, options = {}, &block)
-      @path_sources[source] ||= PathSource.new(source, options)
-      @path_sources[source].run(&block)
+      @paths[source] ||= Path.new(source, options)
+      @paths[source].run(&block)
     end
 
     def to_s
@@ -109,7 +109,7 @@ module Appraisal
       METHODS
     end
 
-    [:git_sources, :path_sources, :platforms, :groups, :source_blocks].
+    [:gits, :paths, :platforms, :groups, :source_blocks].
       each do |method_name|
       class_eval <<-METHODS, __FILE__, __LINE__
         private

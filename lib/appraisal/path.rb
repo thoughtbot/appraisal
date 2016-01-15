@@ -2,7 +2,7 @@ require "appraisal/bundler_dsl"
 require 'appraisal/utils'
 
 module Appraisal
-  class GitSource < BundlerDSL
+  class Path < BundlerDSL
     def initialize(source, options = {})
       super()
       @source = source
@@ -11,9 +11,9 @@ module Appraisal
 
     def to_s
       if @options.empty?
-        "git #{Utils.prefix_path(@source).inspect} do\n#{indent(super)}\nend"
+        "path #{Utils.prefix_path(@source).inspect} do\n#{indent(super)}\nend"
       else
-        "git #{Utils.prefix_path(@source).inspect}, #{Utils.format_string(@options)} do\n" +
+        "path #{Utils.prefix_path(@source).inspect}, #{Utils.format_string(@options)} do\n" +
           "#{indent(super)}\nend"
       end
     end
@@ -21,9 +21,9 @@ module Appraisal
     # :nodoc:
     def for_dup
       if @options.empty?
-        "git #{@source.inspect} do\n#{indent(super)}\nend"
+        "path #{@source.inspect} do\n#{indent(super)}\nend"
       else
-        "git #{@source.inspect}, #{Utils.format_string(@options)} do\n" +
+        "path #{@source.inspect}, #{Utils.format_string(@options)} do\n" +
           "#{indent(super)}\nend"
       end
     end
