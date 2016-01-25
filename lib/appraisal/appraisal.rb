@@ -69,8 +69,7 @@ module Appraisal
     end
 
     def update(gems = [])
-      command, env = update_command(gems)
-      Command.new(command, :env => env).run
+      Command.new(update_command(gems), :gemfile => gemfile_path).run
     end
 
     def gemfile_path
@@ -108,9 +107,7 @@ module Appraisal
     end
 
     def update_command(gems)
-      env = { "BUNDLE_GEMFILE" => gemfile_path }
-      command = ['bundle', 'update', *gems].compact
-      [command, env]
+      ['bundle', 'update', *gems].compact
     end
 
     def gemfile_root
