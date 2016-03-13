@@ -140,7 +140,7 @@ all versions of its dependency, you might have to set a `script` setting:
 That will make sure that each of the test sub-job are not getting run more than
 one time.
 
-You can also running your test against multiple versions of Ruby locally, just
+You can also run your tests against multiple versions of Ruby locally, just
 like running on Travis CI, by using [WWTD].
 
 [WWTD]: https://github.com/grosser/wwtd
