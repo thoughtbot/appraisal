@@ -43,6 +43,7 @@ describe "Bundle with custom path" do
         if RUBY_VERSION < "1.9"
           gem "i18n", "~> 0.6.0"
           gem "activesupport", "~> 3.2.21"
+          gem "rake", "~> 10.5"
         end
       Gemfile
 
