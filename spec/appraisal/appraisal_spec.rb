@@ -41,7 +41,7 @@ describe Appraisal::Appraisal do
       stub_const('Bundler::VERSION', '1.3.0')
 
       warning = capture(:stderr) do
-        @appraisal.install(42)
+        @appraisal.install("jobs" => 42)
       end
 
       expect(Appraisal::Command).to have_received(:new).
@@ -52,10 +52,17 @@ describe Appraisal::Appraisal do
     it 'runs parallel install command on Bundler >= 1.4.0' do
       stub_const('Bundler::VERSION', '1.4.0')
 
-      @appraisal.install(42)
+      @appraisal.install("jobs" => 42)
 
       expect(Appraisal::Command).to have_received(:new).
         with("#{bundle_check_command} || #{bundle_parallel_install_command}")
+    end
+
+    it 'runs install command with retries on Bundler' do
+      @appraisal.install("retry" => 3)
+
+      expect(Appraisal::Command).to have_received(:new).
+        with("#{bundle_check_command} || #{bundle_install_command_with_retries}")
     end
 
     def bundle_check_command
@@ -68,6 +75,10 @@ describe Appraisal::Appraisal do
 
     def bundle_parallel_install_command
       "bundle install --gemfile='/home/test/test directory' --jobs=42"
+    end
+
+    def bundle_install_command_with_retries
+      "bundle install --gemfile='/home/test/test directory' --retry 3"
     end
   end
 end

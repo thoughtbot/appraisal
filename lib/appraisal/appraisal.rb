@@ -7,6 +7,8 @@ require 'pathname'
 module Appraisal
   # Represents one appraisal and its dependencies
   class Appraisal
+    DEFAULT_INSTALL_OPTIONS = { "jobs" => 1 }.freeze
+
     attr_reader :name, :gemfile
 
     def initialize(name, source_gemfile)
@@ -53,11 +55,11 @@ module Appraisal
       end
     end
 
-    def install(job_size = 1)
+    def install(options = {})
       command = [
         check_command,
         "||",
-        install_command(job_size)
+        install_command(options)
       ].flatten.join(" ")
 
       if Bundler.settings[:path]
@@ -101,9 +103,9 @@ module Appraisal
       ['bundle', 'check', gemfile_option]
     end
 
-    def install_command(job_size)
+    def install_command(options = {})
       gemfile_option = "--gemfile='#{gemfile_path}'"
-      ['bundle', 'install', gemfile_option, bundle_parallel_option(job_size)].compact
+      ['bundle', 'install', gemfile_option, bundle_options(options)].compact
     end
 
     def update_command(gems)
@@ -126,15 +128,24 @@ module Appraisal
       name.gsub(/[^\w\.]/, '_')
     end
 
-    def bundle_parallel_option(job_size)
-      if job_size > 1
+    def bundle_options(options)
+      full_options = DEFAULT_INSTALL_OPTIONS.dup.merge(options)
+      options_strings = []
+      jobs = full_options.delete("jobs")
+      if jobs > 1
         if Utils.support_parallel_installation?
-          "--jobs=#{job_size}"
+          options_strings << "--jobs=#{jobs}"
         else
           warn 'Your current version of Bundler does not support parallel installation. Please ' +
             'upgrade Bundler to version >= 1.4.0, or invoke `appraisal` without `--jobs` option.'
         end
       end
+
+      full_options.each do |flag, val|
+        options_strings << "--#{flag} #{val}"
+      end
+
+      options_strings.join if options_strings != []
     end
   end
 end

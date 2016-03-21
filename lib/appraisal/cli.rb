@@ -41,11 +41,13 @@ module Appraisal
     method_option 'jobs', :aliases => 'j', :type => :numeric, :default => 1,
       :banner => 'SIZE',
       :desc => 'Install gems in parallel using the given number of workers.'
+    method_option 'retry', :type => :numeric, :default => 1,
+      :desc => 'Retry network and git requests that have failed'
     def install
       invoke :generate, [], {}
 
       AppraisalFile.each do |appraisal|
-        appraisal.install(options[:jobs])
+        appraisal.install(options)
         appraisal.relativize
       end
     end
