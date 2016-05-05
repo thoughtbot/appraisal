@@ -145,6 +145,29 @@ like running on Travis CI, by using [WWTD].
 
 [WWTD]: https://github.com/grosser/wwtd
 
+Circle CI Integration
+---------------------
+
+In Circle CI you can override the default testing behaviour to customize your
+testing. Using this feature you can configure appraisal to execute your tests.
+
+In order to this you can put the following configuration in your circle.yml file:
+
+```yml
+dependencies:
+  post:
+    - bundle exec appraisal install
+test:
+  pre:
+    - bundle exec appraisal rake db:create
+    - bundle exec appraisal rake db:migrate
+  override:
+    - bundle exec appraisal rspec
+```
+
+Notice that we are running an rspec suite. You can customize your testing
+command in the `override` section and use your favourite one.
+
 Credits
 -------
 
