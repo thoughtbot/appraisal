@@ -67,6 +67,7 @@ describe 'Gemspec' do
         s.name = 'gemspec_project'
         s.version = '0.1'
         s.summary = 'Awesome Gem!'
+        s.authors = "Appraisal"
 
         s.add_development_dependency('dummy', '1.1.0')
       end

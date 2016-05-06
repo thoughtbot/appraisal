@@ -80,6 +80,7 @@ module AcceptanceTestHelpers
         s.name = 'stage'
         s.version = '0.1'
         s.summary = 'Awesome Gem!'
+        s.authors = "Appraisal"
       end
     gemspec
   end
