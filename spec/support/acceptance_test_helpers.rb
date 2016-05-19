@@ -3,7 +3,7 @@ require 'active_support/core_ext/string/strip'
 require 'active_support/core_ext/string/filters'
 require 'active_support/concern'
 require 'appraisal/utils'
-require "./spec/support/dependency_helpers"
+require './spec/support/dependency_helpers'
 
 module AcceptanceTestHelpers
   extend ActiveSupport::Concern
@@ -83,6 +83,14 @@ module AcceptanceTestHelpers
         s.authors = "Appraisal"
       end
     gemspec
+  end
+
+  def create_path_location_attr(path)
+    if RUBY_VERSION < "1.9"
+      ":path => #{path}"
+    else
+      "path: #{path}"
+    end
   end
 
   def content_of(path)

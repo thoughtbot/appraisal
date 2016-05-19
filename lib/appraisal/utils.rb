@@ -9,7 +9,7 @@ module Appraisal
       case object
       when Hash
         items = object.map do |key, value|
-          "#{format_string(key, true)} => #{format_string(value, true)}"
+          format_hash_value(key, value)
         end
 
         if enclosing_object
@@ -19,6 +19,14 @@ module Appraisal
         end
       else
         object.inspect
+      end
+    end
+
+    def self.format_hash_value(key, value)
+      if RUBY_VERSION < "1.9"
+        "#{format_string(key, true)} => #{format_string(value, true)}"
+      else
+        "#{format_string(key, true).gsub(':', '')}: #{format_string(value, true)}"
       end
     end
 
