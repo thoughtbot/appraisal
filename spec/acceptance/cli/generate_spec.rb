@@ -5,7 +5,7 @@ describe 'CLI', 'appraisal generate' do
     build_gemfile <<-Gemfile
       source "https://rubygems.org"
 
-      gem "appraisal", #{create_path_location_attr(PROJECT_ROOT.inspect)}
+      gem "appraisal", :path => "#{PROJECT_ROOT}"
     Gemfile
 
     build_appraisal_file <<-Appraisal
@@ -27,7 +27,7 @@ describe 'CLI', 'appraisal generate' do
 
       source "https://rubygems.org"
 
-      gem "appraisal", #{create_path_location_attr(PROJECT_ROOT.inspect)}
+      gem "appraisal", :path => "#{PROJECT_ROOT}"
       gem "dummy", "1.0.0"
     gemfile
   end

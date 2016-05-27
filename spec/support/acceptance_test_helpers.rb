@@ -85,16 +85,12 @@ module AcceptanceTestHelpers
     gemspec
   end
 
-  def create_path_location_attr(path)
-    if RUBY_VERSION < "1.9"
-      ":path => #{path}"
-    else
-      "path: #{path}"
-    end
-  end
-
   def content_of(path)
-    file(path).read
+    file(path).read.tap do |content|
+      if RUBY_VERSION >= "1.9"
+        content.gsub!(/(\S+): /, ":\\1 => ")
+      end
+    end
   end
 
   def file(path)

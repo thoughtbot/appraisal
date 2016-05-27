@@ -35,7 +35,7 @@ describe 'Appraisals file Bundler DSL compatibility' do
         gem "sausage"
       end
 
-      gem 'appraisal', #{create_path_location_attr(PROJECT_ROOT.inspect)}
+      gem 'appraisal', :path => #{PROJECT_ROOT.inspect}
     Gemfile
 
     build_appraisal_file <<-Appraisals
@@ -95,7 +95,7 @@ describe 'Appraisals file Bundler DSL compatibility' do
       end
 
       gem "bagel"
-      gem "appraisal", #{create_path_location_attr(PROJECT_ROOT.inspect)}
+      gem "appraisal", :path => #{PROJECT_ROOT.inspect}
       gem "bread"
 
       group :breakfast do
@@ -121,7 +121,7 @@ describe 'Appraisals file Bundler DSL compatibility' do
         gem "pancake"
       end
 
-      gemspec #{create_path_location_attr("\"../\"")}
+      gemspec :path => "../"
     Gemfile
   end
 end

@@ -23,10 +23,13 @@ module Appraisal
     end
 
     def self.format_hash_value(key, value)
-      if RUBY_VERSION < "1.9"
-        "#{format_string(key, true)} => #{format_string(value, true)}"
+      key = format_string(key, true)
+      value = format_string(value, true)
+
+      if RUBY_VERSION >= "1.9" && key.start_with?(":")
+        "#{key.sub(/^:/, "")}: #{value}"
       else
-        "#{format_string(key, true).gsub(':', '')}: #{format_string(value, true)}"
+        "#{key} => #{value}"
       end
     end
 

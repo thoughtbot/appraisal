@@ -251,9 +251,10 @@ describe Appraisal::Gemfile do
   end
 
   context "relative path handling" do
+    before { stub_const('RUBY_VERSION', '1.8.7') }
+
     context "in :path option" do
       it "handles dot path" do
-        stub_const('RUBY_VERSION', '1.8.7')
         gemfile = Appraisal::Gemfile.new
         gemfile.gem "bacon", :path => "."
 
@@ -261,7 +262,6 @@ describe Appraisal::Gemfile do
       end
 
       it "handles relative path" do
-        stub_const('RUBY_VERSION', '1.8.7')
         gemfile = Appraisal::Gemfile.new
         gemfile.gem "bacon", :path => "../bacon"
 
@@ -269,7 +269,6 @@ describe Appraisal::Gemfile do
       end
 
       it "handles absolute path" do
-        stub_const('RUBY_VERSION', '1.8.7')
         gemfile = Appraisal::Gemfile.new
         gemfile.gem "bacon", :path => "/tmp"
 
@@ -279,7 +278,6 @@ describe Appraisal::Gemfile do
 
     context "in :git option" do
       it "handles dot git path" do
-        stub_const('RUBY_VERSION', '1.8.7')
         gemfile = Appraisal::Gemfile.new
         gemfile.gem "bacon", :git => "."
 
@@ -287,7 +285,6 @@ describe Appraisal::Gemfile do
       end
 
       it "handles relative git path" do
-        stub_const('RUBY_VERSION', '1.8.7')
         gemfile = Appraisal::Gemfile.new
         gemfile.gem "bacon", :git => "../bacon"
 
@@ -295,7 +292,6 @@ describe Appraisal::Gemfile do
       end
 
       it "handles absolute git path" do
-        stub_const('RUBY_VERSION', '1.8.7')
         gemfile = Appraisal::Gemfile.new
         gemfile.gem "bacon", :git => "/tmp"
 
@@ -303,7 +299,6 @@ describe Appraisal::Gemfile do
       end
 
       it "handles git uri" do
-        stub_const('RUBY_VERSION', '1.8.7')
         gemfile = Appraisal::Gemfile.new
         gemfile.gem "bacon", :git => "git@github.com:bacon/bacon.git"
 
@@ -416,7 +411,6 @@ describe Appraisal::Gemfile do
 
     context "in gemspec directive" do
       it "handles gemspec path" do
-        stub_const('RUBY_VERSION', '1.8.7')
         gemfile = Appraisal::Gemfile.new
         gemfile.gemspec :path => "."
 
