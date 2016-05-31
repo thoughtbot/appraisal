@@ -43,6 +43,9 @@ module Appraisal
       :desc => 'Install gems in parallel using the given number of workers.'
     method_option 'retry', :type => :numeric, :default => 1,
       :desc => 'Retry network and git requests that have failed'
+    method_option "without", :banner => "GROUP_NAMES",
+      :desc => "A space-separated list of groups referencing gems to skip " +
+        "during installation. Bundler will remember this option."
     def install
       invoke :generate, [], {}
 

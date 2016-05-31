@@ -56,11 +56,13 @@ module Appraisal
     end
 
     def install(options = {})
-      command = [
-        check_command,
-        "||",
-        install_command(options)
-      ].flatten.join(" ")
+      commands = [install_command(options).join(" ")]
+
+      if options["without"].nil? || options["without"].empty?
+        commands.unshift(check_command.join(" "))
+      end
+
+      command = commands.join(" || ")
 
       if Bundler.settings[:path]
         env = { 'BUNDLE_DISABLE_SHARED_GEMS' => '1' }
@@ -145,7 +147,7 @@ module Appraisal
         options_strings << "--#{flag} #{val}"
       end
 
-      options_strings.join if options_strings != []
+      options_strings.join(" ") if options_strings != []
     end
   end
 end
