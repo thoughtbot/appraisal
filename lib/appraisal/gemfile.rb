@@ -22,6 +22,7 @@ module Appraisal
 
     def dup
       Gemfile.new.tap do |gemfile|
+        gemfile.git_sources = @git_sources
         gemfile.run(for_dup)
       end
     end

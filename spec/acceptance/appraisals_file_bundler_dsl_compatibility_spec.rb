@@ -3,13 +3,15 @@ require 'spec_helper'
 describe 'Appraisals file Bundler DSL compatibility' do
   it 'supports all Bundler DSL in Appraisals file' do
     build_gems %w(bagel orange_juice milk waffle coffee ham sausage pancake)
-    build_git_gem 'egg'
+    build_git_gems %w(egg croissant pain_au_chocolat)
 
     build_gemfile <<-Gemfile
       source 'https://rubygems.org'
+      git_source(:custom_git_source) { |repo| "../gems/\#{repo}" }
       ruby RUBY_VERSION
 
       gem 'bagel'
+      gem "croissant", :custom_git_source => "croissant"
 
       git '../gems/egg' do
         gem 'egg'
@@ -44,6 +46,7 @@ describe 'Appraisals file Bundler DSL compatibility' do
         ruby "1.8.7"
 
         gem 'bread'
+        gem "pain_au_chocolat", :custom_git_source => "pain_au_chocolat"
 
         git '../gems/egg' do
           gem 'porched_egg'
@@ -95,8 +98,10 @@ describe 'Appraisals file Bundler DSL compatibility' do
       end
 
       gem "bagel"
+      gem "croissant", :git => "../../gems/croissant"
       gem "appraisal", :path => #{PROJECT_ROOT.inspect}
       gem "bread"
+      gem "pain_au_chocolat", :git => "../../gems/pain_au_chocolat"
 
       group :breakfast do
         gem "orange_juice"

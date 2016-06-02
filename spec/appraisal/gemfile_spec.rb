@@ -418,4 +418,16 @@ describe Appraisal::Gemfile do
       end
     end
   end
+
+  context "git_source support" do
+    before { stub_const('RUBY_VERSION', '1.8.7') }
+
+    it "stores git_source declaration and apply it as git option" do
+      gemfile = Appraisal::Gemfile.new
+      gemfile.git_source(:custom_source) { |repo| "path/#{repo}" }
+      gemfile.gem "bacon", :custom_source => "bacon_pancake"
+
+      expect(gemfile.to_s).to eq %(gem "bacon", :git => "../path/bacon_pancake")
+    end
+  end
 end

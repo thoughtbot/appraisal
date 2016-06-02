@@ -53,4 +53,8 @@ module DependencyHelpers
       FileUtils.rm_r(path)
     end
   end
+
+  def build_git_gems(gems)
+    gems.each { |gem| build_git_gem(gem) }
+  end
 end

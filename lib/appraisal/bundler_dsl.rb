@@ -18,6 +18,7 @@ module Appraisal
       @gits = OrderedHash.new
       @paths = OrderedHash.new
       @source_blocks = OrderedHash.new
+      @git_sources = {}
     end
 
     def run(&block)
@@ -25,7 +26,7 @@ module Appraisal
     end
 
     def gem(name, *requirements)
-      @dependencies.add(name, requirements)
+      @dependencies.add(name, substitute_git_source(requirements))
     end
 
     def group(*names, &block)
@@ -74,6 +75,14 @@ module Appraisal
     def gemspec(options = {})
       @gemspec = Gemspec.new(options)
     end
+
+    def git_source(source, &block)
+      @git_sources[source] = block
+    end
+
+    protected
+
+    attr_writer :git_sources
 
     private
 
@@ -126,6 +135,17 @@ module Appraisal
 
     def indent(string)
       string.strip.gsub(/^(.+)$/, '  \1')
+    end
+
+    def substitute_git_source(requirements)
+      requirements.each do |requirement|
+        if requirement.is_a?(Hash)
+          (requirement.keys & @git_sources.keys).each do |matching_source|
+            value = requirement.delete(matching_source)
+            requirement[:git] = @git_sources[matching_source].call(value)
+          end
+        end
+      end
     end
   end
 end
