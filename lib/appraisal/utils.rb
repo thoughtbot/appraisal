@@ -51,5 +51,12 @@ module Appraisal
         path
       end
     end
+
+    def self.bundler_version
+      Gem::Specification.
+        detect { |spec| spec.name == "bundler" }.
+        version.
+        to_s
+    end
   end
 end
