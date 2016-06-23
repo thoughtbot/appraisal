@@ -71,4 +71,16 @@ describe Appraisal::Utils do
       ).to eq("https://github.com/bacon/bacon.git")
     end
   end
+
+  describe ".bundler_version" do
+    it "returns the bundler version" do
+      bundler = double("Bundler", :name => "bundler", :version => "a.b.c")
+      allow(Gem::Specification).to receive(:detect).and_return(bundler)
+
+      version = Appraisal::Utils.bundler_version
+
+      expect(version).to eq "a.b.c"
+      expect(Gem::Specification).to have_received(:detect)
+    end
+  end
 end

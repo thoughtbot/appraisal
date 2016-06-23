@@ -43,12 +43,15 @@ module Appraisal
     def ensure_bundler_is_available
       unless system %(gem list -q "^bundler$" | grep -q bundler)
         puts ">> Reinstall Bundler into #{ENV["GEM_HOME"]}"
+        version = Utils.bundler_version
 
-        unless system "gem install bundler"
+        unless system "gem install bundler --version #{version}"
           puts
           puts <<-ERROR.strip.gsub(/\s+/, " ")
-            Bundler installation failed. Please try running
-            `GEM_HOME="#{ENV["GEM_HOME"]}" gem install bundler` manually.
+            Bundler installation failed.
+            Please try running:
+              `GEM_HOME="#{ENV["GEM_HOME"]}" gem install bundler --version #{version}`
+            manually.
           ERROR
           exit(1)
         end
