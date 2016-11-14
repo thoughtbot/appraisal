@@ -142,10 +142,7 @@ module AcceptanceTestHelpers
       gem 'appraisal', :path => '#{PROJECT_ROOT}'
 
       if RUBY_VERSION < "1.9"
-        gem "i18n", "~> 0.6.0"
-        gem "activesupport", "~> 3.2.21"
-        gem "rake", "~> 10.5"
-        gem "rack", "~> 1.6.5"
+        #{File.read(File.join(PROJECT_ROOT, "Gemfile-1.8"))}
       end
     Gemfile
 
