@@ -9,6 +9,7 @@ rvm:
   - 2.1.10
   - 2.2.5
   - 2.3.1
+  - 2.4.0-preview3
   - jruby-19mode
   - ruby-head
   - jruby-head
@@ -19,3 +20,4 @@ matrix:
     - rvm: jruby-19mode
     - rvm: jruby-head
     - rvm: ruby-head
+    - rvm: 2.4.0-preview3
