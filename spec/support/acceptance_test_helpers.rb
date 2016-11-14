@@ -145,6 +145,7 @@ module AcceptanceTestHelpers
         gem "i18n", "~> 0.6.0"
         gem "activesupport", "~> 3.2.21"
         gem "rake", "~> 10.5"
+        gem "rack", "~> 1.6.5"
       end
     Gemfile
 
