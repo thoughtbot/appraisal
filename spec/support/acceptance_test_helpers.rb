@@ -143,6 +143,8 @@ module AcceptanceTestHelpers
 
       if RUBY_VERSION < "1.9"
         #{File.read(File.join(PROJECT_ROOT, "Gemfile-1.8"))}
+      elsif RUBY_VERSION < "2.2"
+        #{File.read(File.join(PROJECT_ROOT, "Gemfile-2.1"))}
       end
     Gemfile
 
