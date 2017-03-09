@@ -73,6 +73,7 @@ describe 'Appraisals file Bundler DSL compatibility' do
         end
 
         gemspec
+        gemspec :path => "sitepress"
       end
     Appraisals
 
@@ -127,6 +128,7 @@ describe 'Appraisals file Bundler DSL compatibility' do
       end
 
       gemspec :path => "../"
+      gemspec :path => "../sitepress"
     Gemfile
   end
 end

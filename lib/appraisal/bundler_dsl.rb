@@ -12,7 +12,7 @@ module Appraisal
       @sources = []
       @ruby_version = nil
       @dependencies = DependencyList.new
-      @gemspec = nil
+      @gemspecs = []
       @groups = OrderedHash.new
       @platforms = OrderedHash.new
       @gits = OrderedHash.new
@@ -73,7 +73,7 @@ module Appraisal
     end
 
     def gemspec(options = {})
-      @gemspec = Gemspec.new(options)
+      @gemspecs << Gemspec.new(options)
     end
 
     def git_source(source, &block)
@@ -100,22 +100,28 @@ module Appraisal
 
     alias_method :ruby_version_entry_for_dup, :ruby_version_entry
 
-    [:dependencies, :gemspec].each do |method_name|
-      class_eval <<-METHODS, __FILE__, __LINE__
-        private
+    def gemspec_entry
+      if @gemspecs.any?
+        @gemspecs.map(&:to_s).join("\n")
+      end
+    end
 
-        def #{method_name}_entry
-          if @#{method_name}
-            @#{method_name}.to_s
-          end
-        end
+    def gemspec_entry_for_dup
+      if @gemspecs.any?
+        @gemspecs.map(&:for_dup).join("\n")
+      end
+    end
 
-        def #{method_name}_entry_for_dup
-          if @#{method_name}
-            @#{method_name}.for_dup
-          end
-        end
-      METHODS
+    def dependencies_entry
+      if @dependencies
+        @dependencies.to_s
+      end
+    end
+
+    def dependencies_entry_for_dup
+      if @dependencies
+        @dependencies.for_dup
+      end
     end
 
     [:gits, :paths, :platforms, :groups, :source_blocks].
