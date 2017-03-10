@@ -171,7 +171,7 @@ command in the `override` section and use your favourite one.
 Credits
 -------
 
-![thoughtbot](http://thoughtbot.com/images/tm/logo.png)
+![thoughtbot](http://presskit.thoughtbot.com/images/thoughtbot-logo-for-readmes.svg)
 
 Appraisal is maintained and funded by [thoughtbot, inc][thoughtbot]
 
