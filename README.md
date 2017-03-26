@@ -52,12 +52,6 @@ your `Gemfile`, so you don't need to repeat anything that's the same for each
 appraisal. If something is specified in both the Gemfile and an appraisal, the
 version from the appraisal takes precedence.
 
-It's also recommended that you setup bundler at the very top of your Rakefile,
-so that you don't need to constantly run bundle exec:
-
-    require "rubygems"
-    require "bundler/setup"
-
 Usage
 -----
 
