@@ -101,27 +101,19 @@ module Appraisal
     alias_method :ruby_version_entry_for_dup, :ruby_version_entry
 
     def gemspec_entry
-      if @gemspecs.any?
-        @gemspecs.map(&:to_s).join("\n")
-      end
+      @gemspecs.map(&:to_s).join("\n")
     end
 
     def gemspec_entry_for_dup
-      if @gemspecs.any?
-        @gemspecs.map(&:for_dup).join("\n")
-      end
+      @gemspecs.map(&:for_dup).join("\n")
     end
 
     def dependencies_entry
-      if @dependencies
-        @dependencies.to_s
-      end
+      @dependencies.to_s
     end
 
     def dependencies_entry_for_dup
-      if @dependencies
-        @dependencies.for_dup
-      end
+      @dependencies.for_dup
     end
 
     [:gits, :paths, :platforms, :groups, :source_blocks].
