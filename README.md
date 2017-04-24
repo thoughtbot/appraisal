@@ -19,9 +19,9 @@ without interfering with day-to-day development using Bundler.
 Installation
 ------------
 
-In your Gemfile:
+In your package's .gemspec:
 
-    gem "appraisal"
+   s.add_development_dependency "appraisal"
 
 Note that gems must be bundled in the global namespace. Bundling gems to a
 local location or vendoring plugins is not supported. If you do not want to
