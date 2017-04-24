@@ -1,6 +1,12 @@
 sudo: false
 
+language: ruby
+
 before_install: gem install bundler
+
+before_script: bundle update
+
+cache: bundler
 
 rvm:
   - 1.8.7-head
