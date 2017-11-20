@@ -52,30 +52,24 @@ your `Gemfile`, so you don't need to repeat anything that's the same for each
 appraisal. If something is specified in both the Gemfile and an appraisal, the
 version from the appraisal takes precedence.
 
-It's also recommended that you setup bundler at the very top of your Rakefile,
-so that you don't need to constantly run bundle exec:
-
-    require "rubygems"
-    require "bundler/setup"
-
 Usage
 -----
 
 Once you've configured the appraisals you want to use, you need to install the
 dependencies for each appraisal:
 
-    $ appraisal install
+    $ bundle exec appraisal install
 
 This will resolve, install, and lock the dependencies for that appraisal using
 bundler. Once you have your dependencies set up, you can run any command in a
 single appraisal:
 
-    $ appraisal rails-3 rake test
+    $ bundle exec appraisal rails-3 rake test
 
 This will run `rake test` using the dependencies configured for Rails 3. You can
 also run each appraisal in turn:
 
-    $ appraisal rake test
+    $ bundle exec appraisal rake test
 
 If you want to use only the dependencies from your Gemfile, just run `rake
 test` as normal. This allows you to keep running with the latest versions of
