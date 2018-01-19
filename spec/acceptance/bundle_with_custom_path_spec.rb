@@ -29,8 +29,8 @@ describe "Bundle with custom path" do
       run 'bundle exec appraisal install'
 
       installed_gem = Dir.glob("tmp/stage/#{path}/ruby/*/gems/*").
-        map { |path| path.split('/').last }.
-        select { |gem| gem.include?(gem_name) }
+                      map    { |path| path.split('/').last }.
+                      select { |gem| gem.include?(gem_name) }
       expect(installed_gem).not_to be_empty
 
       bundle_output = run 'bundle check'
@@ -42,7 +42,6 @@ describe "Bundle with custom path" do
   end
 
   include_examples :gemfile_dependencies_are_satisfied
-
 
   context 'when already installed in vendor/another' do
     before do
