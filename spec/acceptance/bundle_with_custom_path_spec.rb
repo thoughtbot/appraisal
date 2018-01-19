@@ -48,7 +48,11 @@ describe "Bundle with custom path" do
       build_gemfile <<-Gemfile
         source "https://rubygems.org"
 
-        gem '#{gem_name}'
+        if RUBY_VERSION <= "1.9"
+          gem '#{gem_name}', '~> 1.6.5'
+        else
+          gem '#{gem_name}'
+        end
       Gemfile
 
       run 'bundle install --path vendor/another'
