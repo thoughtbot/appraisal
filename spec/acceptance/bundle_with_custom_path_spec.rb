@@ -1,38 +1,10 @@
 require "spec_helper"
 
 describe "Bundle with custom path" do
-  it "supports --path option" do
-    build_gemfile <<-Gemfile
-      source "https://rubygems.org"
+  let(:gem_name) { 'rack' }
+  let(:path) { 'vendor/bundle' }
 
-      gem 'appraisal', :path => #{PROJECT_ROOT.inspect}
-    Gemfile
-
-    build_appraisal_file <<-Appraisals
-      appraise "breakfast" do
-      end
-    Appraisals
-
-    run %(bundle install --path="vendor/bundle")
-    output = run "appraisal install"
-
-    expect(file "gemfiles/breakfast.gemfile").to be_exists
-    expect(output).to include("Successfully installed bundler")
-  end
-
-  context 'when already installed in vendor/another' do
-    let(:gem_name) { 'rack' }
-    let(:path) { 'vendor/bundle' }
-
-    before do
-      build_gemfile <<-Gemfile
-        source "https://rubygems.org"
-
-        gem '#{gem_name}'
-      Gemfile
-
-      run 'bundle install --path vendor/another'
-    end
+  shared_examples :gemfile_dependencies_are_satisfied do
 
     it 'installs gems in the --path directory' do
       build_gemfile <<-Gemfile
@@ -67,5 +39,25 @@ describe "Bundle with custom path" do
       appraisal_output = run 'bundle exec appraisal install'
       expect(appraisal_output).to include("The Gemfile's dependencies are satisfied")
     end
+  end
+
+  include_examples :gemfile_dependencies_are_satisfied
+
+  context 'when already installed in vendor/another' do
+    before do
+      build_gemfile <<-Gemfile
+        source "https://rubygems.org"
+
+        if RUBY_VERSION <= "1.9"
+          gem '#{gem_name}', '~> 1.6.5'
+        else
+          gem '#{gem_name}'
+        end
+      Gemfile
+
+      run 'bundle install --path vendor/another'
+    end
+
+    include_examples :gemfile_dependencies_are_satisfied
   end
 end
