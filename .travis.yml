@@ -7,9 +7,10 @@ rvm:
   - 1.9.3-p551
   - 2.0.0-p648
   - 2.1.10
-  - 2.2.6
-  - 2.3.3
-  - 2.4.1
+  - 2.2.9
+  - 2.3.6
+  - 2.4.3
+  - 2.5.0
   - rbx-3
   - jruby-19mode
   - ruby-head
@@ -18,8 +19,7 @@ rvm:
 matrix:
   fast_finish: true
   allow_failures:
-    - rvm: jruby-19mode
-    - rvm: jruby-head
-    - rvm: ruby-head
-    - rvm: 2.4.0-preview3
     - rvm: rbx-3
+    - rvm: jruby-19mode
+    - rvm: ruby-head
+    - rvm: jruby-head
