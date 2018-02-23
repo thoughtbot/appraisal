@@ -60,8 +60,7 @@ describe 'CLI', 'appraisal install' do
     it 'ignores --jobs option if the job size is less than or equal to 1' do
       output = run 'appraisal install --jobs=0'
 
-      expect(output).
-        to include(
+      expect(output).to include(
         "bundle install --gemfile='#{file('gemfiles/1.0.0.gemfile')}'"
       )
       expect(output).not_to include(
@@ -69,6 +68,25 @@ describe 'CLI', 'appraisal install' do
       )
       expect(output).not_to include(
         "bundle install --gemfile='#{file('gemfiles/1.0.0.gemfile')}' --jobs=1"
+      )
+    end
+  end
+
+  context "with full-index", :parallel do
+    before do
+      build_appraisal_file <<-APPRAISAL
+        appraise '1.0.0' do
+          gem 'dummy', '1.0.0'
+        end
+      APPRAISAL
+    end
+
+    it "accepts --full-index option to pull the full RubyGems index" do
+      output = run("appraisal install --full-index")
+
+      expect(output).to include(
+        "bundle install --gemfile='#{file('gemfiles/1.0.0.gemfile')}' " \
+        "--retry 1 --full-index true"
       )
     end
   end
