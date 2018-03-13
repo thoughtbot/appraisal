@@ -36,8 +36,8 @@ describe 'CLI', 'appraisal install' do
 
     run 'appraisal install'
 
-    expect(content_of 'gemfiles/1.0.0.gemfile.lock').not_to include
-      current_directory
+    expect(content_of("gemfiles/1.0.0.gemfile.lock")).
+      not_to include(current_directory)
   end
 
   context 'with job size', :parallel => true do
@@ -52,19 +52,24 @@ describe 'CLI', 'appraisal install' do
     it 'accepts --jobs option to set job size' do
       output = run 'appraisal install --jobs=2'
 
-      expect(output).to include
-        'bundle install --gemfile=gemfiles/1.0.0.gemfile --jobs=2'
+      expect(output).to include(
+        "bundle install --gemfile='#{file('gemfiles/1.0.0.gemfile')}' --jobs=2"
+      )
     end
 
     it 'ignores --jobs option if the job size is less than or equal to 1' do
       output = run 'appraisal install --jobs=0'
 
+      expect(output).
+        to include(
+        "bundle install --gemfile='#{file('gemfiles/1.0.0.gemfile')}'"
+      )
       expect(output).not_to include(
-        'bundle install --gemfile=gemfiles/1.0.0.gemfile')
+        "bundle install --gemfile='#{file('gemfiles/1.0.0.gemfile')}' --jobs=0"
+      )
       expect(output).not_to include(
-        'bundle install --gemfile=gemfiles/1.0.0.gemfile --jobs=0')
-      expect(output).not_to include(
-        'bundle install --gemfile=gemfiles/1.0.0.gemfile --jobs=1')
+        "bundle install --gemfile='#{file('gemfiles/1.0.0.gemfile')}' --jobs=1"
+      )
     end
   end
 end
