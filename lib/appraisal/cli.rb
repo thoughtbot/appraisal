@@ -46,6 +46,9 @@ module Appraisal
     method_option "without", :banner => "GROUP_NAMES",
       :desc => "A space-separated list of groups referencing gems to skip " +
         "during installation. Bundler will remember this option."
+    method_option "full-index", :type => :boolean,
+                                :desc => "Run bundle install with the " \
+                                         "full-index argument."
     def install
       invoke :generate, [], {}
 
