@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'Appraisals file Bundler DSL compatibility' do
   it 'supports all Bundler DSL in Appraisals file' do
-    build_gems %w(bagel orange_juice milk waffle coffee ham sausage pancake)
+    build_gems %w(bagel orange_juice milk waffle coffee ham sausage pancake bacon ketchup)
     build_git_gems %w(egg croissant pain_au_chocolat)
 
     build_gemfile <<-Gemfile
@@ -35,6 +35,10 @@ describe 'Appraisals file Bundler DSL compatibility' do
 
       source "https://other-rubygems.org" do
         gem "sausage"
+      end
+
+      install_if -> { true } do
+        gem 'ketchup'
       end
 
       gem 'appraisal', :path => #{PROJECT_ROOT.inspect}
@@ -70,6 +74,10 @@ describe 'Appraisals file Bundler DSL compatibility' do
 
         source "https://other-rubygems.org" do
           gem "pancake"
+        end
+
+        install_if -> { true } do
+          gem 'ketchup'
         end
 
         gemspec
@@ -125,6 +133,10 @@ describe 'Appraisals file Bundler DSL compatibility' do
       source "https://other-rubygems.org" do
         gem "sausage"
         gem "pancake"
+
+        install_if -> { true } do
+          gem 'ketchup'
+        end
       end
 
       gemspec :path => "../"

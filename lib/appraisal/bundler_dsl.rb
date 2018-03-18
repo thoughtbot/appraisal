@@ -34,6 +34,10 @@ module Appraisal
       @groups[names].run(&block)
     end
 
+    def install_if(*args)
+      raise "Put some code in here"
+    end
+
     def platforms(*names, &block)
       @platforms[names] ||= Platform.new(names)
       @platforms[names].run(&block)
