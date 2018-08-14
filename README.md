@@ -91,6 +91,18 @@ Note that this may conflict with your CI setup if you decide to split the test
 into multiple processes by Appraisal and you are using `rake` to run tests by
 default. Please see **Travis CI Integration** for more detail.
 
+### Commands
+
+```bash
+appraisal clean                  # Remove all generated gemfiles and lockfiles from gemfiles folder
+appraisal generate               # Generate a gemfile for each appraisal
+appraisal help [COMMAND]         # Describe available commands or one specific command
+appraisal install                # Resolve and install dependencies for each appraisal
+appraisal list                   # List the names of the defined appraisals
+appraisal update [LIST_OF_GEMS]  # Remove all generated gemfiles and lockfiles, resolve, and install dependencies again
+appraisal version                # Display the version and exit
+```
+
 Under the hood
 --------------
 
