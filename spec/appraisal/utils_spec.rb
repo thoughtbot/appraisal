@@ -14,7 +14,7 @@ describe Appraisal::Utils do
   end
 
   describe '.format_arguments' do
-    before { stub_const('RUBY_VERSION', '2.2.0') }
+    before { stub_const('RUBY_VERSION', '2.3.0') }
 
     it 'prints out arguments without enclosing square brackets' do
       arguments = [:foo, { :bar => { :baz => 'ball' }}]
