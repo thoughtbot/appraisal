@@ -25,13 +25,13 @@ describe Appraisal::Utils do
   end
 
   describe '.format_arguments' do
-    before { stub_const('RUBY_VERSION', '1.8.7') }
+    before { stub_const('RUBY_VERSION', '1.9.3') }
 
     it 'prints out arguments without enclosing square brackets' do
       arguments = [:foo, { :bar => { :baz => 'ball' }}]
 
       expect(Appraisal::Utils.format_arguments(arguments)).to eq(
-        ':foo, :bar => { :baz => "ball" }'
+        ':foo, bar: { baz: "ball" }'
       )
     end
 

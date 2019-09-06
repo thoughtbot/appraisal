@@ -1,5 +1,4 @@
 require "appraisal/dependency_list"
-require "appraisal/ordered_hash"
 
 module Appraisal
   class BundlerDSL
@@ -13,11 +12,11 @@ module Appraisal
       @ruby_version = nil
       @dependencies = DependencyList.new
       @gemspecs = []
-      @groups = OrderedHash.new
-      @platforms = OrderedHash.new
-      @gits = OrderedHash.new
-      @paths = OrderedHash.new
-      @source_blocks = OrderedHash.new
+      @groups = Hash.new
+      @platforms = Hash.new
+      @gits = Hash.new
+      @paths = Hash.new
+      @source_blocks = Hash.new
       @git_sources = {}
     end
 

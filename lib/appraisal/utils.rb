@@ -26,7 +26,7 @@ module Appraisal
       key = format_string(key, true)
       value = format_string(value, true)
 
-      if RUBY_VERSION >= "1.9" && key.start_with?(":")
+      if key.start_with?(":")
         "#{key.sub(/^:/, "")}: #{value}"
       else
         "#{key} => #{value}"
