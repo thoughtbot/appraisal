@@ -3,29 +3,18 @@ require 'appraisal/utils'
 
 describe Appraisal::Utils do
   describe '.format_string' do
-    if RUBY_VERSION > "1.9"
-      it "prints out a nice looking hash without brackets with new syntax" do
-        hash = { :foo => 'bar' }
-        expect(Appraisal::Utils.format_string(hash)).to eq('foo: "bar"')
+    it "prints out a nice looking hash without brackets with new syntax" do
+      hash = { :foo => 'bar' }
+      expect(Appraisal::Utils.format_string(hash)).to eq('foo: "bar"')
 
-        hash = { 'baz' => { :ball => 'boo' }}
-        expect(Appraisal::Utils.format_string(hash)).
-          to eq('"baz" => { ball: "boo" }')
-      end
-    else
-      it "prints out a nice looking hash without brackets with old syntax" do
-        hash = { :foo => 'bar' }
-        expect(Appraisal::Utils.format_string(hash)).to eq(':foo => "bar"')
-
-        hash = { 'baz' => { :ball => 'boo' }}
-        expect(Appraisal::Utils.format_string(hash)).
-          to eq('"baz" => { :ball => "boo" }')
-      end
+      hash = { 'baz' => { :ball => 'boo' }}
+      expect(Appraisal::Utils.format_string(hash)).
+        to eq('"baz" => { ball: "boo" }')
     end
   end
 
   describe '.format_arguments' do
-    before { stub_const('RUBY_VERSION', '1.9.3') }
+    before { stub_const('RUBY_VERSION', '2.0.0') }
 
     it 'prints out arguments without enclosing square brackets' do
       arguments = [:foo, { :bar => { :baz => 'ball' }}]
