@@ -4,13 +4,11 @@ rvm:
   - 2.3.6
   - 2.4.3
   - 2.5.0
-  - rbx-3
   - ruby-head
   - jruby-head
 
 matrix:
   fast_finish: true
   allow_failures:
-    - rvm: rbx-3
     - rvm: ruby-head
     - rvm: jruby-head
