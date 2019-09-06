@@ -11,10 +11,6 @@ describe "Bundle with custom path" do
         source "https://rubygems.org"
 
         gem 'appraisal', :path => #{PROJECT_ROOT.inspect}
-
-        if RUBY_VERSION < "2.2"
-          #{File.read(File.join(PROJECT_ROOT, "Gemfile-2.1"))}
-        end
       Gemfile
 
       build_appraisal_file <<-Appraisals

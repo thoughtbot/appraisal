@@ -139,10 +139,6 @@ module AcceptanceTestHelpers
       source 'https://rubygems.org'
 
       gem 'appraisal', :path => '#{PROJECT_ROOT}'
-
-      if RUBY_VERSION < "2.2"
-        #{File.read(File.join(PROJECT_ROOT, "Gemfile-2.1"))}
-      end
     Gemfile
 
     run "bundle install --binstubs --local"
