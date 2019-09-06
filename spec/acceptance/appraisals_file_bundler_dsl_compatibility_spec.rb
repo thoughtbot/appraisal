@@ -43,7 +43,7 @@ describe 'Appraisals file Bundler DSL compatibility' do
     build_appraisal_file <<-Appraisals
       appraise 'breakfast' do
         source 'http://some-other-source.com'
-        ruby "2.0.0"
+        ruby "2.1.0"
 
         gem 'bread'
         gem "pain_au_chocolat", :custom_git_source => "pain_au_chocolat"
@@ -86,7 +86,7 @@ describe 'Appraisals file Bundler DSL compatibility' do
       source "https://rubygems.org"
       source "http://some-other-source.com"
 
-      ruby "2.0.0"
+      ruby "2.1.0"
 
       git "../../gems/egg" do
         gem "egg"

@@ -251,7 +251,7 @@ describe Appraisal::Gemfile do
   end
 
   context "relative path handling" do
-    before { stub_const('RUBY_VERSION', '2.0.0') }
+    before { stub_const('RUBY_VERSION', '2.1.0') }
 
     context "in :path option" do
       it "handles dot path" do
@@ -420,7 +420,7 @@ describe Appraisal::Gemfile do
   end
 
   context "git_source support" do
-    before { stub_const('RUBY_VERSION', '2.0.0') }
+    before { stub_const('RUBY_VERSION', '2.1.0') }
 
     it "stores git_source declaration and apply it as git option" do
       gemfile = Appraisal::Gemfile.new

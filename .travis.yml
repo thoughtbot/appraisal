@@ -1,7 +1,6 @@
 before_install: gem install bundler
 
 rvm:
-  - 2.0.0-p648
   - 2.1.10
   - 2.2.9
   - 2.3.6
