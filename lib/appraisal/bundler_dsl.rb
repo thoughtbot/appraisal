@@ -29,12 +29,14 @@ module Appraisal
     end
 
     def group(*names, &block)
-      @groups[names] ||= Group.new(names)
+      @groups[names] ||=
+        Group.new(names).tap { |g| g.git_sources = @git_sources.dup }
       @groups[names].run(&block)
     end
 
     def platforms(*names, &block)
-      @platforms[names] ||= Platform.new(names)
+      @platforms[names] ||=
+        Platform.new(names).tap { |g| g.git_sources = @git_sources.dup }
       @platforms[names].run(&block)
     end
 
@@ -42,7 +44,8 @@ module Appraisal
 
     def source(source, &block)
       if block_given?
-        @source_blocks[source] ||= Source.new(source)
+        @source_blocks[source] ||=
+          Source.new(source).tap { |g| g.git_sources = @git_sources.dup }
         @source_blocks[source].run(&block)
       else
         @sources << source
@@ -54,12 +57,14 @@ module Appraisal
     end
 
     def git(source, options = {}, &block)
-      @gits[source] ||= Git.new(source, options)
+      @gits[source] ||=
+        Git.new(source, options).tap { |g| g.git_sources = @git_sources.dup }
       @gits[source].run(&block)
     end
 
     def path(source, options = {}, &block)
-      @paths[source] ||= Path.new(source, options)
+      @paths[source] ||=
+        Path.new(source, options).tap { |g| g.git_sources = @git_sources.dup }
       @paths[source].run(&block)
     end
 
