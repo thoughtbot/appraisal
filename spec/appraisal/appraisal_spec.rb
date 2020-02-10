@@ -34,6 +34,8 @@ describe Appraisal::Appraisal do
     before do
       @appraisal = Appraisal::Appraisal.new('fake', 'fake')
       allow(@appraisal).to receive(:gemfile_path).and_return("/home/test/test directory")
+      allow(@appraisal).to receive(:project_root).
+        and_return(Pathname.new("/home/test"))
       allow(Appraisal::Command).to receive(:new).and_return(double(:run => true))
     end
 
@@ -65,6 +67,13 @@ describe Appraisal::Appraisal do
         with("#{bundle_check_command} || #{bundle_install_command_with_retries}")
     end
 
+    it "runs install command with path on Bundler" do
+      @appraisal.install("path" => "vendor/appraisal")
+
+      expect(Appraisal::Command).to have_received(:new).
+        with("#{bundle_check_command} || #{bundle_install_command_with_path}")
+    end
+
     def bundle_check_command
       "bundle check --gemfile='/home/test/test directory'"
     end
@@ -79,6 +88,11 @@ describe Appraisal::Appraisal do
 
     def bundle_install_command_with_retries
       "bundle install --gemfile='/home/test/test directory' --retry 3"
+    end
+
+    def bundle_install_command_with_path
+      "bundle install --gemfile='/home/test/test directory' " \
+        "--path /home/test/vendor/appraisal"
     end
   end
 end
