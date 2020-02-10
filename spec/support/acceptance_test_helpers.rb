@@ -87,9 +87,7 @@ module AcceptanceTestHelpers
 
   def content_of(path)
     file(path).read.tap do |content|
-      if RUBY_VERSION >= "1.9"
-        content.gsub!(/(\S+): /, ":\\1 => ")
-      end
+      content.gsub!(/(\S+): /, ":\\1 => ")
     end
   end
 
@@ -141,12 +139,6 @@ module AcceptanceTestHelpers
       source 'https://rubygems.org'
 
       gem 'appraisal', :path => '#{PROJECT_ROOT}'
-
-      if RUBY_VERSION < "1.9"
-        #{File.read(File.join(PROJECT_ROOT, "Gemfile-1.8"))}
-      elsif RUBY_VERSION < "2.2"
-        #{File.read(File.join(PROJECT_ROOT, "Gemfile-2.1"))}
-      end
     Gemfile
 
     run "bundle install --binstubs --local"

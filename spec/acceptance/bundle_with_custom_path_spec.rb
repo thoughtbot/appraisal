@@ -11,12 +11,6 @@ describe "Bundle with custom path" do
         source "https://rubygems.org"
 
         gem 'appraisal', :path => #{PROJECT_ROOT.inspect}
-
-        if RUBY_VERSION < "1.9"
-          #{File.read(File.join(PROJECT_ROOT, "Gemfile-1.8"))}
-        elsif RUBY_VERSION < "2.2"
-          #{File.read(File.join(PROJECT_ROOT, "Gemfile-2.1"))}
-        end
       Gemfile
 
       build_appraisal_file <<-Appraisals
@@ -48,11 +42,7 @@ describe "Bundle with custom path" do
       build_gemfile <<-Gemfile
         source "https://rubygems.org"
 
-        if RUBY_VERSION <= "1.9"
-          gem '#{gem_name}', '~> 1.6.5'
-        else
-          gem '#{gem_name}'
-        end
+        gem '#{gem_name}'
       Gemfile
 
       run 'bundle install --path vendor/another'

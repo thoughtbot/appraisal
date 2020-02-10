@@ -251,28 +251,28 @@ describe Appraisal::Gemfile do
   end
 
   context "relative path handling" do
-    before { stub_const('RUBY_VERSION', '1.8.7') }
+    before { stub_const('RUBY_VERSION', '2.3.0') }
 
     context "in :path option" do
       it "handles dot path" do
         gemfile = Appraisal::Gemfile.new
         gemfile.gem "bacon", :path => "."
 
-        expect(gemfile.to_s).to eq %(gem "bacon", :path => "../")
+        expect(gemfile.to_s).to eq %(gem "bacon", path: "../")
       end
 
       it "handles relative path" do
         gemfile = Appraisal::Gemfile.new
         gemfile.gem "bacon", :path => "../bacon"
 
-        expect(gemfile.to_s).to eq %(gem "bacon", :path => "../../bacon")
+        expect(gemfile.to_s).to eq %(gem "bacon", path: "../../bacon")
       end
 
       it "handles absolute path" do
         gemfile = Appraisal::Gemfile.new
         gemfile.gem "bacon", :path => "/tmp"
 
-        expect(gemfile.to_s).to eq %(gem "bacon", :path => "/tmp")
+        expect(gemfile.to_s).to eq %(gem "bacon", path: "/tmp")
       end
     end
 
@@ -281,21 +281,21 @@ describe Appraisal::Gemfile do
         gemfile = Appraisal::Gemfile.new
         gemfile.gem "bacon", :git => "."
 
-        expect(gemfile.to_s).to eq %(gem "bacon", :git => "../")
+        expect(gemfile.to_s).to eq %(gem "bacon", git: "../")
       end
 
       it "handles relative git path" do
         gemfile = Appraisal::Gemfile.new
         gemfile.gem "bacon", :git => "../bacon"
 
-        expect(gemfile.to_s).to eq %(gem "bacon", :git => "../../bacon")
+        expect(gemfile.to_s).to eq %(gem "bacon", git: "../../bacon")
       end
 
       it "handles absolute git path" do
         gemfile = Appraisal::Gemfile.new
         gemfile.gem "bacon", :git => "/tmp"
 
-        expect(gemfile.to_s).to eq %(gem "bacon", :git => "/tmp")
+        expect(gemfile.to_s).to eq %(gem "bacon", git: "/tmp")
       end
 
       it "handles git uri" do
@@ -303,7 +303,7 @@ describe Appraisal::Gemfile do
         gemfile.gem "bacon", :git => "git@github.com:bacon/bacon.git"
 
         expect(gemfile.to_s).
-          to eq %(gem "bacon", :git => "git@github.com:bacon/bacon.git")
+          to eq %(gem "bacon", git: "git@github.com:bacon/bacon.git")
       end
     end
 
@@ -414,20 +414,20 @@ describe Appraisal::Gemfile do
         gemfile = Appraisal::Gemfile.new
         gemfile.gemspec :path => "."
 
-        expect(gemfile.to_s).to eq %(gemspec :path => "../")
+        expect(gemfile.to_s).to eq %(gemspec path: "../")
       end
     end
   end
 
   context "git_source support" do
-    before { stub_const('RUBY_VERSION', '1.8.7') }
+    before { stub_const('RUBY_VERSION', '2.3.0') }
 
     it "stores git_source declaration and apply it as git option" do
       gemfile = Appraisal::Gemfile.new
       gemfile.git_source(:custom_source) { |repo| "path/#{repo}" }
       gemfile.gem "bacon", :custom_source => "bacon_pancake"
 
-      expect(gemfile.to_s).to eq %(gem "bacon", :git => "../path/bacon_pancake")
+      expect(gemfile.to_s).to eq %(gem "bacon", git: "../path/bacon_pancake")
     end
   end
 end
