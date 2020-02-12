@@ -22,7 +22,7 @@ describe "Bundle with custom path" do
       run %(bundle install --path="#{path}")
       run 'bundle exec appraisal install'
 
-      installed_gem = Dir.glob("tmp/stage/#{path}/ruby/*/gems/*").
+      installed_gem = Dir.glob("tmp/stage/#{path}/#{Gem.ruby_engine}/*/gems/*").
                       map    { |path| path.split('/').last }.
                       select { |gem| gem.include?(gem_name) }
       expect(installed_gem).not_to be_empty
