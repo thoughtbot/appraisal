@@ -90,4 +90,23 @@ describe 'CLI', 'appraisal install' do
       )
     end
   end
+
+  context "with path", :parallel do
+    before do
+      build_appraisal_file <<-APPRAISAL
+        appraise '1.0.0' do
+          gem 'dummy', '1.0.0'
+        end
+      APPRAISAL
+    end
+
+    it "accepts --path option to specify the location to install gems into" do
+      output = run("appraisal install --path vendor/appraisal")
+
+      expect(output).to include(
+        "bundle install --gemfile='#{file('gemfiles/1.0.0.gemfile')}' " \
+        "--path #{file('vendor/appraisal')} --retry 1",
+      )
+    end
+  end
 end

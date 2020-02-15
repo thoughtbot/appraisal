@@ -49,6 +49,10 @@ module Appraisal
     method_option "full-index", :type => :boolean,
                                 :desc => "Run bundle install with the " \
                                          "full-index argument."
+    method_option "path", type: :string,
+                          desc: "Install gems in the specified directory. " \
+                                "Bundler will remember this option."
+
     def install
       invoke :generate, [], {}
 

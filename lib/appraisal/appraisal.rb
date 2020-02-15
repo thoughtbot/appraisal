@@ -119,7 +119,11 @@ module Appraisal
     end
 
     def gemfile_root
-      Pathname.new(File.join(Dir.pwd, "gemfiles"))
+      project_root + "gemfiles"
+    end
+
+    def project_root
+      Pathname.new(Dir.pwd)
     end
 
     def gemfile_name
@@ -145,6 +149,12 @@ module Appraisal
           warn 'Your current version of Bundler does not support parallel installation. Please ' +
             'upgrade Bundler to version >= 1.4.0, or invoke `appraisal` without `--jobs` option.'
         end
+      end
+
+      path = full_options.delete("path")
+      if path
+        relative_path = project_root.join(options["path"])
+        options_strings << "--path #{relative_path}"
       end
 
       full_options.each do |flag, val|
