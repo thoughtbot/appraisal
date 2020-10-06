@@ -25,7 +25,11 @@ module Appraisal
     end
 
     def gem(name, *requirements)
-      @dependencies.add(name, substitute_git_source(requirements))
+      if requirements.include?(:remove)
+        @dependencies.remove(name)
+      else
+        @dependencies.add(name, substitute_git_source(requirements))
+      end
     end
 
     def group(*names, &block)
