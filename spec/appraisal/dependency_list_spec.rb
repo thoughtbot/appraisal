@@ -28,4 +28,23 @@ describe Appraisal::DependencyList do
       expect(dependency_list.to_s).to eq %(gem "rails", "4.1.4")
     end
   end
+
+  describe "#remove" do
+    let(:dependency_list) { Appraisal::DependencyList.new }
+
+    before do
+      dependency_list.add("rails", ["4.1.4"])
+    end
+
+    it "removes the dependency from the list" do
+      dependency_list.remove("rails")
+      expect(dependency_list.to_s).to eq("")
+    end
+
+    it "respects the removal over an addition" do
+      dependency_list.remove("rails")
+      dependency_list.add("rails", ["4.1.0"])
+      expect(dependency_list.to_s).to eq("")
+    end
+  end
 end
