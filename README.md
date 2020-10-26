@@ -115,6 +115,45 @@ When you prefix a command with `appraisal`, the command is run with the
 appropriate Gemfile for that appraisal, ensuring the correct dependencies
 are used.
 
+Removing Gems using Appraisal
+-------
+
+It is common while managing multiple Gemfiles for dependencies to become deprecated and no
+longer necessary, meaning they need to be removed from the Gemfile for a specific `appraisal`.
+To do this, use the `remove_gem` declaration within the necessary `appraise` block in your
+`Appraisals` file.
+
+### Example Usage
+**Gemfile**
+```ruby
+gem 'rails', '~> 4.2'
+
+group :test do
+  gem 'rspec', '~> 4.0'
+  gem 'test_after_commit'
+end
+```
+
+**Appriasals**
+```ruby
+appraise 'rails-5' do
+  gem 'rails', '~> 5.2'
+
+  group :test do
+    remove_gem :test_after_commit
+  end
+end
+```
+
+Using the `Appraisals` file defined above, this is what the resulting `Gemfile` will look like:
+```ruby
+gem 'rails', '~> 5.2'
+
+group :test do
+  gem 'rspec', '~> 4.0'
+end
+```
+
 Version Control
 ---------------
 
