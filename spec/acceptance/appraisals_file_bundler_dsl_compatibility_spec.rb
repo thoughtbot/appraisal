@@ -60,7 +60,7 @@ describe 'Appraisals file Bundler DSL compatibility' do
         end
 
         group :breakfast do
-          gem 'rotten_egg', :remove
+          remove_gem 'rotten_egg'
           gem 'bacon'
 
           platforms :rbx do
