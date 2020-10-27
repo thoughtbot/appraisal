@@ -124,6 +124,8 @@ To do this, use the `remove_gem` declaration within the necessary `appraise` blo
 `Appraisals` file.
 
 ### Example Usage
+### Example Usage
+
 **Gemfile**
 ```ruby
 gem 'rails', '~> 4.2'
@@ -134,7 +136,7 @@ group :test do
 end
 ```
 
-**Appriasals**
+**Appraisals**
 ```ruby
 appraise 'rails-5' do
   gem 'rails', '~> 5.2'
