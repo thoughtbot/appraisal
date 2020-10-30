@@ -124,7 +124,6 @@ To do this, use the `remove_gem` declaration within the necessary `appraise` blo
 `Appraisals` file.
 
 ### Example Usage
-### Example Usage
 
 **Gemfile**
 ```ruby
