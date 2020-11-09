@@ -28,6 +28,10 @@ module Appraisal
       @dependencies.add(name, substitute_git_source(requirements))
     end
 
+    def remove_gem(name)
+      @dependencies.remove(name)
+    end
+
     def group(*names, &block)
       @groups[names] ||=
         Group.new(names).tap { |g| g.git_sources = @git_sources.dup }

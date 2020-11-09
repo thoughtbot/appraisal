@@ -2,7 +2,8 @@ require 'spec_helper'
 
 describe 'Appraisals file Bundler DSL compatibility' do
   it 'supports all Bundler DSL in Appraisals file' do
-    build_gems %w(bagel orange_juice milk waffle coffee ham sausage pancake)
+    build_gems %w(bagel orange_juice milk waffle coffee ham
+                  sausage pancake rotten_egg)
     build_git_gems %w(egg croissant pain_au_chocolat omelette)
 
     build_gemfile <<-Gemfile
@@ -24,6 +25,7 @@ describe 'Appraisals file Bundler DSL compatibility' do
       group :breakfast do
         gem 'orange_juice'
         gem "omelette", :custom_git_source => "omelette"
+        gem 'rotten_egg'
       end
 
       platforms :ruby, :jruby do
@@ -58,6 +60,7 @@ describe 'Appraisals file Bundler DSL compatibility' do
         end
 
         group :breakfast do
+          remove_gem 'rotten_egg'
           gem 'bacon'
 
           platforms :rbx do

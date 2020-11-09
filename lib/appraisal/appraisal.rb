@@ -20,6 +20,10 @@ module Appraisal
       gemfile.gem(*args)
     end
 
+    def remove_gem(*args)
+      gemfile.remove_gem(*args)
+    end
+
     def source(*args, &block)
       gemfile.source(*args, &block)
     end
