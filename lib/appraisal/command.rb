@@ -3,23 +3,24 @@ require "shellwords"
 module Appraisal
   # Executes commands with a clean environment
   class Command
-    BUNDLER_ENV_VARS = %w(RUBYOPT BUNDLE_PATH BUNDLE_BIN_PATH BUNDLE_GEMFILE).freeze
-
-    attr_reader :command, :env, :gemfile, :original_env
+    attr_reader :command, :env, :gemfile
 
     def initialize(command, options = {})
       @gemfile = options[:gemfile]
       @env = options.fetch(:env, {})
       @command = command_starting_with_bundle(command)
-      @original_env = {}
     end
 
     def run
-      with_clean_env { ensure_bundler_is_available }
-      announce
+      run_env = test_environment.merge(env)
 
-      with_clean_env do
-        env.each_pair do |key, value|
+      Bundler.with_original_env do
+        ensure_bundler_is_available
+        announce
+
+        ENV["BUNDLE_GEMFILE"] = gemfile
+        ENV["APPRAISAL_INITIALIZED"] = "1"
+        run_env.each_pair do |key, value|
           ENV[key] = value
         end
 
@@ -30,15 +31,6 @@ module Appraisal
     end
 
     private
-
-    def with_clean_env
-      unset_bundler_env_vars
-      ENV['BUNDLE_GEMFILE'] = gemfile
-      ENV['APPRAISAL_INITIALIZED'] = '1'
-      yield
-    ensure
-      restore_env
-    end
 
     def ensure_bundler_is_available
       version = Utils.bundler_version
@@ -66,17 +58,6 @@ module Appraisal
       end
     end
 
-    def unset_bundler_env_vars
-      BUNDLER_ENV_VARS.each do |key|
-        original_env[key] = ENV[key]
-        ENV[key] = nil
-      end
-    end
-
-    def restore_env
-      original_env.each { |key, value| ENV[key] = value }
-    end
-
     def command_starts_with_bundle?(original_command)
       if original_command.is_a?(Array)
         original_command.first =~ /^bundle/
@@ -99,6 +80,15 @@ module Appraisal
       else
         command
       end
+    end
+
+    def test_environment
+      return {} unless ENV["APPRAISAL_UNDER_TEST"] == "1"
+
+      {
+        "GEM_HOME" => ENV["GEM_HOME"],
+        "GEM_PATH" => "",
+      }
     end
   end
 end
