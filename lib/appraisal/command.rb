@@ -16,8 +16,8 @@ module Appraisal
         ensure_bundler_is_available
         announce
 
-        ENV['BUNDLE_GEMFILE'] = gemfile
-        ENV['APPRAISAL_INITIALIZED'] = '1'
+        ENV["BUNDLE_GEMFILE"] = gemfile
+        ENV["APPRAISAL_INITIALIZED"] = "1"
         env.each_pair do |key, value|
           ENV[key] = value
         end
