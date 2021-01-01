@@ -44,6 +44,10 @@ module Appraisal
       gemfile.group(*args, &block)
     end
 
+    def install_if(*args, &block)
+      gemfile.install_if(*args, &block)
+    end
+
     def platforms(*args, &block)
       gemfile.platforms(*args, &block)
     end
