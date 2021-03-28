@@ -42,7 +42,7 @@ module Appraisal
 
     def ensure_bundler_is_available
       version = Utils.bundler_version
-      unless system %(gem list -i bundler -v #{version})
+      unless system %(gem list --silent -i bundler -v #{version})
         puts ">> Reinstall Bundler into #{ENV["GEM_HOME"]}"
 
         unless system "gem install bundler --version #{version}"
