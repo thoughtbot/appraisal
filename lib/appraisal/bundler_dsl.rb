@@ -5,7 +5,7 @@ module Appraisal
     attr_reader :dependencies
 
     PARTS = %w(source ruby_version gits paths dependencies groups
-      platforms source_blocks install_if gemspec)
+               platforms source_blocks install_if gemspec)
 
     def initialize
       @sources = []
@@ -131,7 +131,7 @@ module Appraisal
       @dependencies.for_dup
     end
 
-    [:gits, :paths, :platforms, :groups, :source_blocks, :install_if].
+    %i[gits paths platforms groups source_blocks install_if].
       each do |method_name|
       class_eval <<-METHODS, __FILE__, __LINE__
         private
