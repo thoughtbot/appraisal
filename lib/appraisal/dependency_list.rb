@@ -1,4 +1,5 @@
 require 'appraisal/dependency'
+require "set"
 
 module Appraisal
   class DependencyList
