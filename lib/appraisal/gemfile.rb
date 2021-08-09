@@ -7,6 +7,7 @@ module Appraisal
   autoload :Path, "appraisal/path"
   autoload :Platform, "appraisal/platform"
   autoload :Source, "appraisal/source"
+  autoload :Conditional, "appraisal/conditional"
 
   # Load bundler Gemfiles and merge dependencies
   class Gemfile < BundlerDSL

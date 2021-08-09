@@ -5,7 +5,7 @@ module Appraisal
     attr_reader :dependencies
 
     PARTS = %w(source ruby_version gits paths dependencies groups
-      platforms source_blocks gemspec)
+               platforms source_blocks install_if gemspec)
 
     def initialize
       @sources = []
@@ -18,6 +18,7 @@ module Appraisal
       @paths = Hash.new
       @source_blocks = Hash.new
       @git_sources = {}
+      @install_if = {}
     end
 
     def run(&block)
@@ -36,6 +37,12 @@ module Appraisal
       @groups[names] ||=
         Group.new(names).tap { |g| g.git_sources = @git_sources.dup }
       @groups[names].run(&block)
+    end
+
+    def install_if(condition, &block)
+      @install_if[condition] ||=
+        Conditional.new(condition).tap { |g| g.git_sources = @git_sources.dup }
+      @install_if[condition].run(&block)
     end
 
     def platforms(*names, &block)
@@ -124,7 +131,7 @@ module Appraisal
       @dependencies.for_dup
     end
 
-    [:gits, :paths, :platforms, :groups, :source_blocks].
+    %i[gits paths platforms groups source_blocks install_if].
       each do |method_name|
       class_eval <<-METHODS, __FILE__, __LINE__
         private
