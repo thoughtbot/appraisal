@@ -28,9 +28,9 @@ describe Appraisal::Appraisal do
     expect(output_file.read).to match(/[^\n]*\n\z/m)
   end
 
-  context 'gemfile customization' do
-    it 'generates a gemfile with a custom heading' do
-      $heading = 'This file was generated with a custom heading!'
+  context "gemfile customization" do
+    it "generates a gemfile with a custom heading" do
+      $heading = "This file was generated with a custom heading!"
       output_file = Tempfile.new("gemfile")
       appraisal = Appraisal::Appraisal.new("custom", "Gemfile")
       allow(appraisal).to receive(:gemfile_path).and_return(output_file.path)
@@ -40,7 +40,7 @@ describe Appraisal::Appraisal do
       expect(output_file.read).to match(/\A# This file was generated with a custom heading!/)
     end
 
-    it 'generates a gemfile with multiple lines of custom heading' do
+    it "generates a gemfile with multiple lines of custom heading" do
       $heading = "frozen_string_literal: true\n\n" \
         "This file was generated with a custom heading!"
       output_file = Tempfile.new("gemfile")
@@ -52,7 +52,7 @@ describe Appraisal::Appraisal do
       expect(output_file.read).to match(/\A# frozen_string_literal: true\n\n# This file was generated with a custom heading!/)
     end
 
-    it 'generates a gemfile with single quotes rather than doubles' do
+    it "generates a gemfile with single quotes rather than doubles" do
       $single_quotes = true
       output_file = Tempfile.new("gemfile")
       appraisal = Appraisal::Appraisal.new("quotes", 'gem "foo"')
