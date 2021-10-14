@@ -174,7 +174,7 @@ module Appraisal
 
     def comment_lines(heading)
       heading.lines.map do |line|
-        if line =~ /^\s+$/
+        if line.lstrip.empty?
           line
         else
           "# #{line}"
