@@ -39,6 +39,17 @@ describe Appraisal::Appraisal do
 
       expect(output_file.read).to match(/\A# This file was generated with a custom heading!/)
     end
+
+    it 'generates a gemfile with single quotes rather than doubles' do
+      $single_quotes = true
+      output_file = Tempfile.new("gemfile")
+      appraisal = Appraisal::Appraisal.new("quotes", 'gem "foo"')
+      allow(appraisal).to receive(:gemfile_path).and_return(output_file.path)
+
+      appraisal.write_gemfile
+
+      expect(output_file.read).to match(/gem 'foo'/)
+    end
   end
 
   context 'parallel installation' do
