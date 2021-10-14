@@ -30,7 +30,7 @@ describe Appraisal::Appraisal do
 
   context 'gemfile customization' do
     it 'generates a gemfile with a custom heading' do
-      $signature = 'This file was generated with a custom heading!'
+      $heading = 'This file was generated with a custom heading!'
       output_file = Tempfile.new("gemfile")
       appraisal = Appraisal::Appraisal.new("custom", "Gemfile")
       allow(appraisal).to receive(:gemfile_path).and_return(output_file.path)
