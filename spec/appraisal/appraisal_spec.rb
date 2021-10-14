@@ -28,6 +28,19 @@ describe Appraisal::Appraisal do
     expect(output_file.read).to match(/[^\n]*\n\z/m)
   end
 
+  context 'gemfile customization' do
+    it 'generates a gemfile with a custom heading' do
+      $signature = 'This file was generated with a custom heading!'
+      output_file = Tempfile.new("gemfile")
+      appraisal = Appraisal::Appraisal.new("custom", "Gemfile")
+      allow(appraisal).to receive(:gemfile_path).and_return(output_file.path)
+
+      appraisal.write_gemfile
+
+      expect(output_file.read).to match(/\A# This file was generated with a custom heading!/)
+    end
+  end
+
   context 'parallel installation' do
     include StreamHelpers
 
