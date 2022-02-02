@@ -430,4 +430,13 @@ describe Appraisal::Gemfile do
       expect(gemfile.to_s).to eq %(gem "bacon", git: "../path/bacon_pancake")
     end
   end
+
+  it "preserves the Gemfile's __FILE__" do
+    gemfile = Appraisal::Gemfile.new
+    Tempfile.open do |tmpfile|
+      tmpfile.write "__FILE__"
+      tmpfile.rewind
+      expect(gemfile.load(tmpfile.path)).to include(File.dirname(tmpfile.path))
+    end
+  end
 end
