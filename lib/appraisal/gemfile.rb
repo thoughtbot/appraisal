@@ -12,19 +12,17 @@ module Appraisal
   # Load bundler Gemfiles and merge dependencies
   class Gemfile < BundlerDSL
     def load(path)
-      if File.exist?(path)
-        run(IO.read(path))
-      end
+      run(IO.read(path), path) if File.exist?(path)
     end
 
-    def run(definitions)
-      instance_eval(definitions, __FILE__, __LINE__) if definitions
+    def run(definitions, path, line = 1)
+      instance_eval(definitions, path, line) if definitions
     end
 
     def dup
       Gemfile.new.tap do |gemfile|
         gemfile.git_sources = @git_sources
-        gemfile.run(for_dup)
+        gemfile.run(for_dup, __FILE__, __LINE__)
       end
     end
   end
