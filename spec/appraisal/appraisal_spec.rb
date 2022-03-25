@@ -30,22 +30,24 @@ describe Appraisal::Appraisal do
 
   context "gemfile customization" do
     it "generates a gemfile with a custom heading" do
-      $heading = "This file was generated with a custom heading!"
+      heading = "This file was generated with a custom heading!"
+      Appraisal::Customize.new(heading: heading)
       output_file = Tempfile.new("gemfile")
       appraisal = Appraisal::Appraisal.new("custom", "Gemfile")
       allow(appraisal).to receive(:gemfile_path).and_return(output_file.path)
 
       appraisal.write_gemfile
 
-      expected_output = "# #{$heading}"
+      expected_output = "# #{heading}"
       expect(output_file.read).to start_with(expected_output)
     end
 
     it "generates a gemfile with multiple lines of custom heading" do
-      $heading = <<~HEADING
+      heading = <<~HEADING
         frozen_string_literal: true\n
         This file was generated with a custom heading!
       HEADING
+      Appraisal::Customize.new(heading: heading)
       output_file = Tempfile.new("gemfile")
       appraisal = Appraisal::Appraisal.new("custom", "Gemfile")
       allow(appraisal).to receive(:gemfile_path).and_return(output_file.path)
@@ -60,7 +62,7 @@ describe Appraisal::Appraisal do
     end
 
     it "generates a gemfile with single quotes rather than doubles" do
-      $single_quotes = true
+      Appraisal::Customize.new(single_quotes: true)
       output_file = Tempfile.new("gemfile")
       appraisal = Appraisal::Appraisal.new("quotes", 'gem "foo"')
       allow(appraisal).to receive(:gemfile_path).and_return(output_file.path)
@@ -71,8 +73,7 @@ describe Appraisal::Appraisal do
     end
 
     it "does not customize anything by default" do
-      $heading = nil
-      $single_quotes = nil
+      Appraisal::Customize.new
       output_file = Tempfile.new("gemfile")
       appraisal = Appraisal::Appraisal.new("fake", 'gem "foo"')
       allow(appraisal).to receive(:gemfile_path).and_return(output_file.path)
