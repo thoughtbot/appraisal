@@ -1,5 +1,5 @@
 require 'appraisal/appraisal'
-require 'appraisal/customize'
+require "appraisal/customize"
 require 'appraisal/errors'
 require 'appraisal/gemfile'
 

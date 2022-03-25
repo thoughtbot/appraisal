@@ -1,6 +1,6 @@
 require 'appraisal/gemfile'
 require 'appraisal/command'
-require 'appraisal/customize'
+require "appraisal/customize"
 require 'appraisal/utils'
 require 'fileutils'
 require 'pathname'

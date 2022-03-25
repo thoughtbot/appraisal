@@ -1,5 +1,5 @@
-require 'spec_helper'
-require 'appraisal/customize'
+require "spec_helper"
+require "appraisal/customize"
 
 describe Appraisal::Customize do
   it "has defaults" do
@@ -9,8 +9,8 @@ describe Appraisal::Customize do
   end
 
   it "can override defaults" do
-    described_class.new(single_quotes: true, heading: 'foo')
-    expect(described_class.heading).to eq 'foo'
+    described_class.new(single_quotes: true, heading: "foo")
+    expect(described_class.heading).to eq "foo"
     expect(described_class.single_quotes).to eq true
   end
 end
