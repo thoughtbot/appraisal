@@ -34,6 +34,10 @@ module Appraisal
       @appraisals << appraisal
     end
 
+    def customize_gemfiles(&block)
+      Customize.new(yield)
+    end
+
     private
 
     def run(definitions)
