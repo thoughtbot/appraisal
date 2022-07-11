@@ -1,4 +1,5 @@
 require 'appraisal/appraisal'
+require "appraisal/customize"
 require 'appraisal/errors'
 require 'appraisal/gemfile'
 
@@ -31,6 +32,10 @@ module Appraisal
       appraisal = Appraisal.new(name, gemfile)
       appraisal.instance_eval(&block)
       @appraisals << appraisal
+    end
+
+    def customize_gemfiles(&_block)
+      Customize.new(yield)
     end
 
     private
