@@ -3,7 +3,13 @@ require "shellwords"
 module Appraisal
   # Executes commands with a clean environment
   class Command
-    BUNDLER_ENV_VARS = %w(RUBYOPT BUNDLE_PATH BUNDLE_BIN_PATH BUNDLE_GEMFILE).freeze
+    BUNDLER_ENV_VARS = %w(
+      RUBYOPT
+      BUNDLE_PATH
+      BUNDLE_BIN_PATH
+      BUNDLE_GEMFILE
+      BUNDLER_SETUP
+    ).freeze
 
     attr_reader :command, :env, :gemfile, :original_env
 
