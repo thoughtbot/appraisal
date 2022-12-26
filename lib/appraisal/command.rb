@@ -32,12 +32,11 @@ module Appraisal
     private
 
     def with_clean_env
-      unset_bundler_env_vars
-      ENV['BUNDLE_GEMFILE'] = gemfile
-      ENV['APPRAISAL_INITIALIZED'] = '1'
-      yield
-    ensure
-      restore_env
+      Bundler.with_unbundled_env do
+        ENV["BUNDLE_GEMFILE"] = gemfile
+        ENV["APPRAISAL_INITIALIZED"] = "1"
+        yield
+      end
     end
 
     def ensure_bundler_is_available
@@ -71,10 +70,6 @@ module Appraisal
         original_env[key] = ENV[key]
         ENV[key] = nil
       end
-    end
-
-    def restore_env
-      original_env.each { |key, value| ENV[key] = value }
     end
 
     def command_starts_with_bundle?(original_command)
