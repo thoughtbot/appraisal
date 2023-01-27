@@ -39,7 +39,9 @@ describe "Bundler without flag" do
     output = run "appraisal install --without drinks"
 
     expect(output).to include("Bundle complete")
-    expect(output).to include("Gems in the group drinks were not installed.")
+    expect(output).to(
+      match(/Gems in the group ['"]?drinks['"]? were not installed/),
+    )
     expect(output).not_to include("orange_juice")
     expect(output).not_to include("coffee")
     expect(output).not_to include("soda")
