@@ -257,7 +257,7 @@ command in the `override` section and use your favourite one.
 Credits
 -------
 
-![thoughtbot](http://presskit.thoughtbot.com/images/thoughtbot-logo-for-readmes.svg)
+![thoughtbot](https://thoughtbot.com/thoughtbot-logo-for-readmes.svg)
 
 Appraisal is maintained and funded by [thoughtbot, inc][thoughtbot]
 
