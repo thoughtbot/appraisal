@@ -16,6 +16,8 @@
          with:
            ruby-version: ${{ matrix.ruby }}
            bundler-cache: true
+       - name: Install bundler v2.3.7
+         run: gem install bundler -v '2.3.7'
        - name: Install dependencies
          run: bundle install
        - name: Run tests
