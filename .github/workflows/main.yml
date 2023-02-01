@@ -20,8 +20,12 @@
        - name: Update system gem for Ruby 2.5, 2.6
          run: gem update --system 3.2.3
          if: ${{ matrix.ruby <= '2.6' }}
-       - name: Install bundler v2.3.10
+       - name: Install bundler v2.3.10 for Ruby 3.1 and below
          run: gem install bundler -v '2.3.10'
+         if: ${{ matrix.ruby <= '3.1' }}
+       - name: Install bundler v2.4.6 for Ruby 3.2 and above
+         run: gem install bundler -v '2.4.6'
+         if: ${{ matrix.ruby >= '3.2' }}
        - name: Install dependencies
          run: bundle install
        - name: Run tests
