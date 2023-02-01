@@ -15,8 +15,8 @@
          uses: ruby/setup-ruby@v1
          with:
            ruby-version: ${{ matrix.ruby }}
-       - name: Install bundler v2.3.7
-         run: gem install bundler -v '2.3.7'
+       - name: Install bundler v2.3.10
+         run: gem install bundler -v '2.3.10'
        - name: Install dependencies
          run: bundle install
        - name: Run tests
