@@ -15,9 +15,9 @@
          uses: ruby/setup-ruby@v1
          with:
            ruby-version: ${{ matrix.ruby }}
-       - name: Update system gem for Ruby 2.5
+       - name: Update system gem for Ruby 2.5, 2.6
          run: gem update --system 3.2.3
-         if: ${{ matrix.ruby == '2.5' }}
+         if: ${{ matrix.ruby <= '2.6' }}
        - name: Install bundler v2.3.10
          run: gem install bundler -v '2.3.10'
        - name: Install dependencies
