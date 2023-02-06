@@ -40,6 +40,26 @@ describe 'CLI', 'appraisal install' do
       not_to include(current_directory)
   end
 
+  it "does not relativize directory of uris in gemfile.lock" do
+    build_gemspec
+    add_gemspec_to_gemfile
+
+    build_git_gem("uri_dummy")
+    uri_dummy_path = "#{current_directory}/uri_dummy"
+    FileUtils.symlink(File.absolute_path("tmp/gems/uri_dummy"), uri_dummy_path)
+
+    build_appraisal_file <<-APPRAISAL
+      appraise '1.0.0' do
+        gem 'uri_dummy', git: 'file://#{uri_dummy_path}'
+      end
+    APPRAISAL
+
+    run "appraisal install"
+
+    expect(content_of("gemfiles/1.0.0.gemfile.lock")).
+      to include("file://#{uri_dummy_path}")
+  end
+
   context 'with job size', :parallel => true do
     before do
       build_appraisal_file <<-Appraisal
