@@ -128,7 +128,7 @@ module AcceptanceTestHelpers
         Reinstall Bundler to #{TMP_GEM_ROOT} as `BUNDLE_DISABLE_SHARED_GEMS`
         is enabled.
       WARNING
-      version = Utils.bundler_version
+      version = Appraisal::Utils.bundler_version
 
       run "gem install bundler --version #{version} --install-dir '#{TMP_GEM_ROOT}'"
     end
@@ -137,7 +137,6 @@ module AcceptanceTestHelpers
   def build_default_gemfile
     build_gemfile <<-Gemfile
       source 'https://rubygems.org'
-
       gem 'appraisal', :path => '#{PROJECT_ROOT}'
     Gemfile
 
