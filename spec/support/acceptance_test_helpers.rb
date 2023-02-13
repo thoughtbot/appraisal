@@ -141,7 +141,8 @@ module AcceptanceTestHelpers
       gem 'appraisal', :path => '#{PROJECT_ROOT}'
     Gemfile
 
-    run "bundle install --binstubs --local"
+    run "bundle install --local"
+    run "bundle binstubs --all"
   end
 
   def in_test_directory(&block)
