@@ -1,6 +1,5 @@
 require 'thor'
 require 'fileutils'
-require "appraisal/travis_ci_helper"
 
 module Appraisal
   class CLI < Thor
@@ -63,16 +62,9 @@ module Appraisal
     end
 
     desc 'generate', 'Generate a gemfile for each appraisal'
-    method_option "travis", :type => :boolean, :default => false
     def generate
       AppraisalFile.each do |appraisal|
         appraisal.write_gemfile
-      end
-
-      if options[:travis]
-        TravisCIHelper.display_instruction
-      else
-        TravisCIHelper.validate_configuration_file
       end
     end
 
