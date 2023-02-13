@@ -10,6 +10,8 @@ describe 'Gemspec' do
     build_gemspec
 
     write_file 'Gemfile', <<-Gemfile
+      source "https://rubygems.org"
+
       gem 'appraisal', :path => #{PROJECT_ROOT.inspect}
 
       gemspec
@@ -26,6 +28,8 @@ describe 'Gemspec' do
     build_gemspec 'specdir'
 
     write_file 'Gemfile', <<-Gemfile
+      source "https://rubygems.org"
+
       gem 'appraisal', :path => #{PROJECT_ROOT.inspect}
 
       gemspec :path => './specdir'
