@@ -11,4 +11,59 @@ describe Appraisal::AppraisalFile do
     allow(File).to receive(:exist?).with("Appraisals").and_return(false)
     expect { described_class.new }.to raise_error(Appraisal::AppraisalsNotFound)
   end
+
+  describe '#customize_gemfiles' do
+    before(:each) do
+      allow(File).to receive(:exist?).with(anything).and_return(true)
+      allow(IO).to receive(:read).with(anything).and_return("")
+    end
+
+    context 'when no arguments are given' do
+      subject { described_class.new.customize_gemfiles }
+
+      it 'raises an error' do
+        expect { subject }.to raise_error(LocalJumpError)
+      end
+    end
+
+    context 'when a block is given' do
+      context 'when the block returns a hash with :heading key' do
+        subject do
+          described_class.new.customize_gemfiles do
+            { heading: 'foo' }
+          end
+        end
+
+        it 'sets the heading' do
+          expect { subject }.to change { Appraisal::Customize.heading }.to('foo')
+        end
+      end
+
+      context 'when the block returns a hash with :single_quotes key' do
+        subject do
+          described_class.new.customize_gemfiles do
+            { single_quotes: true }
+          end
+        end
+
+        it 'sets the single_quotes' do
+          expect { subject }.to change { Appraisal::Customize.single_quotes }.to(true)
+        end
+      end
+
+      context 'when the block returns a hash with :heading and :single_quotes keys' do
+        subject do
+          described_class.new.customize_gemfiles do
+            { heading: 'foo', single_quotes: true }
+          end
+        end
+
+        it 'sets the heading and single_quotes' do
+          subject
+          expect(Appraisal::Customize.heading).to eq('foo')
+          expect(Appraisal::Customize.single_quotes).to eq(true)
+        end
+      end
+    end
+  end
 end
