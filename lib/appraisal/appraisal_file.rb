@@ -35,7 +35,7 @@ module Appraisal
     end
 
     def customize_gemfiles(&_block)
-      Customize.new(yield)
+      Customize.new(**yield)
     end
 
     private
