@@ -19,7 +19,8 @@ describe "Bundle with custom path" do
         end
       Appraisals
 
-      run %(bundle install --path="#{path}")
+      run "bundle config set --local path #{path}"
+      run "bundle install"
       run 'bundle exec appraisal install'
 
       installed_gem = Dir.glob("tmp/stage/#{path}/#{Gem.ruby_engine}/*/gems/*").
@@ -32,6 +33,8 @@ describe "Bundle with custom path" do
 
       appraisal_output = run 'bundle exec appraisal install'
       expect(appraisal_output).to include("The Gemfile's dependencies are satisfied")
+
+      run "bundle config unset --local path"
     end
   end
 
@@ -45,7 +48,9 @@ describe "Bundle with custom path" do
         gem '#{gem_name}'
       Gemfile
 
-      run 'bundle install --path vendor/another'
+      run "bundle config set --local path vendor/another"
+      run "bundle install"
+      run "bundle config unset --local path"
     end
 
     include_examples :gemfile_dependencies_are_satisfied
