@@ -136,7 +136,7 @@ appraise 'rails-5' do
   gem 'rails', '~> 5.2'
 
   group :test do
-    remove_gem :test_after_commit
+    remove_gem 'test_after_commit'
   end
 end
 ```
