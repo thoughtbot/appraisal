@@ -39,11 +39,11 @@ module DependencyHelpers
     build_gem gem_name, version
 
     Dir.chdir "tmp/gems/#{gem_name}" do
-      `git init .`
+      `git init . --initial-branch=master`
       `git config user.email "appraisal@thoughtbot.com"`
       `git config user.name "Appraisal"`
       `git add .`
-      `git commit -a -m "initial commit"`
+      `git commit --all --no-verify --message "initial commit"`
     end
 
     # Cleanup Bundler cache path manually for now
