@@ -108,8 +108,11 @@ module Appraisal
     alias_method :source_entry_for_dup, :source_entry
 
     def ruby_version_entry
-      if @ruby_version
-        "ruby #{@ruby_version.inspect}"
+      return unless @ruby_version
+
+      case @ruby_version
+      when String then "ruby #{@ruby_version.inspect}"
+      else "ruby(#{@ruby_version.inspect})"
       end
     end
 
