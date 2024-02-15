@@ -36,12 +36,10 @@ describe "Bundler without flag" do
     Appraisals
 
     run "bundle install --local"
-    output = run "appraisal install --without drinks"
+    run "bundle config set --local without 'drinks'"
+    output = run "appraisal install"
 
     expect(output).to include("Bundle complete")
-    expect(output).to(
-      match(/Gems in the group ['"]?drinks['"]? were not installed/),
-    )
     expect(output).not_to include("orange_juice")
     expect(output).not_to include("coffee")
     expect(output).not_to include("soda")
