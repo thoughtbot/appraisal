@@ -21,7 +21,7 @@ module Appraisal
         heading.to_s,
         gemfile: gemfile.send("gemfile_name"),
         gemfile_path: gemfile.gemfile_path,
-        relative_gemfile_path: gemfile.relative_gemfile_path
+        relative_gemfile_path: gemfile.relative_gemfile_path,
       )
     end
 
