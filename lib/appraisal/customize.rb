@@ -1,7 +1,7 @@
 module Appraisal
   class Customize
     def initialize(heading: nil, single_quotes: false)
-      @@heading = heading
+      @@heading = heading&.chomp
       @@single_quotes = single_quotes
     end
 
