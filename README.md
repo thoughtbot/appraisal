@@ -224,20 +224,16 @@ command in the `override` section and use your favourite one.
 Credits
 -------
 
-![thoughtbot](https://thoughtbot.com/thoughtbot-logo-for-readmes.svg)
-
-Appraisal is maintained and funded by [thoughtbot, inc][thoughtbot]
-
 Thank you to all [the contributors][contributors]
 
-The names and logos for thoughtbot are trademarks of thoughtbot, inc.
-
-[thoughtbot]: http://thoughtbot.com/community
 [contributors]: https://github.com/thoughtbot/appraisal/contributors
 
 License
 -------
 
-Appraisal is Copyright © 2010-2013 Joe Ferris and thoughtbot, inc. It is free
+Appraisal is Copyright © 2010-2024 Joe Ferris and thoughtbot, inc. It is free
 software, and may be redistributed under the terms specified in the MIT-LICENSE
 file.
+
+<!-- START /templates/footer.md -->
+<!-- END /templates/footer.md -->
