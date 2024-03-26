@@ -83,7 +83,7 @@ describe Appraisal::Customize do
     it "returns the heading with the appraisal name" do
       expect(described_class.send(
                :customize,
-               "Appraisal: %{appraisal}", # rubocop:disable Style/FormatStringToken
+               "Appraisal: %{appraisal}", # rubocop:disable Style/FormatStringToken, Metrics/LineLength
                appraisal,
              )).to eq("Appraisal: #{appraisal_name}")
     end
@@ -99,7 +99,7 @@ describe Appraisal::Customize do
     it "returns the heading with the gemfile path" do
       expect(described_class.send(
                :customize,
-               "Gemfile: %{gemfile_path}", # rubocop:disable Style/FormatStringToken
+               "Gemfile: %{gemfile_path}", # rubocop:disable Style/FormatStringToken, Metrics/LineLength
                appraisal,
              )).to eq("Gemfile: #{gemfile_full_path}")
     end
@@ -107,7 +107,7 @@ describe Appraisal::Customize do
     it "returns the heading with the lockfile name" do
       expect(described_class.send(
                :customize,
-               "Lockfile: %{lockfile}", # rubocop:disable Style/FormatStringToken
+               "Lockfile: %{lockfile}", # rubocop:disable Style/FormatStringToken, Metrics/LineLength
                appraisal,
              )).to eq("Lockfile: #{lockfile}")
     end
@@ -115,7 +115,7 @@ describe Appraisal::Customize do
     it "returns the heading with the lockfile path" do
       expect(described_class.send(
                :customize,
-               "Lockfile: %{lockfile_path}", # rubocop:disable Style/FormatStringToken
+               "Lockfile: %{lockfile_path}", # rubocop:disable Style/FormatStringToken, Metrics/LineLength
                appraisal,
              )).to eq("Lockfile: #{lockfile_full_path}")
     end
