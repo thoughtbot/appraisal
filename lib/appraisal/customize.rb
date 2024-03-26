@@ -19,9 +19,13 @@ module Appraisal
 
       format(
         heading.to_s,
+        appraisal: gemfile.send("clean_name"),
         gemfile: gemfile.send("gemfile_name"),
         gemfile_path: gemfile.gemfile_path,
+        lockfile: "#{gemfile.send("gemfile_name")}.lock",
+        lockfile_path: gemfile.send("lockfile_path"),
         relative_gemfile_path: gemfile.relative_gemfile_path,
+        relative_lockfile_path: "#{gemfile.relative_gemfile_path}.lock",
       )
     end
 

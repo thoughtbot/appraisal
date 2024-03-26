@@ -51,14 +51,19 @@ describe Appraisal::Customize do
   end
 
   describe ".customize" do
+    let(:appraisal_name) { "test" }
     let(:gemfile) { "test.gemfile" }
-    let(:relative_path) { "gemfiles/#{gemfile}" }
-    let(:full_path) { "/path/to/project/#{relative_path}" }
+    let(:lockfile) { "#{gemfile}.lock" }
+    let(:gemfile_relative_path) { "gemfiles/#{gemfile}" }
+    let(:lockfile_relative_path) { "gemfiles/#{lockfile}" }
+    let(:gemfile_full_path) { "/path/to/project/#{gemfile_relative_path}" }
+    let(:lockfile_full_path) { "/path/to/project/#{lockfile_relative_path}" }
     before do
       allow(appraisal).to receive(:gemfile_name).and_return(gemfile)
-      allow(appraisal).to receive(:gemfile_path).and_return(full_path)
+      allow(appraisal).to receive(:gemfile_path).and_return(gemfile_full_path)
+      allow(appraisal).to receive(:lockfile_path).and_return(lockfile_full_path)
       allow(appraisal).to receive(:relative_gemfile_path).
-        and_return(relative_path)
+        and_return(gemfile_relative_path)
     end
 
     it "returns nil if no heading is set" do
@@ -75,6 +80,14 @@ describe Appraisal::Customize do
              )).to eq(single_line_heading)
     end
 
+    it "returns the heading with the appraisal name" do
+      expect(described_class.send(
+               :customize,
+               "Appraisal: %{appraisal}", # rubocop:disable Style/FormatStringToken
+               appraisal,
+             )).to eq("Appraisal: #{appraisal_name}")
+    end
+
     it "returns the heading with the gemfile name" do
       expect(described_class.send(
                :customize,
@@ -86,9 +99,25 @@ describe Appraisal::Customize do
     it "returns the heading with the gemfile path" do
       expect(described_class.send(
                :customize,
-               "Gemfile: %{gemfile_path}", # rubocop:disable Style/FormatStringToken, Metrics/LineLength
+               "Gemfile: %{gemfile_path}", # rubocop:disable Style/FormatStringToken
                appraisal,
-             )).to eq("Gemfile: #{full_path}")
+             )).to eq("Gemfile: #{gemfile_full_path}")
+    end
+
+    it "returns the heading with the lockfile name" do
+      expect(described_class.send(
+               :customize,
+               "Lockfile: %{lockfile}", # rubocop:disable Style/FormatStringToken
+               appraisal,
+             )).to eq("Lockfile: #{lockfile}")
+    end
+
+    it "returns the heading with the lockfile path" do
+      expect(described_class.send(
+               :customize,
+               "Lockfile: %{lockfile_path}", # rubocop:disable Style/FormatStringToken
+               appraisal,
+             )).to eq("Lockfile: #{lockfile_full_path}")
     end
 
     it "returns the heading with the relative gemfile path" do
@@ -96,7 +125,15 @@ describe Appraisal::Customize do
                :customize,
                "Gemfile: %{relative_gemfile_path}", # rubocop:disable Style/FormatStringToken, Metrics/LineLength
                appraisal,
-             )).to eq("Gemfile: #{relative_path}")
+             )).to eq("Gemfile: #{gemfile_relative_path}")
+    end
+
+    it "returns the heading with the relative lockfile path" do
+      expect(described_class.send(
+               :customize,
+               "Gemfile: %{relative_lockfile_path}", # rubocop:disable Style/FormatStringToken, Metrics/LineLength
+               appraisal,
+             )).to eq("Gemfile: #{lockfile_relative_path}")
     end
   end
 end
