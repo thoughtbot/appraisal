@@ -207,6 +207,7 @@ generates within the gemfiles directory, but exclude the lockfiles there
 (`*.gemfile.lock`.) The Gemfiles are useful when running your tests against a
 continuous integration server.
 
+
 Circle CI Integration
 ---------------------
 
