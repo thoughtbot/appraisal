@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'CLI', 'appraisal help' do
+RSpec.describe 'CLI', 'appraisal help' do
   it 'prints usage along with commands, and list of appraisals' do
     build_appraisal_file <<-Appraisal
       appraise '1.0.0' do

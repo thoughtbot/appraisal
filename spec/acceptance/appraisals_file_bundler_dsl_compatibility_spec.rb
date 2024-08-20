@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Appraisals file Bundler DSL compatibility' do
+RSpec.describe 'Appraisals file Bundler DSL compatibility' do
   it 'supports all Bundler DSL in Appraisals file' do
     build_gems %w(bagel orange_juice milk waffle coffee ham
                   sausage pancake rotten_egg mayonnaise)

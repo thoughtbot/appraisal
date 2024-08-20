@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe "Bundle with custom path" do
+RSpec.describe "Bundle with custom path" do
   let(:gem_name) { 'rack' }
   let(:path) { 'vendor/bundle' }
 

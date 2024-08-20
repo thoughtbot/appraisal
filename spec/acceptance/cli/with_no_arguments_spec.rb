@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'CLI appraisal (with no arguments)' do
+RSpec.describe 'CLI appraisal (with no arguments)' do
   it 'runs install command' do
     build_appraisal_file <<-Appraisal
       appraise '1.0.0' do

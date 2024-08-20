@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe "Bundler without flag" do
+RSpec.describe "Bundler without flag" do
   it "passes --without flag to Bundler on install" do
     build_gems %w(pancake orange_juice waffle coffee sausage soda)
 

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Gemspec' do
+RSpec.describe 'Gemspec' do
   before do
     build_appraisal_file
     build_rakefile
