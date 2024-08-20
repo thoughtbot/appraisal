@@ -1,6 +1,6 @@
-# -*- encoding: utf-8 -*-
-$:.push File.expand_path("../lib", __FILE__)
-require "appraisal/version"
+# frozen_string_literal: true
+
+require_relative "lib/appraisal/version"
 
 Gem::Specification.new do |s|
   s.name        = 'appraisal'
@@ -16,12 +16,11 @@ Gem::Specification.new do |s|
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables   = `git ls-files -- exe/*`.split("\n").map{ |f| File.basename(f) }
-  s.require_paths = ["lib"]
   s.bindir        = 'exe'
 
   s.required_ruby_version = ">= 2.3.0"
 
-  s.add_runtime_dependency('rake')
-  s.add_runtime_dependency('bundler')
-  s.add_runtime_dependency('thor', '>= 0.14.0')
+  s.add_dependency('rake')
+  s.add_dependency('bundler')
+  s.add_dependency('thor', '>= 0.14.0')
 end
