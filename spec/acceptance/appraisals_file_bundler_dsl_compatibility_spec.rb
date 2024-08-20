@@ -8,17 +8,17 @@ describe 'Appraisals file Bundler DSL compatibility' do
 
     build_gemfile <<-Gemfile
       source 'https://rubygems.org'
-      git_source(:custom_git_source) { |repo| "../gems/\#{repo}" }
+      git_source(:custom_git_source) { |repo| "../build/\#{repo}" }
       ruby RUBY_VERSION
 
       gem 'bagel'
       gem "croissant", :custom_git_source => "croissant"
 
-      git '../gems/egg' do
+      git '../build/egg' do
         gem 'egg'
       end
 
-      path '../gems/waffle' do
+      path '../build/waffle' do
         gem 'waffle'
       end
 
@@ -55,11 +55,11 @@ describe 'Appraisals file Bundler DSL compatibility' do
         gem 'bread'
         gem "pain_au_chocolat", :custom_git_source => "pain_au_chocolat"
 
-        git '../gems/egg' do
+        git '../build/egg' do
           gem 'porched_egg'
         end
 
-        path '../gems/waffle' do
+        path '../build/waffle' do
           gem 'chocolate_waffle'
         end
 
@@ -100,25 +100,25 @@ describe 'Appraisals file Bundler DSL compatibility' do
 
       ruby "2.3.0"
 
-      git "../../gems/egg" do
+      git "../../build/egg" do
         gem "egg"
         gem "porched_egg"
       end
 
-      path "../../gems/waffle" do
+      path "../../build/waffle" do
         gem "waffle"
         gem "chocolate_waffle"
       end
 
       gem "bagel"
-      gem "croissant", :git => "../../gems/croissant"
+      gem "croissant", :git => "../../build/croissant"
       gem "appraisal", :path => #{PROJECT_ROOT.inspect}
       gem "bread"
-      gem "pain_au_chocolat", :git => "../../gems/pain_au_chocolat"
+      gem "pain_au_chocolat", :git => "../../build/pain_au_chocolat"
 
       group :breakfast do
         gem "orange_juice"
-        gem "omelette", :git => "../../gems/omelette"
+        gem "omelette", :git => "../../build/omelette"
         gem "bacon"
 
         platforms :rbx do
