@@ -72,7 +72,7 @@ module Appraisal
       if command_starts_with_bundle?(original_command)
         original_command
       else
-        %w(bundle exec) + original_command
+        %w[bundle exec] + original_command
       end
     end
 

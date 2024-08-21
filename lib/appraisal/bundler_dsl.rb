@@ -6,8 +6,8 @@ module Appraisal
   class BundlerDSL
     attr_reader :dependencies
 
-    PARTS = %w(source ruby_version gits paths dependencies groups
-               platforms source_blocks install_if gemspec)
+    PARTS = %w[source ruby_version gits paths dependencies groups
+               platforms source_blocks install_if gemspec]
 
     def initialize
       @sources = []

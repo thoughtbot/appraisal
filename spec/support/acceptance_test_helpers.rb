@@ -11,13 +11,13 @@ module AcceptanceTestHelpers
   extend ActiveSupport::Concern
   include DependencyHelpers
 
-  BUNDLER_ENVIRONMENT_VARIABLES = %w(
+  BUNDLER_ENVIRONMENT_VARIABLES = %w[
     RUBYOPT
     BUNDLE_PATH
     BUNDLE_BIN_PATH
     BUNDLE_GEMFILE
     BUNDLER_SETUP
-  ).freeze
+  ].freeze
 
   included do
     metadata[:type] = :acceptance
@@ -46,7 +46,7 @@ module AcceptanceTestHelpers
   def save_environment_variables
     @original_environment_variables = {}
 
-    (BUNDLER_ENVIRONMENT_VARIABLES + %w(PATH)).each do |key|
+    (BUNDLER_ENVIRONMENT_VARIABLES + %w[PATH]).each do |key|
       @original_environment_variables[key] = ENV[key]
     end
   end

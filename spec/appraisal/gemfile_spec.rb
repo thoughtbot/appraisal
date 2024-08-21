@@ -16,14 +16,14 @@ RSpec.describe Appraisal::Gemfile do
     gemfile = Appraisal::Gemfile.new
     gemfile.source "one"
     gemfile.source "two"
-    expect(gemfile.to_s.strip).to eq %{source "one"\nsource "two"}
+    expect(gemfile.to_s.strip).to eq %(source "one"\nsource "two")
   end
 
   it "ignores duplicate sources" do
     gemfile = Appraisal::Gemfile.new
     gemfile.source "one"
     gemfile.source "one"
-    expect(gemfile.to_s.strip).to eq %{source "one"}
+    expect(gemfile.to_s.strip).to eq %(source "one")
   end
 
   it "preserves dependency order" do
@@ -37,7 +37,7 @@ RSpec.describe Appraisal::Gemfile do
   it "supports symbol sources" do
     gemfile = Appraisal::Gemfile.new
     gemfile.source :one
-    expect(gemfile.to_s.strip).to eq %{source :one}
+    expect(gemfile.to_s.strip).to eq %(source :one)
   end
 
   it "supports group syntax" do

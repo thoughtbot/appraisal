@@ -4,9 +4,9 @@ require "spec_helper"
 
 RSpec.describe "Appraisals file Bundler DSL compatibility" do
   it "supports all Bundler DSL in Appraisals file" do
-    build_gems %w(bagel orange_juice milk waffle coffee ham
-                  sausage pancake rotten_egg mayonnaise)
-    build_git_gems %w(egg croissant pain_au_chocolat omelette)
+    build_gems %w[bagel orange_juice milk waffle coffee ham
+                  sausage pancake rotten_egg mayonnaise]
+    build_git_gems %w[egg croissant pain_au_chocolat omelette]
 
     build_gemfile <<-GEMFILE
       source 'https://rubygems.org'

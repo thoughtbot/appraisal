@@ -45,7 +45,7 @@ module Appraisal
     end
 
     def gem_name
-      %{gem "#{name}"}
+      %(gem "#{name}")
     end
 
     def no_requirements?

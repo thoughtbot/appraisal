@@ -4,7 +4,7 @@ require "spec_helper"
 
 RSpec.describe "Gemfile DSL compatibility" do
   it "supports all Bundler DSL in Gemfile" do
-    build_gems %w(bacon orange_juice waffle)
+    build_gems %w[bacon orange_juice waffle]
     build_git_gem "egg"
     build_gemspec
 
