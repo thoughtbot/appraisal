@@ -7,17 +7,17 @@ RSpec.describe "Bundle with custom path" do
   shared_examples :gemfile_dependencies_are_satisfied do
 
     it "installs gems in the --path directory" do
-      build_gemfile <<-Gemfile
+      build_gemfile <<-GEMFILE
         source "https://rubygems.org"
 
         gem 'appraisal', :path => #{PROJECT_ROOT.inspect}
-      Gemfile
+      GEMFILE
 
-      build_appraisal_file <<-Appraisals
+      build_appraisal_file <<-APPRAISALS
         appraise "#{gem_name}" do
           gem '#{gem_name}'
         end
-      Appraisals
+      APPRAISALS
 
       run "bundle config set --local path #{path}"
       run "bundle install"
@@ -42,11 +42,11 @@ RSpec.describe "Bundle with custom path" do
 
   context "when already installed in vendor/another" do
     before do
-      build_gemfile <<-Gemfile
+      build_gemfile <<-GEMFILE
         source "https://rubygems.org"
 
         gem '#{gem_name}'
-      Gemfile
+      GEMFILE
 
       run "bundle config set --local path vendor/another"
       run "bundle install"

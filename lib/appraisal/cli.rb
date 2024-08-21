@@ -8,7 +8,7 @@ module Appraisal
 
     # Override help command to print out usage
     def self.help(shell, subcommand = false)
-      shell.say strip_heredoc(<<-help)
+      shell.say strip_heredoc(<<-HELP)
         Appraisal: Find out what your Ruby gems are worth.
 
         Usage:
@@ -16,7 +16,7 @@ module Appraisal
 
           If APPRAISAL_NAME is given, only run that EXTERNAL_COMMAND against the given
           appraisal, otherwise it runs the EXTERNAL_COMMAND against all appraisals.
-      help
+      HELP
 
       if File.exist?("Appraisals")
         shell.say

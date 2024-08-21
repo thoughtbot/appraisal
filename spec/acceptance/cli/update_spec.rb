@@ -4,12 +4,12 @@ RSpec.describe "CLI", "appraisal update" do
   before do
     build_gem "dummy2", "1.0.0"
 
-    build_appraisal_file <<-Appraisal
+    build_appraisal_file <<-APPRAISAL
       appraise 'dummy' do
         gem 'dummy', '~> 1.0.0'
         gem 'dummy2', '~> 1.0.0'
       end
-    Appraisal
+    APPRAISAL
 
     run "appraisal install"
     build_gem "dummy", "1.0.1"

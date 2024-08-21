@@ -2,11 +2,11 @@ require "spec_helper"
 
 RSpec.describe "CLI appraisal (with no arguments)" do
   it "runs install command" do
-    build_appraisal_file <<-Appraisal
+    build_appraisal_file <<-APPRAISAL
       appraise '1.0.0' do
         gem 'dummy', '1.0.0'
       end
-    Appraisal
+    APPRAISAL
 
     run "appraisal"
 

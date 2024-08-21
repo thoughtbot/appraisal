@@ -8,7 +8,7 @@ RSpec.describe "CLI", "appraisal install" do
   end
 
   it "installs the dependencies" do
-    build_appraisal_file <<-Appraisal
+    build_appraisal_file <<-APPRAISAL
       appraise '1.0.0' do
         gem 'dummy', '1.0.0'
       end
@@ -16,7 +16,7 @@ RSpec.describe "CLI", "appraisal install" do
       appraise '1.1.0' do
         gem 'dummy', '1.1.0'
       end
-    Appraisal
+    APPRAISAL
 
     run "appraisal install"
 
@@ -28,11 +28,11 @@ RSpec.describe "CLI", "appraisal install" do
     build_gemspec
     add_gemspec_to_gemfile
 
-    build_appraisal_file <<-Appraisal
+    build_appraisal_file <<-APPRAISAL
       appraise '1.0.0' do
         gem 'dummy', '1.0.0'
       end
-    Appraisal
+    APPRAISAL
 
     run "appraisal install"
 
@@ -62,11 +62,11 @@ RSpec.describe "CLI", "appraisal install" do
 
   context "with job size", parallel: true do
     before do
-      build_appraisal_file <<-Appraisal
+      build_appraisal_file <<-APPRAISAL
         appraise '1.0.0' do
           gem 'dummy', '1.0.0'
         end
-      Appraisal
+      APPRAISAL
     end
 
     it "accepts --jobs option to set job size" do

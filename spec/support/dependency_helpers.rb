@@ -10,7 +10,7 @@ module DependencyHelpers
         lib_file = "lib/#{gem_name}.rb"
 
         File.open gemspec, "w" do |file|
-          file.puts <<-gemspec
+          file.puts <<-GEMSPEC
             Gem::Specification.new do |s|
               s.name    = #{gem_name.inspect}
               s.version = #{version.inspect}
@@ -21,7 +21,7 @@ module DependencyHelpers
               s.homepage = 'http://github.com/thoughtbot/#{gem_name}'
               s.required_ruby_version = '>= 2.3.0'
             end
-          gemspec
+          GEMSPEC
         end
 
         File.open lib_file, "w" do |file|

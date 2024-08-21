@@ -80,14 +80,14 @@ module AcceptanceTestHelpers
   end
 
   def build_gemspec
-    write_file "stage.gemspec", <<-gemspec
+    write_file "stage.gemspec", <<-GEMSPEC
       Gem::Specification.new do |s|
         s.name = 'stage'
         s.version = '0.1'
         s.summary = 'Awesome Gem!'
         s.authors = "Appraisal"
       end
-    gemspec
+    GEMSPEC
   end
 
   def content_of(path)
@@ -140,11 +140,11 @@ module AcceptanceTestHelpers
   end
 
   def build_default_gemfile
-    build_gemfile <<-Gemfile
+    build_gemfile <<-GEMFILE
       source 'https://rubygems.org'
 
       gem 'appraisal', :path => '#{PROJECT_ROOT}'
-    Gemfile
+    GEMFILE
 
     run "bundle install --local"
     run "bundle binstubs --all"
@@ -165,10 +165,10 @@ module AcceptanceTestHelpers
         end
 
         if raise_on_error && exitstatus != 0
-          raise RuntimeError, <<-error_message.strip_heredoc
+          raise RuntimeError, <<-ERROR_MESSAGE.strip_heredoc
             Command #{command.inspect} exited with status #{exitstatus}. Output:
             #{output.gsub(/^/, '  ')}
-          error_message
+          ERROR_MESSAGE
         end
       end
     end

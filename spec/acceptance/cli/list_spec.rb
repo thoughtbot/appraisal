@@ -2,7 +2,7 @@ require "spec_helper"
 
 RSpec.describe "CLI", "appraisal list" do
   it "prints list of appraisals" do
-    build_appraisal_file <<-Appraisal
+    build_appraisal_file <<-APPRAISAL
       appraise '1.0.0' do
         gem 'dummy', '1.0.0'
       end
@@ -12,7 +12,7 @@ RSpec.describe "CLI", "appraisal list" do
       appraise '1.1.0' do
         gem 'dummy', '1.0.0'
       end
-    Appraisal
+    APPRAISAL
 
     output = run "appraisal list"
 

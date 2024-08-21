@@ -2,11 +2,11 @@ require "spec_helper"
 
 RSpec.describe "CLI", "appraisal clean" do
   it "remove all gemfiles from gemfiles directory" do
-    build_appraisal_file <<-Appraisal
+    build_appraisal_file <<-APPRAISAL
       appraise '1.0.0' do
         gem 'dummy', '1.0.0'
       end
-    Appraisal
+    APPRAISAL
 
     run "appraisal install"
     write_file "gemfiles/non_related_file", ""

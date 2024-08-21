@@ -9,13 +9,13 @@ RSpec.describe "Gemspec" do
   it "supports gemspec syntax with default options" do
     build_gemspec
 
-    write_file "Gemfile", <<-Gemfile
+    write_file "Gemfile", <<-GEMFILE
       source "https://rubygems.org"
 
       gem 'appraisal', :path => #{PROJECT_ROOT.inspect}
 
       gemspec
-    Gemfile
+    GEMFILE
 
     run "bundle install --local"
     run "appraisal install"
@@ -27,13 +27,13 @@ RSpec.describe "Gemspec" do
   it "supports gemspec syntax with path option" do
     build_gemspec "specdir"
 
-    write_file "Gemfile", <<-Gemfile
+    write_file "Gemfile", <<-GEMFILE
       source "https://rubygems.org"
 
       gem 'appraisal', :path => #{PROJECT_ROOT.inspect}
 
       gemspec :path => './specdir'
-    Gemfile
+    GEMFILE
 
     run "bundle install --local"
     run "appraisal install"
@@ -43,15 +43,15 @@ RSpec.describe "Gemspec" do
   end
 
   def build_appraisal_file
-    super <<-Appraisals
+    super <<-APPRAISALS
       appraise 'stock' do
         gem 'rake'
       end
-    Appraisals
+    APPRAISALS
   end
 
   def build_rakefile
-    write_file "Rakefile", <<-rakefile
+    write_file "Rakefile", <<-RAKEFILE
       require 'rubygems'
       require 'bundler/setup'
       require 'appraisal'
@@ -60,13 +60,13 @@ RSpec.describe "Gemspec" do
         require 'dummy'
         puts "Loaded \#{$dummy_version}"
       end
-    rakefile
+    RAKEFILE
   end
 
   def build_gemspec(path = ".")
     Dir.mkdir("tmp/stage/#{path}") rescue nil
 
-    write_file File.join(path, "gemspec_project.gemspec"), <<-gemspec
+    write_file File.join(path, "gemspec_project.gemspec"), <<-GEMSPEC
       Gem::Specification.new do |s|
         s.name = 'gemspec_project'
         s.version = '0.1'
@@ -75,6 +75,6 @@ RSpec.describe "Gemspec" do
 
         s.add_development_dependency('dummy', '1.1.0')
       end
-    gemspec
+    GEMSPEC
   end
 end
