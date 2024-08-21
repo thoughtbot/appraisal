@@ -22,10 +22,10 @@ module Appraisal
     private
 
     def formatted_output(output_dependencies)
-      <<-OUTPUT.strip
-source #{@source.inspect} do
-#{output_dependencies}
-end
+      <<~OUTPUT.strip
+        source #{@source.inspect} do
+        #{output_dependencies}
+        end
       OUTPUT
     end
   end

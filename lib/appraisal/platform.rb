@@ -22,10 +22,10 @@ module Appraisal
     private
 
     def formatted_output(output_dependencies)
-      <<-OUTPUT.strip
-platforms #{Utils.format_arguments(@platform_names)} do
-#{output_dependencies}
-end
+      <<~OUTPUT.strip
+        platforms #{Utils.format_arguments(@platform_names)} do
+        #{output_dependencies}
+        end
       OUTPUT
     end
   end
