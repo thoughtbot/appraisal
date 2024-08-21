@@ -1,5 +1,5 @@
-require 'thor'
-require 'fileutils'
+require "thor"
+require "fileutils"
 
 module Appraisal
   class CLI < Thor
@@ -18,9 +18,9 @@ module Appraisal
           appraisal, otherwise it runs the EXTERNAL_COMMAND against all appraisals.
       help
 
-      if File.exist?('Appraisals')
+      if File.exist?("Appraisals")
         shell.say
-        shell.say 'Available Appraisal(s):'
+        shell.say "Available Appraisal(s):"
 
         AppraisalFile.each do |appraisal|
           shell.say "  - #{appraisal.name}"
@@ -36,12 +36,12 @@ module Appraisal
       true
     end
 
-    desc 'install', 'Resolve and install dependencies for each appraisal'
-    method_option 'jobs', :aliases => 'j', :type => :numeric, :default => 1,
-      :banner => 'SIZE',
-      :desc => 'Install gems in parallel using the given number of workers.'
-    method_option 'retry', :type => :numeric, :default => 1,
-      :desc => 'Retry network and git requests that have failed'
+    desc "install", "Resolve and install dependencies for each appraisal"
+    method_option "jobs", :aliases => "j", :type => :numeric, :default => 1,
+      :banner => "SIZE",
+      :desc => "Install gems in parallel using the given number of workers."
+    method_option "retry", :type => :numeric, :default => 1,
+      :desc => "Retry network and git requests that have failed"
     method_option "without", :banner => "GROUP_NAMES",
       :desc => "A space-separated list of groups referencing gems to skip " +
         "during installation. Bundler will remember this option."
@@ -61,19 +61,19 @@ module Appraisal
       end
     end
 
-    desc 'generate', 'Generate a gemfile for each appraisal'
+    desc "generate", "Generate a gemfile for each appraisal"
     def generate
       AppraisalFile.each do |appraisal|
         appraisal.write_gemfile
       end
     end
 
-    desc 'clean', 'Remove all generated gemfiles and lockfiles from gemfiles folder'
+    desc "clean", "Remove all generated gemfiles and lockfiles from gemfiles folder"
     def clean
-      FileUtils.rm_f Dir['gemfiles/*.{gemfile,gemfile.lock}']
+      FileUtils.rm_f Dir["gemfiles/*.{gemfile,gemfile.lock}"]
     end
 
-    desc 'update [LIST_OF_GEMS]', 'Remove all generated gemfiles and lockfiles, resolve, and install dependencies again'
+    desc "update [LIST_OF_GEMS]", "Remove all generated gemfiles and lockfiles, resolve, and install dependencies again"
     def update(*gems)
       invoke :generate, []
 
@@ -82,7 +82,7 @@ module Appraisal
       end
     end
 
-    desc 'list', 'List the names of the defined appraisals'
+    desc "list", "List the names of the defined appraisals"
     def list
       AppraisalFile.new.appraisals.each { |appraisal| puts appraisal.name }
     end
@@ -110,7 +110,7 @@ module Appraisal
 
     def self.strip_heredoc(string)
       indent = string.scan(/^[ \t]*(?=\S)/).min.size || 0
-      string.gsub(/^[ \t]{#{indent}}/, '')
+      string.gsub(/^[ \t]{#{indent}}/, "")
     end
   end
 end

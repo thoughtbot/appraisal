@@ -2,7 +2,7 @@ module Appraisal
   # Contains methods for various operations
   module Utils
     def self.support_parallel_installation?
-      Gem::Version.create(Bundler::VERSION) >= Gem::Version.create('1.4.0.pre.1')
+      Gem::Version.create(Bundler::VERSION) >= Gem::Version.create("1.4.0.pre.1")
     end
 
     def self.format_string(object, enclosing_object = false)
@@ -15,7 +15,7 @@ module Appraisal
         if enclosing_object
           "{ #{items.join(', ')} }"
         else
-          items.join(', ')
+          items.join(", ")
         end
       else
         object.inspect
@@ -35,7 +35,7 @@ module Appraisal
 
     def self.format_arguments(arguments)
       unless arguments.empty?
-        arguments.map { |object| format_string(object, false) }.join(', ')
+        arguments.map { |object| format_string(object, false) }.join(", ")
       end
     end
 

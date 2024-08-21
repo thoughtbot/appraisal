@@ -1,8 +1,8 @@
-require 'rspec/expectations/expectation_target'
-require 'active_support/core_ext/string/strip'
-require 'active_support/core_ext/string/filters'
-require 'active_support/concern'
-require 'appraisal/utils'
+require "rspec/expectations/expectation_target"
+require "active_support/core_ext/string/strip"
+require "active_support/core_ext/string/filters"
+require "active_support/concern"
+require "appraisal/utils"
 require "./spec/support/dependency_helpers"
 
 module AcceptanceTestHelpers
@@ -22,7 +22,7 @@ module AcceptanceTestHelpers
 
     before :parallel => true do
       unless Appraisal::Utils.support_parallel_installation?
-        pending 'This Bundler version does not support --jobs flag.'
+        pending "This Bundler version does not support --jobs flag."
       end
     end
 
@@ -56,7 +56,7 @@ module AcceptanceTestHelpers
   end
 
   def add_binstub_path
-    ENV['PATH'] = "bin:#{ENV['PATH']}"
+    ENV["PATH"] = "bin:#{ENV['PATH']}"
   end
 
   def restore_environment_variables
@@ -66,16 +66,16 @@ module AcceptanceTestHelpers
   end
 
   def build_appraisal_file(content)
-    write_file 'Appraisals', content.strip_heredoc
+    write_file "Appraisals", content.strip_heredoc
   end
 
   def build_gemfile(content)
-    write_file 'Gemfile', content.strip_heredoc
+    write_file "Gemfile", content.strip_heredoc
   end
 
   def add_gemspec_to_gemfile
     in_test_directory do
-      File.open('Gemfile', 'a') { |file| file.puts 'gemspec' }
+      File.open("Gemfile", "a") { |file| file.puts "gemspec" }
     end
   end
 
@@ -107,11 +107,11 @@ module AcceptanceTestHelpers
   private
 
   def current_directory
-    File.expand_path('tmp/stage')
+    File.expand_path("tmp/stage")
   end
 
   def write_file(filename, content)
-    in_test_directory { File.open(filename, 'w') { |file| file.puts content } }
+    in_test_directory { File.open(filename, "w") { |file| file.puts content } }
   end
 
   def cleanup_artifacts
@@ -121,8 +121,8 @@ module AcceptanceTestHelpers
   def build_default_dummy_gems
     FileUtils.mkdir_p(TMP_GEM_ROOT)
 
-    build_gem 'dummy', '1.0.0'
-    build_gem 'dummy', '1.1.0'
+    build_gem "dummy", "1.0.0"
+    build_gem "dummy", "1.1.0"
   end
 
   def ensure_bundler_is_available

@@ -1,7 +1,7 @@
-require 'appraisal/appraisal'
+require "appraisal/appraisal"
 require "appraisal/customize"
-require 'appraisal/errors'
-require 'appraisal/gemfile'
+require "appraisal/errors"
+require "appraisal/gemfile"
 
 module Appraisal
   # Loads and parses Appraisals file
@@ -15,7 +15,7 @@ module Appraisal
     def initialize
       @appraisals = []
       @gemfile = Gemfile.new
-      @gemfile.load(ENV['BUNDLE_GEMFILE'] || 'Gemfile')
+      @gemfile.load(ENV["BUNDLE_GEMFILE"] || "Gemfile")
 
       if File.exist? path
         run IO.read(path)
@@ -45,7 +45,7 @@ module Appraisal
     end
 
     def path
-      'Appraisals'
+      "Appraisals"
     end
   end
 end

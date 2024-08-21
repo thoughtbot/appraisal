@@ -1,23 +1,23 @@
-require 'spec_helper'
-require 'appraisal/utils'
+require "spec_helper"
+require "appraisal/utils"
 
 RSpec.describe Appraisal::Utils do
-  describe '.format_string' do
+  describe ".format_string" do
     it "prints out a nice looking hash without brackets with new syntax" do
-      hash = { :foo => 'bar' }
+      hash = { :foo => "bar" }
       expect(Appraisal::Utils.format_string(hash)).to eq('foo: "bar"')
 
-      hash = { 'baz' => { :ball => 'boo' }}
+      hash = { "baz" => { :ball => "boo" }}
       expect(Appraisal::Utils.format_string(hash)).
         to eq('"baz" => { ball: "boo" }')
     end
   end
 
-  describe '.format_arguments' do
-    before { stub_const('RUBY_VERSION', '2.3.0') }
+  describe ".format_arguments" do
+    before { stub_const("RUBY_VERSION", "2.3.0") }
 
-    it 'prints out arguments without enclosing square brackets' do
-      arguments = [:foo, { :bar => { :baz => 'ball' }}]
+    it "prints out arguments without enclosing square brackets" do
+      arguments = [:foo, { :bar => { :baz => "ball" }}]
 
       expect(Appraisal::Utils.format_arguments(arguments)).to eq(
         ':foo, bar: { baz: "ball" }'

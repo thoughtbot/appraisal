@@ -1,4 +1,4 @@
-require 'appraisal/utils'
+require "appraisal/utils"
 
 module Appraisal
   # Dependency on a gem and optional version requirements

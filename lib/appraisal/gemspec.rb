@@ -1,4 +1,4 @@
-require 'appraisal/utils'
+require "appraisal/utils"
 
 module Appraisal
   class Gemspec
@@ -6,7 +6,7 @@ module Appraisal
 
     def initialize(options = {})
       @options = options
-      @options[:path] ||= '.'
+      @options[:path] ||= "."
     end
 
     def to_s

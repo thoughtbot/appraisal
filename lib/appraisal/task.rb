@@ -1,5 +1,5 @@
-require 'appraisal/appraisal_file'
-require 'rake/tasklib'
+require "appraisal/appraisal_file"
+require "rake/tasklib"
 
 module Appraisal
   # Defines tasks for installing appraisal dependencies and running other tasks
@@ -11,21 +11,21 @@ module Appraisal
         task :gemfiles do
           warn "`rake appraisal:gemfile` task is deprecated and will be removed soon. " +
             "Please use `appraisal generate`."
-          exec 'bundle exec appraisal generate'
+          exec "bundle exec appraisal generate"
         end
 
         desc "DEPRECATED: Resolve and install dependencies for each appraisal"
         task :install do
           warn "`rake appraisal:install` task is deprecated and will be removed soon. " +
             "Please use `appraisal install`."
-          exec 'bundle exec appraisal install'
+          exec "bundle exec appraisal install"
         end
 
         desc "DEPRECATED: Remove all generated gemfiles from gemfiles/ folder"
         task :cleanup do
           warn "`rake appraisal:cleanup` task is deprecated and will be removed soon. " +
             "Please use `appraisal clean`."
-          exec 'bundle exec appraisal clean'
+          exec "bundle exec appraisal clean"
         end
 
         begin

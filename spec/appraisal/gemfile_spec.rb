@@ -1,13 +1,13 @@
-require 'spec_helper'
-require 'appraisal/gemfile'
-require 'active_support/core_ext/string/strip'
+require "spec_helper"
+require "appraisal/gemfile"
+require "active_support/core_ext/string/strip"
 
 RSpec.describe Appraisal::Gemfile do
   include StreamHelpers
 
   it "supports gemfiles without sources" do
     gemfile = Appraisal::Gemfile.new
-    expect(gemfile.to_s.strip).to eq ''
+    expect(gemfile.to_s.strip).to eq ""
   end
 
   it "supports multiple sources" do
@@ -38,7 +38,7 @@ RSpec.describe Appraisal::Gemfile do
     expect(gemfile.to_s.strip).to eq %{source :one}
   end
 
-  it 'supports group syntax' do
+  it "supports group syntax" do
     gemfile = Appraisal::Gemfile.new
 
     gemfile.group :development, :test do
@@ -84,7 +84,7 @@ RSpec.describe Appraisal::Gemfile do
     GEMFILE
   end
 
-  it 'supports platform syntax' do
+  it "supports platform syntax" do
     gemfile = Appraisal::Gemfile.new
 
     gemfile.platform :jruby do
@@ -226,7 +226,7 @@ RSpec.describe Appraisal::Gemfile do
     context "no contents" do
       it "shows empty string" do
         gemfile = Appraisal::Gemfile.new
-        expect(gemfile.to_s).to eq ''
+        expect(gemfile.to_s).to eq ""
       end
     end
 
@@ -251,7 +251,7 @@ RSpec.describe Appraisal::Gemfile do
   end
 
   context "relative path handling" do
-    before { stub_const('RUBY_VERSION', '2.3.0') }
+    before { stub_const("RUBY_VERSION", "2.3.0") }
 
     context "in :path option" do
       it "handles dot path" do
@@ -420,7 +420,7 @@ RSpec.describe Appraisal::Gemfile do
   end
 
   context "git_source support" do
-    before { stub_const('RUBY_VERSION', '2.3.0') }
+    before { stub_const("RUBY_VERSION", "2.3.0") }
 
     it "stores git_source declaration and apply it as git option" do
       gemfile = Appraisal::Gemfile.new

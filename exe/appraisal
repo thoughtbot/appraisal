@@ -1,8 +1,8 @@
 #!/usr/bin/env ruby
-require 'rubygems'
-require 'bundler/setup'
-require 'appraisal'
-require 'appraisal/cli'
+require "rubygems"
+require "bundler/setup"
+require "appraisal"
+require "appraisal/cli"
 
 begin
   Appraisal::CLI.start

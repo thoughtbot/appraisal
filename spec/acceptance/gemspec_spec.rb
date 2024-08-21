@@ -1,15 +1,15 @@
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Gemspec' do
+RSpec.describe "Gemspec" do
   before do
     build_appraisal_file
     build_rakefile
   end
 
-  it 'supports gemspec syntax with default options' do
+  it "supports gemspec syntax with default options" do
     build_gemspec
 
-    write_file 'Gemfile', <<-Gemfile
+    write_file "Gemfile", <<-Gemfile
       source "https://rubygems.org"
 
       gem 'appraisal', :path => #{PROJECT_ROOT.inspect}
@@ -17,17 +17,17 @@ RSpec.describe 'Gemspec' do
       gemspec
     Gemfile
 
-    run 'bundle install --local'
-    run 'appraisal install'
-    output = run 'appraisal rake version'
+    run "bundle install --local"
+    run "appraisal install"
+    output = run "appraisal rake version"
 
-    expect(output).to include 'Loaded 1.1.0'
+    expect(output).to include "Loaded 1.1.0"
   end
 
-  it 'supports gemspec syntax with path option' do
-    build_gemspec 'specdir'
+  it "supports gemspec syntax with path option" do
+    build_gemspec "specdir"
 
-    write_file 'Gemfile', <<-Gemfile
+    write_file "Gemfile", <<-Gemfile
       source "https://rubygems.org"
 
       gem 'appraisal', :path => #{PROJECT_ROOT.inspect}
@@ -35,11 +35,11 @@ RSpec.describe 'Gemspec' do
       gemspec :path => './specdir'
     Gemfile
 
-    run 'bundle install --local'
-    run 'appraisal install'
-    output = run 'appraisal rake version'
+    run "bundle install --local"
+    run "appraisal install"
+    output = run "appraisal rake version"
 
-    expect(output).to include 'Loaded 1.1.0'
+    expect(output).to include "Loaded 1.1.0"
   end
 
   def build_appraisal_file
@@ -51,7 +51,7 @@ RSpec.describe 'Gemspec' do
   end
 
   def build_rakefile
-    write_file 'Rakefile', <<-rakefile
+    write_file "Rakefile", <<-rakefile
       require 'rubygems'
       require 'bundler/setup'
       require 'appraisal'
@@ -63,10 +63,10 @@ RSpec.describe 'Gemspec' do
     rakefile
   end
 
-  def build_gemspec(path = '.')
+  def build_gemspec(path = ".")
     Dir.mkdir("tmp/stage/#{path}") rescue nil
 
-    write_file File.join(path, 'gemspec_project.gemspec'), <<-gemspec
+    write_file File.join(path, "gemspec_project.gemspec"), <<-gemspec
       Gem::Specification.new do |s|
         s.name = 'gemspec_project'
         s.version = '0.1'

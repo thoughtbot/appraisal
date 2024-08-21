@@ -1,9 +1,9 @@
-require 'appraisal/gemfile'
-require 'appraisal/command'
+require "appraisal/gemfile"
+require "appraisal/command"
 require "appraisal/customize"
-require 'appraisal/utils'
-require 'fileutils'
-require 'pathname'
+require "appraisal/utils"
+require "fileutils"
+require "pathname"
 
 module Appraisal
   # Represents one appraisal and its dependencies
@@ -79,7 +79,7 @@ module Appraisal
       command = commands.join(" || ")
 
       if Bundler.settings[:path]
-        env = { 'BUNDLE_DISABLE_SHARED_GEMS' => '1' }
+        env = { "BUNDLE_DISABLE_SHARED_GEMS" => "1" }
         Command.new(command, :env => env).run
       else
         Command.new(command).run
@@ -107,7 +107,7 @@ module Appraisal
       relative_path = current_directory.relative_path_from(gemfile_root).cleanpath
       lockfile_content = File.read(lockfile_path)
 
-      File.open(lockfile_path, 'w') do |file|
+      File.open(lockfile_path, "w") do |file|
         file.write lockfile_content.gsub(
           / #{current_directory}/,
           " #{relative_path}",
@@ -119,16 +119,16 @@ module Appraisal
 
     def check_command
       gemfile_option = "--gemfile='#{gemfile_path}'"
-      ['bundle', 'check', gemfile_option]
+      ["bundle", "check", gemfile_option]
     end
 
     def install_command(options = {})
       gemfile_option = "--gemfile='#{gemfile_path}'"
-      ['bundle', 'install', gemfile_option, bundle_options(options)].compact
+      ["bundle", "install", gemfile_option, bundle_options(options)].compact
     end
 
     def update_command(gems)
-      ['bundle', 'update', *gems].compact
+      ["bundle", "update", *gems].compact
     end
 
     def gemfile_root
@@ -148,7 +148,7 @@ module Appraisal
     end
 
     def clean_name
-      name.gsub(/[^\w\.]/, '_')
+      name.gsub(/[^\w\.]/, "_")
     end
 
     def bundle_options(options)
@@ -159,8 +159,8 @@ module Appraisal
         if Utils.support_parallel_installation?
           options_strings << "--jobs=#{jobs}"
         else
-          warn 'Your current version of Bundler does not support parallel installation. Please ' +
-            'upgrade Bundler to version >= 1.4.0, or invoke `appraisal` without `--jobs` option.'
+          warn "Your current version of Bundler does not support parallel installation. Please " +
+            "upgrade Bundler to version >= 1.4.0, or invoke `appraisal` without `--jobs` option."
         end
       end
 

@@ -1,6 +1,6 @@
-require 'spec_helper'
-require 'appraisal/appraisal'
-require 'tempfile'
+require "spec_helper"
+require "appraisal/appraisal"
+require "tempfile"
 
 RSpec.describe Appraisal::Appraisal do
   it "converts spaces to underscores in the gemfile path" do
@@ -85,19 +85,19 @@ RSpec.describe Appraisal::Appraisal do
     end
   end
 
-  context 'parallel installation' do
+  context "parallel installation" do
     include StreamHelpers
 
     before do
-      @appraisal = Appraisal::Appraisal.new('fake', 'fake')
+      @appraisal = Appraisal::Appraisal.new("fake", "fake")
       allow(@appraisal).to receive(:gemfile_path).and_return("/home/test/test directory")
       allow(@appraisal).to receive(:project_root).
         and_return(Pathname.new("/home/test"))
       allow(Appraisal::Command).to receive(:new).and_return(double(:run => true))
     end
 
-    it 'runs single install command on Bundler < 1.4.0' do
-      stub_const('Bundler::VERSION', '1.3.0')
+    it "runs single install command on Bundler < 1.4.0" do
+      stub_const("Bundler::VERSION", "1.3.0")
 
       warning = capture(:stderr) do
         @appraisal.install("jobs" => 42)
@@ -105,11 +105,11 @@ RSpec.describe Appraisal::Appraisal do
 
       expect(Appraisal::Command).to have_received(:new).
         with("#{bundle_check_command} || #{bundle_single_install_command}")
-      expect(warning).to include 'Please upgrade Bundler'
+      expect(warning).to include "Please upgrade Bundler"
     end
 
-    it 'runs parallel install command on Bundler >= 1.4.0' do
-      stub_const('Bundler::VERSION', '1.4.0')
+    it "runs parallel install command on Bundler >= 1.4.0" do
+      stub_const("Bundler::VERSION", "1.4.0")
 
       @appraisal.install("jobs" => 42)
 
@@ -117,7 +117,7 @@ RSpec.describe Appraisal::Appraisal do
         with("#{bundle_check_command} || #{bundle_parallel_install_command}")
     end
 
-    it 'runs install command with retries on Bundler' do
+    it "runs install command with retries on Bundler" do
       @appraisal.install("retry" => 3)
 
       expect(Appraisal::Command).to have_received(:new).

@@ -1,5 +1,5 @@
 require "appraisal/bundler_dsl"
-require 'appraisal/utils'
+require "appraisal/utils"
 
 module Appraisal
   class Platform < BundlerDSL

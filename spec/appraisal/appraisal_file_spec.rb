@@ -1,10 +1,10 @@
-require 'spec_helper'
-require 'appraisal/appraisal_file'
+require "spec_helper"
+require "appraisal/appraisal_file"
 
 # Requiring this to make the test pass on Rubinius 2.2.5
 # https://github.com/rubinius/rubinius/issues/2934
-require 'rspec/matchers/composable'
-require 'rspec/matchers/built_in/raise_error'
+require "rspec/matchers/composable"
+require "rspec/matchers/built_in/raise_error"
 
 RSpec.describe Appraisal::AppraisalFile do
   it "complains when no Appraisals file is found" do

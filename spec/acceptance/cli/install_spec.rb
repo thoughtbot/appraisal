@@ -1,13 +1,13 @@
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'CLI', 'appraisal install' do
-  it 'raises error when there is no Appraisals file' do
-    output = run 'appraisal install 2>&1', false
+RSpec.describe "CLI", "appraisal install" do
+  it "raises error when there is no Appraisals file" do
+    output = run "appraisal install 2>&1", false
 
     expect(output).to include "Unable to locate 'Appraisals' file"
   end
 
-  it 'installs the dependencies' do
+  it "installs the dependencies" do
     build_appraisal_file <<-Appraisal
       appraise '1.0.0' do
         gem 'dummy', '1.0.0'
@@ -18,13 +18,13 @@ RSpec.describe 'CLI', 'appraisal install' do
       end
     Appraisal
 
-    run 'appraisal install'
+    run "appraisal install"
 
-    expect(file 'gemfiles/1.0.0.gemfile.lock').to be_exists
-    expect(file 'gemfiles/1.1.0.gemfile.lock').to be_exists
+    expect(file "gemfiles/1.0.0.gemfile.lock").to be_exists
+    expect(file "gemfiles/1.1.0.gemfile.lock").to be_exists
   end
 
-  it 'relativize directory in gemfile.lock' do
+  it "relativize directory in gemfile.lock" do
     build_gemspec
     add_gemspec_to_gemfile
 
@@ -34,7 +34,7 @@ RSpec.describe 'CLI', 'appraisal install' do
       end
     Appraisal
 
-    run 'appraisal install'
+    run "appraisal install"
 
     expect(content_of("gemfiles/1.0.0.gemfile.lock")).
       not_to include(current_directory)
@@ -60,7 +60,7 @@ RSpec.describe 'CLI', 'appraisal install' do
       to include("file://#{uri_dummy_path}")
   end
 
-  context 'with job size', :parallel => true do
+  context "with job size", :parallel => true do
     before do
       build_appraisal_file <<-Appraisal
         appraise '1.0.0' do
@@ -69,16 +69,16 @@ RSpec.describe 'CLI', 'appraisal install' do
       Appraisal
     end
 
-    it 'accepts --jobs option to set job size' do
-      output = run 'appraisal install --jobs=2'
+    it "accepts --jobs option to set job size" do
+      output = run "appraisal install --jobs=2"
 
       expect(output).to include(
         "bundle install --gemfile='#{file('gemfiles/1.0.0.gemfile')}' --jobs=2"
       )
     end
 
-    it 'ignores --jobs option if the job size is less than or equal to 1' do
-      output = run 'appraisal install --jobs=0'
+    it "ignores --jobs option if the job size is less than or equal to 1" do
+      output = run "appraisal install --jobs=0"
 
       expect(output).to include(
         "bundle install --gemfile='#{file('gemfiles/1.0.0.gemfile')}'"
