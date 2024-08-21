@@ -304,8 +304,7 @@ RSpec.describe Appraisal::Gemfile do
         gemfile = Appraisal::Gemfile.new
         gemfile.gem "bacon", git: "git@github.com:bacon/bacon.git"
 
-        expect(gemfile.to_s).
-          to eq %(gem "bacon", git: "git@github.com:bacon/bacon.git")
+        expect(gemfile.to_s).to eq %(gem "bacon", git: "git@github.com:bacon/bacon.git")
       end
     end
 

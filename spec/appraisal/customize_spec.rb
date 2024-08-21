@@ -64,8 +64,7 @@ RSpec.describe Appraisal::Customize do
       allow(appraisal).to receive(:gemfile_name).and_return(gemfile)
       allow(appraisal).to receive(:gemfile_path).and_return(gemfile_full_path)
       allow(appraisal).to receive(:lockfile_path).and_return(lockfile_full_path)
-      allow(appraisal).to receive(:relative_gemfile_path).
-        and_return(gemfile_relative_path)
+      allow(appraisal).to receive(:relative_gemfile_path).and_return(gemfile_relative_path)
     end
 
     it "returns nil if no heading is set" do

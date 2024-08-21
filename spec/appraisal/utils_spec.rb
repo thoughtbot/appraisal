@@ -10,8 +10,7 @@ RSpec.describe Appraisal::Utils do
       expect(Appraisal::Utils.format_string(hash)).to eq('foo: "bar"')
 
       hash = { "baz" => { ball: "boo" } }
-      expect(Appraisal::Utils.format_string(hash)).
-        to eq('"baz" => { ball: "boo" }')
+      expect(Appraisal::Utils.format_string(hash)).to eq('"baz" => { ball: "boo" }')
     end
   end
 
@@ -21,16 +20,13 @@ RSpec.describe Appraisal::Utils do
     it "prints out arguments without enclosing square brackets" do
       arguments = [:foo, { bar: { baz: "ball" } }]
 
-      expect(Appraisal::Utils.format_arguments(arguments)).to eq(
-        ':foo, bar: { baz: "ball" }'
-      )
+      expect(Appraisal::Utils.format_arguments(arguments)).to eq(':foo, bar: { baz: "ball" }')
     end
 
     it "returns nil if arguments is empty" do
       arguments = []
 
-      expect(Appraisal::Utils.format_arguments(arguments)).
-        to eq(nil)
+      expect(Appraisal::Utils.format_arguments(arguments)).to eq(nil)
     end
   end
 
@@ -48,18 +44,13 @@ RSpec.describe Appraisal::Utils do
     end
 
     it "strips out './' from path" do
-      expect(Appraisal::Utils.prefix_path("./tmp/./appraisal././")).
-        to eq "../tmp/appraisal./"
+      expect(Appraisal::Utils.prefix_path("./tmp/./appraisal././")).to eq "../tmp/appraisal./"
     end
 
     it "does not prefix Git uri" do
-      expect(Appraisal::Utils.prefix_path("git@github.com:bacon/bacon.git")).
-        to eq "git@github.com:bacon/bacon.git"
-      expect(Appraisal::Utils.prefix_path("git://github.com/bacon/bacon.git")).
-        to eq "git://github.com/bacon/bacon.git"
-      expect(
-        Appraisal::Utils.prefix_path("https://github.com/bacon/bacon.git")
-      ).to eq("https://github.com/bacon/bacon.git")
+      expect(Appraisal::Utils.prefix_path("git@github.com:bacon/bacon.git")).to eq "git@github.com:bacon/bacon.git"
+      expect(Appraisal::Utils.prefix_path("git://github.com/bacon/bacon.git")).to eq "git://github.com/bacon/bacon.git"
+      expect(Appraisal::Utils.prefix_path("https://github.com/bacon/bacon.git")).to eq("https://github.com/bacon/bacon.git")
     end
   end
 

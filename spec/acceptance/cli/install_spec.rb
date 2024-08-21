@@ -38,8 +38,7 @@ RSpec.describe "CLI", "appraisal install" do
 
     run "appraisal install"
 
-    expect(content_of("gemfiles/1.0.0.gemfile.lock")).
-      not_to include(current_directory)
+    expect(content_of("gemfiles/1.0.0.gemfile.lock")).not_to include(current_directory)
   end
 
   it "does not relativize directory of uris in gemfile.lock" do
@@ -58,8 +57,7 @@ RSpec.describe "CLI", "appraisal install" do
 
     run "appraisal install"
 
-    expect(content_of("gemfiles/1.0.0.gemfile.lock")).
-      to include("file://#{uri_dummy_path}")
+    expect(content_of("gemfiles/1.0.0.gemfile.lock")).to include("file://#{uri_dummy_path}")
   end
 
   context "with job size", parallel: true do
@@ -74,23 +72,15 @@ RSpec.describe "CLI", "appraisal install" do
     it "accepts --jobs option to set job size" do
       output = run "appraisal install --jobs=2"
 
-      expect(output).to include(
-        "bundle install --gemfile='#{file('gemfiles/1.0.0.gemfile')}' --jobs=2"
-      )
+      expect(output).to include("bundle install --gemfile='#{file('gemfiles/1.0.0.gemfile')}' --jobs=2")
     end
 
     it "ignores --jobs option if the job size is less than or equal to 1" do
       output = run "appraisal install --jobs=0"
 
-      expect(output).to include(
-        "bundle install --gemfile='#{file('gemfiles/1.0.0.gemfile')}'"
-      )
-      expect(output).not_to include(
-        "bundle install --gemfile='#{file('gemfiles/1.0.0.gemfile')}' --jobs=0"
-      )
-      expect(output).not_to include(
-        "bundle install --gemfile='#{file('gemfiles/1.0.0.gemfile')}' --jobs=1"
-      )
+      expect(output).to     include("bundle install --gemfile='#{file('gemfiles/1.0.0.gemfile')}'")
+      expect(output).not_to include("bundle install --gemfile='#{file('gemfiles/1.0.0.gemfile')}' --jobs=0")
+      expect(output).not_to include("bundle install --gemfile='#{file('gemfiles/1.0.0.gemfile')}' --jobs=1")
     end
   end
 
@@ -106,10 +96,7 @@ RSpec.describe "CLI", "appraisal install" do
     it "accepts --full-index option to pull the full RubyGems index" do
       output = run("appraisal install --full-index")
 
-      expect(output).to include(
-        "bundle install --gemfile='#{file('gemfiles/1.0.0.gemfile')}' " \
-        "--retry 1 --full-index true"
-      )
+      expect(output).to include("bundle install --gemfile='#{file('gemfiles/1.0.0.gemfile')}' --retry 1 --full-index true")
     end
   end
 
@@ -125,10 +112,7 @@ RSpec.describe "CLI", "appraisal install" do
     it "accepts --path option to specify the location to install gems into" do
       output = run("appraisal install --path vendor/appraisal")
 
-      expect(output).to include(
-        "bundle install --gemfile='#{file('gemfiles/1.0.0.gemfile')}' " \
-        "--path #{file('vendor/appraisal')} --retry 1"
-      )
+      expect(output).to include("bundle install --gemfile='#{file('gemfiles/1.0.0.gemfile')}' --path #{file('vendor/appraisal')} --retry 1")
     end
   end
 end
