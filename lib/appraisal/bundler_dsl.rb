@@ -14,11 +14,11 @@ module Appraisal
       @ruby_version = nil
       @dependencies = DependencyList.new
       @gemspecs = []
-      @groups = Hash.new
-      @platforms = Hash.new
-      @gits = Hash.new
-      @paths = Hash.new
-      @source_blocks = Hash.new
+      @groups = {}
+      @platforms = {}
+      @gits = {}
+      @paths = {}
+      @source_blocks = {}
       @git_sources = {}
       @install_if = {}
     end

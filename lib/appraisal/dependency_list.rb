@@ -6,7 +6,7 @@ require "set"
 module Appraisal
   class DependencyList
     def initialize
-      @dependencies = Hash.new
+      @dependencies = {}
       @removed_dependencies = Set.new
     end
 
