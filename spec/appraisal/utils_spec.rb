@@ -47,7 +47,7 @@ RSpec.describe Appraisal::Utils do
       expect(Appraisal::Utils.prefix_path("/tmp")).to eq "/tmp"
     end
 
-    it "strips out './' from path"  do
+    it "strips out './' from path" do
       expect(Appraisal::Utils.prefix_path("./tmp/./appraisal././")).
         to eq "../tmp/appraisal./"
     end
