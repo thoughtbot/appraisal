@@ -20,8 +20,8 @@ RSpec.describe "CLI", "appraisal install" do
 
     run "appraisal install"
 
-    expect(file "gemfiles/1.0.0.gemfile.lock").to be_exists
-    expect(file "gemfiles/1.1.0.gemfile.lock").to be_exists
+    expect(file("gemfiles/1.0.0.gemfile.lock")).to be_exists
+    expect(file("gemfiles/1.1.0.gemfile.lock")).to be_exists
   end
 
   it "relativize directory in gemfile.lock" do

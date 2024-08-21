@@ -13,8 +13,8 @@ RSpec.describe "CLI", "appraisal clean" do
 
     run "appraisal clean"
 
-    expect(file "gemfiles/1.0.0.gemfile").not_to be_exists
-    expect(file "gemfiles/1.0.0.gemfile.lock").not_to be_exists
-    expect(file "gemfiles/non_related_file").to be_exists
+    expect(file("gemfiles/1.0.0.gemfile")).not_to be_exists
+    expect(file("gemfiles/1.0.0.gemfile.lock")).not_to be_exists
+    expect(file("gemfiles/non_related_file")).to be_exists
   end
 end
