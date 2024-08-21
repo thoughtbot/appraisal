@@ -11,11 +11,11 @@ ENV["APPRAISAL_UNDER_TEST"] = "1"
 RSpec.configure do |config|
   config.raise_errors_for_deprecations!
 
-  config.define_derived_metadata(:file_path => %r{spec\/acceptance\/}) do |metadata|
+  config.define_derived_metadata(file_path: %r{spec\/acceptance\/}) do |metadata|
     metadata[:type] = :acceptance
   end
 
-  config.include AcceptanceTestHelpers, :type => :acceptance
+  config.include AcceptanceTestHelpers, type: :acceptance
 
   # disable monkey patching
   # see: https://relishapp.com/rspec/rspec-core/v/3-8/docs/configuration/zero-monkey-patching-mode

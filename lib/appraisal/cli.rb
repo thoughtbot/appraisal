@@ -37,16 +37,16 @@ module Appraisal
     end
 
     desc "install", "Resolve and install dependencies for each appraisal"
-    method_option "jobs", :aliases => "j", :type => :numeric, :default => 1,
-      :banner => "SIZE",
-      :desc => "Install gems in parallel using the given number of workers."
-    method_option "retry", :type => :numeric, :default => 1,
-      :desc => "Retry network and git requests that have failed"
-    method_option "without", :banner => "GROUP_NAMES",
-      :desc => "A space-separated list of groups referencing gems to skip " +
+    method_option "jobs", aliases: "j", type: :numeric, default: 1,
+      banner: "SIZE",
+      desc: "Install gems in parallel using the given number of workers."
+    method_option "retry", type: :numeric, default: 1,
+      desc: "Retry network and git requests that have failed"
+    method_option "without", banner: "GROUP_NAMES",
+      desc: "A space-separated list of groups referencing gems to skip " +
         "during installation. Bundler will remember this option."
-    method_option "full-index", :type => :boolean,
-                                :desc => "Run bundle install with the " \
+    method_option "full-index", type: :boolean,
+                                desc: "Run bundle install with the " \
                                          "full-index argument."
     method_option "path", type: :string,
                           desc: "Install gems in the specified directory. " \
@@ -100,10 +100,10 @@ module Appraisal
       end
 
       if matching_appraisal
-        Command.new(args, :gemfile => matching_appraisal.gemfile_path).run
+        Command.new(args, gemfile: matching_appraisal.gemfile_path).run
       else
         AppraisalFile.each do |appraisal|
-          Command.new(ARGV, :gemfile => appraisal.gemfile_path).run
+          Command.new(ARGV, gemfile: appraisal.gemfile_path).run
         end
       end
     end

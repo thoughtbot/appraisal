@@ -60,7 +60,7 @@ RSpec.describe "CLI", "appraisal install" do
       to include("file://#{uri_dummy_path}")
   end
 
-  context "with job size", :parallel => true do
+  context "with job size", parallel: true do
     before do
       build_appraisal_file <<-Appraisal
         appraise '1.0.0' do

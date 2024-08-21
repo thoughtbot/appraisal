@@ -80,14 +80,14 @@ module Appraisal
 
       if Bundler.settings[:path]
         env = { "BUNDLE_DISABLE_SHARED_GEMS" => "1" }
-        Command.new(command, :env => env).run
+        Command.new(command, env: env).run
       else
         Command.new(command).run
       end
     end
 
     def update(gems = [])
-      Command.new(update_command(gems), :gemfile => gemfile_path).run
+      Command.new(update_command(gems), gemfile: gemfile_path).run
     end
 
     def gemfile_path

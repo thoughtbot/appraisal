@@ -48,7 +48,7 @@ module Appraisal
       end
 
       desc "Run the given task for all appraisals"
-      task :appraisal => "appraisal:all"
+      task appraisal: "appraisal:all"
     end
   end
 end
