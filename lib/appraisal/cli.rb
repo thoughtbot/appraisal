@@ -8,34 +8,36 @@ module Appraisal
     default_task :install
     map ["-v", "--version"] => "version"
 
-    # Override help command to print out usage
-    def self.help(shell, subcommand = false)
-      shell.say strip_heredoc(<<-HELP)
-        Appraisal: Find out what your Ruby gems are worth.
+    class << self
+      # Override help command to print out usage
+      def help(shell, subcommand = false)
+        shell.say strip_heredoc(<<-HELP)
+          Appraisal: Find out what your Ruby gems are worth.
 
-        Usage:
-          appraisal [APPRAISAL_NAME] EXTERNAL_COMMAND
+          Usage:
+            appraisal [APPRAISAL_NAME] EXTERNAL_COMMAND
 
-          If APPRAISAL_NAME is given, only run that EXTERNAL_COMMAND against the given
-          appraisal, otherwise it runs the EXTERNAL_COMMAND against all appraisals.
-      HELP
+            If APPRAISAL_NAME is given, only run that EXTERNAL_COMMAND against the given
+            appraisal, otherwise it runs the EXTERNAL_COMMAND against all appraisals.
+        HELP
 
-      if File.exist?("Appraisals")
-        shell.say
-        shell.say "Available Appraisal(s):"
+        if File.exist?("Appraisals")
+          shell.say
+          shell.say "Available Appraisal(s):"
 
-        AppraisalFile.each do |appraisal|
-          shell.say "  - #{appraisal.name}"
+          AppraisalFile.each do |appraisal|
+            shell.say "  - #{appraisal.name}"
+          end
         end
+
+        shell.say
+
+        super
       end
 
-      shell.say
-
-      super
-    end
-
-    def self.exit_on_failure?
-      true
+      def exit_on_failure?
+        true
+      end
     end
 
     desc "install", "Resolve and install dependencies for each appraisal"
