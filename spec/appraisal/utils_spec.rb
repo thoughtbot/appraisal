@@ -9,7 +9,7 @@ RSpec.describe Appraisal::Utils do
       hash = { foo: "bar" }
       expect(Appraisal::Utils.format_string(hash)).to eq('foo: "bar"')
 
-      hash = { "baz" => { ball: "boo" }}
+      hash = { "baz" => { ball: "boo" } }
       expect(Appraisal::Utils.format_string(hash)).
         to eq('"baz" => { ball: "boo" }')
     end
@@ -19,7 +19,7 @@ RSpec.describe Appraisal::Utils do
     before { stub_const("RUBY_VERSION", "2.3.0") }
 
     it "prints out arguments without enclosing square brackets" do
-      arguments = [:foo, { bar: { baz: "ball" }}]
+      arguments = [:foo, { bar: { baz: "ball" } }]
 
       expect(Appraisal::Utils.format_arguments(arguments)).to eq(
         ':foo, bar: { baz: "ball" }'
