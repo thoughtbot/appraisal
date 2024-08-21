@@ -26,7 +26,7 @@ module Appraisal
 source #{@source.inspect} do
 #{output_dependencies}
 end
-        OUTPUT
+      OUTPUT
     end
   end
 end
