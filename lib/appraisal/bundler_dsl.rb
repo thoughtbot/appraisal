@@ -82,11 +82,11 @@ module Appraisal
     end
 
     def to_s
-      Utils.join_parts PARTS.map { |part| send("#{part}_entry") }
+      Utils.join_parts(PARTS.map { |part| send("#{part}_entry") })
     end
 
     def for_dup
-      Utils.join_parts PARTS.map { |part| send("#{part}_entry_for_dup") }
+      Utils.join_parts(PARTS.map { |part| send("#{part}_entry_for_dup") })
     end
 
     def gemspec(options = {})
