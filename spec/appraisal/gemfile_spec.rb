@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "spec_helper"
 require "appraisal/gemfile"
 require "active_support/core_ext/string/strip"

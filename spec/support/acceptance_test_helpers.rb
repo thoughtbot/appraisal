@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rspec/expectations/expectation_target"
 require "active_support/core_ext/string/strip"
 require "active_support/core_ext/string/filters"

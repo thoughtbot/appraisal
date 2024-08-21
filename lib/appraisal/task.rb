@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "appraisal/appraisal_file"
 require "rake/tasklib"
 

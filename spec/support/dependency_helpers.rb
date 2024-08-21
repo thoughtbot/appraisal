@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module DependencyHelpers
   def build_gem(gem_name, version = "1.0.0")
     ENV["GEM_HOME"] = TMP_GEM_ROOT

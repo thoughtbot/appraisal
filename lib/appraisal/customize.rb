@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Appraisal
   class Customize
     def initialize(heading: nil, single_quotes: false)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "appraisal/gemfile"
 require "appraisal/command"
 require "appraisal/customize"
