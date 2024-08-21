@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Appraisal
   class Customize
     def initialize(heading: nil, single_quotes: false)
@@ -25,7 +27,7 @@ module Appraisal
         lockfile: "#{gemfile.send('gemfile_name')}.lock",
         lockfile_path: gemfile.send("lockfile_path"),
         relative_gemfile_path: gemfile.relative_gemfile_path,
-        relative_lockfile_path: "#{gemfile.relative_gemfile_path}.lock",
+        relative_lockfile_path: "#{gemfile.relative_gemfile_path}.lock"
       )
     end
 

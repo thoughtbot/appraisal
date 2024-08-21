@@ -1,4 +1,6 @@
-require 'appraisal/utils'
+# frozen_string_literal: true
+
+require "appraisal/utils"
 
 module Appraisal
   class Gemspec
@@ -6,7 +8,7 @@ module Appraisal
 
     def initialize(options = {})
       @options = options
-      @options[:path] ||= '.'
+      @options[:path] ||= "."
     end
 
     def to_s
@@ -22,7 +24,7 @@ module Appraisal
 
     def exported_options
       @options.merge(
-        :path => Utils.prefix_path(@options[:path])
+        path: Utils.prefix_path(@options[:path])
       )
     end
   end

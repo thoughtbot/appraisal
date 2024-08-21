@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 require "appraisal/bundler_dsl"
-require 'appraisal/utils'
+require "appraisal/utils"
 
 module Appraisal
   class Group < BundlerDSL
@@ -20,10 +22,10 @@ module Appraisal
     private
 
     def formatted_output(output_dependencies)
-      <<-OUTPUT.strip
-group #{Utils.format_arguments(@group_names)} do
-#{output_dependencies}
-end
+      <<~OUTPUT.strip
+        group #{Utils.format_arguments(@group_names)} do
+        #{output_dependencies}
+        end
       OUTPUT
     end
   end

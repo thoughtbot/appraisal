@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 module Appraisal
   # Contains methods for various operations
   module Utils
     def self.support_parallel_installation?
-      Gem::Version.create(Bundler::VERSION) >= Gem::Version.create('1.4.0.pre.1')
+      Gem::Version.create(Bundler::VERSION) >= Gem::Version.create("1.4.0.pre.1")
     end
 
     def self.format_string(object, enclosing_object = false)
@@ -15,7 +17,7 @@ module Appraisal
         if enclosing_object
           "{ #{items.join(', ')} }"
         else
-          items.join(', ')
+          items.join(", ")
         end
       else
         object.inspect
@@ -35,7 +37,7 @@ module Appraisal
 
     def self.format_arguments(arguments)
       unless arguments.empty?
-        arguments.map { |object| format_string(object, false) }.join(', ')
+        arguments.map { |object| format_string(object, false) }.join(", ")
       end
     end
 
@@ -53,10 +55,7 @@ module Appraisal
     end
 
     def self.bundler_version
-      Gem::Specification.
-        detect { |spec| spec.name == "bundler" }.
-        version.
-        to_s
+      Gem::Specification.detect { |spec| spec.name == "bundler" }.version.to_s
     end
   end
 end

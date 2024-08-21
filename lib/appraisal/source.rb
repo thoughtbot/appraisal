@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "appraisal/bundler_dsl"
 require "appraisal/utils"
 
@@ -20,11 +22,11 @@ module Appraisal
     private
 
     def formatted_output(output_dependencies)
-      <<-OUTPUT.strip
-source #{@source.inspect} do
-#{output_dependencies}
-end
-        OUTPUT
+      <<~OUTPUT.strip
+        source #{@source.inspect} do
+        #{output_dependencies}
+        end
+      OUTPUT
     end
   end
 end

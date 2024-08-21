@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 require "spec_helper"
 
 RSpec.describe "Bundler without flag" do
   it "passes --without flag to Bundler on install" do
-    build_gems %w(pancake orange_juice waffle coffee sausage soda)
+    build_gems %w[pancake orange_juice waffle coffee sausage soda]
 
-    build_gemfile <<-Gemfile
+    build_gemfile <<-GEMFILE
       source "https://rubygems.org"
 
       gem "pancake"
@@ -15,9 +17,9 @@ RSpec.describe "Bundler without flag" do
       end
 
       gem "appraisal", :path => #{PROJECT_ROOT.inspect}
-    Gemfile
+    GEMFILE
 
-    build_appraisal_file <<-Appraisals
+    build_appraisal_file <<-APPRAISALS
       appraise "breakfast" do
         gem "waffle"
 
@@ -33,7 +35,7 @@ RSpec.describe "Bundler without flag" do
           gem "soda"
         end
       end
-    Appraisals
+    APPRAISALS
 
     run "bundle install --local"
     run "bundle config set --local without 'drinks'"

@@ -1,8 +1,10 @@
 #!/usr/bin/env ruby
-require 'rubygems'
-require 'bundler/setup'
-require 'appraisal'
-require 'appraisal/cli'
+# frozen_string_literal: true
+
+require "rubygems"
+require "bundler/setup"
+require "appraisal"
+require "appraisal/cli"
 
 begin
   Appraisal::CLI.start

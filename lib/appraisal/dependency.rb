@@ -1,4 +1,6 @@
-require 'appraisal/utils'
+# frozen_string_literal: true
+
+require "appraisal/utils"
 
 module Appraisal
   # Dependency on a gem and optional version requirements
@@ -43,7 +45,7 @@ module Appraisal
     end
 
     def gem_name
-      %{gem "#{name}"}
+      %(gem "#{name}")
     end
 
     def no_requirements?

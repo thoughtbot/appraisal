@@ -1,52 +1,56 @@
-require 'thor'
-require 'fileutils'
+# frozen_string_literal: true
+
+require "thor"
+require "fileutils"
 
 module Appraisal
   class CLI < Thor
     default_task :install
     map ["-v", "--version"] => "version"
 
-    # Override help command to print out usage
-    def self.help(shell, subcommand = false)
-      shell.say strip_heredoc(<<-help)
-        Appraisal: Find out what your Ruby gems are worth.
+    class << self
+      # Override help command to print out usage
+      def help(shell, subcommand = false)
+        shell.say strip_heredoc(<<-HELP)
+          Appraisal: Find out what your Ruby gems are worth.
 
-        Usage:
-          appraisal [APPRAISAL_NAME] EXTERNAL_COMMAND
+          Usage:
+            appraisal [APPRAISAL_NAME] EXTERNAL_COMMAND
 
-          If APPRAISAL_NAME is given, only run that EXTERNAL_COMMAND against the given
-          appraisal, otherwise it runs the EXTERNAL_COMMAND against all appraisals.
-      help
+            If APPRAISAL_NAME is given, only run that EXTERNAL_COMMAND against the given
+            appraisal, otherwise it runs the EXTERNAL_COMMAND against all appraisals.
+        HELP
 
-      if File.exist?('Appraisals')
-        shell.say
-        shell.say 'Available Appraisal(s):'
+        if File.exist?("Appraisals")
+          shell.say
+          shell.say "Available Appraisal(s):"
 
-        AppraisalFile.each do |appraisal|
-          shell.say "  - #{appraisal.name}"
+          AppraisalFile.each do |appraisal|
+            shell.say "  - #{appraisal.name}"
+          end
         end
+
+        shell.say
+
+        super
       end
 
-      shell.say
-
-      super
+      def exit_on_failure?
+        true
+      end
     end
 
-    def self.exit_on_failure?
-      true
-    end
-
-    desc 'install', 'Resolve and install dependencies for each appraisal'
-    method_option 'jobs', :aliases => 'j', :type => :numeric, :default => 1,
-      :banner => 'SIZE',
-      :desc => 'Install gems in parallel using the given number of workers.'
-    method_option 'retry', :type => :numeric, :default => 1,
-      :desc => 'Retry network and git requests that have failed'
-    method_option "without", :banner => "GROUP_NAMES",
-      :desc => "A space-separated list of groups referencing gems to skip " +
+    desc "install", "Resolve and install dependencies for each appraisal"
+    method_option "jobs", aliases: "j", type: :numeric, default: 1,
+      banner: "SIZE",
+      desc: "Install gems in parallel using the given number of workers."
+    method_option "retry", type: :numeric, default: 1,
+      desc: "Retry network and git requests that have failed"
+    method_option "without", banner: "GROUP_NAMES",
+      desc: "A space-separated list of groups referencing gems to skip " +
         "during installation. Bundler will remember this option."
-    method_option "full-index", :type => :boolean,
-                                :desc => "Run bundle install with the " \
+    method_option "full-index", type: :boolean,
+                                desc: "Run bundle install with the " \
                                          "full-index argument."
     method_option "path", type: :string,
                           desc: "Install gems in the specified directory. " \
@@ -61,19 +65,19 @@ module Appraisal
       end
     end
 
-    desc 'generate', 'Generate a gemfile for each appraisal'
+    desc "generate", "Generate a gemfile for each appraisal"
     def generate
       AppraisalFile.each do |appraisal|
         appraisal.write_gemfile
       end
     end
 
-    desc 'clean', 'Remove all generated gemfiles and lockfiles from gemfiles folder'
+    desc "clean", "Remove all generated gemfiles and lockfiles from gemfiles folder"
     def clean
-      FileUtils.rm_f Dir['gemfiles/*.{gemfile,gemfile.lock}']
+      FileUtils.rm_f Dir["gemfiles/*.{gemfile,gemfile.lock}"]
     end
 
-    desc 'update [LIST_OF_GEMS]', 'Remove all generated gemfiles and lockfiles, resolve, and install dependencies again'
+    desc "update [LIST_OF_GEMS]", "Remove all generated gemfiles and lockfiles, resolve, and install dependencies again"
     def update(*gems)
       invoke :generate, []
 
@@ -82,7 +86,7 @@ module Appraisal
       end
     end
 
-    desc 'list', 'List the names of the defined appraisals'
+    desc "list", "List the names of the defined appraisals"
     def list
       AppraisalFile.new.appraisals.each { |appraisal| puts appraisal.name }
     end
@@ -100,17 +104,17 @@ module Appraisal
       end
 
       if matching_appraisal
-        Command.new(args, :gemfile => matching_appraisal.gemfile_path).run
+        Command.new(args, gemfile: matching_appraisal.gemfile_path).run
       else
         AppraisalFile.each do |appraisal|
-          Command.new(ARGV, :gemfile => appraisal.gemfile_path).run
+          Command.new(ARGV, gemfile: appraisal.gemfile_path).run
         end
       end
     end
 
     def self.strip_heredoc(string)
       indent = string.scan(/^[ \t]*(?=\S)/).min.size || 0
-      string.gsub(/^[ \t]{#{indent}}/, '')
+      string.gsub(/^[ \t]{#{indent}}/, "")
     end
   end
 end

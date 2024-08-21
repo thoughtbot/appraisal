@@ -1,22 +1,24 @@
+# frozen_string_literal: true
+
 require "appraisal/dependency_list"
 
 module Appraisal
   class BundlerDSL
     attr_reader :dependencies
 
-    PARTS = %w(source ruby_version gits paths dependencies groups
-               platforms source_blocks install_if gemspec)
+    PARTS = %w[source ruby_version gits paths dependencies groups
+               platforms source_blocks install_if gemspec]
 
     def initialize
       @sources = []
       @ruby_version = nil
       @dependencies = DependencyList.new
       @gemspecs = []
-      @groups = Hash.new
-      @platforms = Hash.new
-      @gits = Hash.new
-      @paths = Hash.new
-      @source_blocks = Hash.new
+      @groups = {}
+      @platforms = {}
+      @gits = {}
+      @paths = {}
+      @source_blocks = {}
       @git_sources = {}
       @install_if = {}
     end
@@ -80,11 +82,11 @@ module Appraisal
     end
 
     def to_s
-      Utils.join_parts PARTS.map { |part| send("#{part}_entry") }
+      Utils.join_parts(PARTS.map { |part| send("#{part}_entry") })
     end
 
     def for_dup
-      Utils.join_parts PARTS.map { |part| send("#{part}_entry_for_dup") }
+      Utils.join_parts(PARTS.map { |part| send("#{part}_entry_for_dup") })
     end
 
     def gemspec(options = {})
@@ -134,8 +136,7 @@ module Appraisal
       @dependencies.for_dup
     end
 
-    %i[gits paths platforms groups source_blocks install_if].
-      each do |method_name|
+    %i[gits paths platforms groups source_blocks install_if].each do |method_name|
       class_eval <<-METHODS, __FILE__, __LINE__
         private
 
