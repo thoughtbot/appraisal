@@ -127,7 +127,7 @@ RSpec.describe "CLI", "appraisal install" do
 
       expect(output).to include(
         "bundle install --gemfile='#{file('gemfiles/1.0.0.gemfile')}' " \
-        "--path #{file('vendor/appraisal')} --retry 1",
+        "--path #{file('vendor/appraisal')} --retry 1"
       )
     end
   end

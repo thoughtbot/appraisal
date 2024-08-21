@@ -78,7 +78,7 @@ RSpec.describe Appraisal::Customize do
       expect(described_class.send(
                :customize,
                single_line_heading,
-               appraisal,
+               appraisal
              )).to eq(single_line_heading)
     end
 
@@ -86,7 +86,7 @@ RSpec.describe Appraisal::Customize do
       expect(described_class.send(
                :customize,
                "Appraisal: %{appraisal}", # rubocop:disable Style/FormatStringToken, Metrics/LineLength
-               appraisal,
+               appraisal
              )).to eq("Appraisal: #{appraisal_name}")
     end
 
@@ -94,7 +94,7 @@ RSpec.describe Appraisal::Customize do
       expect(described_class.send(
                :customize,
                "Gemfile: %{gemfile}", # rubocop:disable Style/FormatStringToken
-               appraisal,
+               appraisal
              )).to eq("Gemfile: #{gemfile}")
     end
 
@@ -102,7 +102,7 @@ RSpec.describe Appraisal::Customize do
       expect(described_class.send(
                :customize,
                "Gemfile: %{gemfile_path}", # rubocop:disable Style/FormatStringToken, Metrics/LineLength
-               appraisal,
+               appraisal
              )).to eq("Gemfile: #{gemfile_full_path}")
     end
 
@@ -110,7 +110,7 @@ RSpec.describe Appraisal::Customize do
       expect(described_class.send(
                :customize,
                "Lockfile: %{lockfile}", # rubocop:disable Style/FormatStringToken, Metrics/LineLength
-               appraisal,
+               appraisal
              )).to eq("Lockfile: #{lockfile}")
     end
 
@@ -118,7 +118,7 @@ RSpec.describe Appraisal::Customize do
       expect(described_class.send(
                :customize,
                "Lockfile: %{lockfile_path}", # rubocop:disable Style/FormatStringToken, Metrics/LineLength
-               appraisal,
+               appraisal
              )).to eq("Lockfile: #{lockfile_full_path}")
     end
 
@@ -126,7 +126,7 @@ RSpec.describe Appraisal::Customize do
       expect(described_class.send(
                :customize,
                "Gemfile: %{relative_gemfile_path}", # rubocop:disable Style/FormatStringToken, Metrics/LineLength
-               appraisal,
+               appraisal
              )).to eq("Gemfile: #{gemfile_relative_path}")
     end
 
@@ -134,7 +134,7 @@ RSpec.describe Appraisal::Customize do
       expect(described_class.send(
                :customize,
                "Gemfile: %{relative_lockfile_path}", # rubocop:disable Style/FormatStringToken, Metrics/LineLength
-               appraisal,
+               appraisal
              )).to eq("Gemfile: #{lockfile_relative_path}")
     end
   end

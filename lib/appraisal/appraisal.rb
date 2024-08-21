@@ -112,7 +112,7 @@ module Appraisal
       File.open(lockfile_path, "w") do |file|
         file.write lockfile_content.gsub(
           / #{current_directory}/,
-          " #{relative_path}",
+          " #{relative_path}"
         )
       end
     end
