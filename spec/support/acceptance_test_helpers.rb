@@ -9,8 +9,13 @@ module AcceptanceTestHelpers
   extend ActiveSupport::Concern
   include DependencyHelpers
 
-  BUNDLER_ENVIRONMENT_VARIABLES = %w(RUBYOPT BUNDLE_PATH BUNDLE_BIN_PATH
-    BUNDLE_GEMFILE)
+  BUNDLER_ENVIRONMENT_VARIABLES = %w(
+    RUBYOPT
+    BUNDLE_PATH
+    BUNDLE_BIN_PATH
+    BUNDLE_GEMFILE
+    BUNDLER_SETUP
+  ).freeze
 
   included do
     metadata[:type] = :acceptance
