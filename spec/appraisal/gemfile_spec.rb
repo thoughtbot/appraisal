@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'appraisal/gemfile'
 require 'active_support/core_ext/string/strip'
 
-describe Appraisal::Gemfile do
+RSpec.describe Appraisal::Gemfile do
   include StreamHelpers
 
   it "supports gemfiles without sources" do

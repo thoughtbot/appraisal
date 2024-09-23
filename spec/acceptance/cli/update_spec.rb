@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'CLI', 'appraisal update' do
+RSpec.describe 'CLI', 'appraisal update' do
   before do
     build_gem 'dummy2', '1.0.0'
 

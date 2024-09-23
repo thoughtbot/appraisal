@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'CLI', 'appraisal generate' do
+RSpec.describe 'CLI', 'appraisal generate' do
   it 'generates the gemfiles' do
     build_gemfile <<-Gemfile
       source "https://rubygems.org"

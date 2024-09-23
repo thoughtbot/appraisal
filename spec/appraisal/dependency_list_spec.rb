@@ -1,7 +1,7 @@
 require "spec_helper"
 require "appraisal/dependency_list"
 
-describe Appraisal::DependencyList do
+RSpec.describe Appraisal::DependencyList do
   describe "#add" do
     let(:dependency_list) { Appraisal::DependencyList.new }
 

@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'appraisal/utils'
 
-describe Appraisal::Utils do
+RSpec.describe Appraisal::Utils do
   describe '.format_string' do
     it "prints out a nice looking hash without brackets with new syntax" do
       hash = { :foo => 'bar' }

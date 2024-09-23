@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'appraisal/appraisal'
 require 'tempfile'
 
-describe Appraisal::Appraisal do
+RSpec.describe Appraisal::Appraisal do
   it "converts spaces to underscores in the gemfile path" do
     appraisal = Appraisal::Appraisal.new("one two", "Gemfile")
     expect(appraisal.gemfile_path).to match(/one_two\.gemfile$/)
