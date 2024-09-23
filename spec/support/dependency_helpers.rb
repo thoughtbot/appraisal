@@ -2,10 +2,10 @@ module DependencyHelpers
   def build_gem(gem_name, version = '1.0.0')
     ENV['GEM_HOME'] = TMP_GEM_ROOT
 
-    unless File.exist? "tmp/gems/gems/#{gem_name}-#{version}"
-      FileUtils.mkdir_p "tmp/gems/#{gem_name}/lib"
+    unless File.exist? "#{TMP_GEM_ROOT}/gems/#{gem_name}-#{version}"
+      FileUtils.mkdir_p "#{TMP_GEM_BUILD}/#{gem_name}/lib"
 
-      FileUtils.cd "tmp/gems/#{gem_name}" do
+      FileUtils.cd "#{TMP_GEM_BUILD}/#{gem_name}" do
         gemspec = "#{gem_name}.gemspec"
         lib_file = "lib/#{gem_name}.rb"
 
@@ -38,7 +38,7 @@ module DependencyHelpers
   def build_git_gem(gem_name, version = '1.0.0')
     build_gem gem_name, version
 
-    Dir.chdir "tmp/gems/#{gem_name}" do
+    Dir.chdir "#{TMP_GEM_BUILD}/#{gem_name}" do
       `git init . --initial-branch=master`
       `git config user.email "appraisal@thoughtbot.com"`
       `git config user.name "Appraisal"`

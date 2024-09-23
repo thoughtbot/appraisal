@@ -10,11 +10,11 @@ RSpec.describe 'Gemfile DSL compatibility' do
       source "https://rubygems.org"
       ruby RUBY_VERSION
 
-      git "../gems/egg" do
+      git "../build/egg" do
         gem "egg"
       end
 
-      path "../gems/orange_juice" do
+      path "../build/orange_juice" do
         gem "orange_juice"
       end
 
@@ -52,11 +52,11 @@ RSpec.describe 'Gemfile DSL compatibility' do
 
       ruby "#{RUBY_VERSION}"
 
-      git "../../gems/egg" do
+      git "../../build/egg" do
         gem "egg"
       end
 
-      path "../../gems/orange_juice" do
+      path "../../build/orange_juice" do
         gem "orange_juice"
       end
 
@@ -82,11 +82,11 @@ RSpec.describe 'Gemfile DSL compatibility' do
 
       ruby "#{RUBY_VERSION}"
 
-      git "../../gems/egg" do
+      git "../../build/egg" do
         gem "egg"
       end
 
-      path "../../gems/orange_juice" do
+      path "../../build/orange_juice" do
         gem "orange_juice"
       end
 

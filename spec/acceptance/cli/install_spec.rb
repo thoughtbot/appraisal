@@ -46,7 +46,7 @@ RSpec.describe 'CLI', 'appraisal install' do
 
     build_git_gem("uri_dummy")
     uri_dummy_path = "#{current_directory}/uri_dummy"
-    FileUtils.symlink(File.absolute_path("tmp/gems/uri_dummy"), uri_dummy_path)
+    FileUtils.symlink(File.absolute_path("tmp/build/uri_dummy"), uri_dummy_path)
 
     build_appraisal_file <<-APPRAISAL
       appraise '1.0.0' do
