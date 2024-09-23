@@ -25,8 +25,15 @@ module DependencyHelpers
           file.puts "$#{gem_name}_version = '#{version}'"
         end
 
-        `gem build #{gemspec} 2>&1`
-        `gem install -lN #{gem_name}-#{version}.gem -v #{version} 2>&1`
+        redirect = ENV['VERBOSE'] ? '' : '2>&1'
+
+        puts "building gem: #{gem_name} #{version}" if ENV["VERBOSE"]
+        `gem build #{gemspec} #{redirect}`
+
+        puts "installing gem: #{gem_name} #{version}" if ENV["VERBOSE"]
+        `gem install -lN #{gem_name}-#{version}.gem -v #{version} #{redirect}`
+
+        puts "" if ENV["VERBOSE"]
       end
     end
   end
@@ -36,6 +43,7 @@ module DependencyHelpers
   end
 
   def build_git_gem(gem_name, version = '1.0.0')
+    puts "building git gem: #{gem_name} #{version}" if ENV["VERBOSE"]
     build_gem gem_name, version
 
     Dir.chdir "#{TMP_GEM_BUILD}/#{gem_name}" do
@@ -50,6 +58,7 @@ module DependencyHelpers
     git_cache_path = File.join(ENV["GEM_HOME"], "cache", "bundler", "git")
 
     Dir[File.join(git_cache_path, "#{gem_name}-*")].each do |path|
+      puts "deleting: #{path}" if ENV["VERBOSE"]
       FileUtils.rm_r(path)
     end
   end
