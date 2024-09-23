@@ -38,6 +38,13 @@ module Appraisal
       def exit_on_failure?
         true
       end
+
+      private
+
+      def strip_heredoc(string)
+        indent = string.scan(/^[ \t]*(?=\S)/).min.size || 0
+        string.gsub(/^[ \t]{#{indent}}/, "")
+      end
     end
 
     desc "install", "Resolve and install dependencies for each appraisal"
@@ -110,11 +117,6 @@ module Appraisal
           Command.new(ARGV, gemfile: appraisal.gemfile_path).run
         end
       end
-    end
-
-    def self.strip_heredoc(string)
-      indent = string.scan(/^[ \t]*(?=\S)/).min.size || 0
-      string.gsub(/^[ \t]{#{indent}}/, "")
     end
   end
 end
