@@ -17,6 +17,9 @@ module DependencyHelpers
               s.authors = 'Mr. Smith'
               s.summary = 'summary'
               s.files   = #{lib_file.inspect}
+              s.license = 'MIT'
+              s.homepage = 'http://github.com/thoughtbot/#{gem_name}'
+              s.required_ruby_version = '>= 2.3.0'
             end
           gemspec
         end
