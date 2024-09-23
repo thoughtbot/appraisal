@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 module DependencyHelpers
-  def build_gem(gem_name, version = '1.0.0')
-    ENV['GEM_HOME'] = TMP_GEM_ROOT
+  def build_gem(gem_name, version = "1.0.0")
+    ENV["GEM_HOME"] = TMP_GEM_ROOT
 
     unless File.exist? "#{TMP_GEM_ROOT}/gems/#{gem_name}-#{version}"
       FileUtils.mkdir_p "#{TMP_GEM_BUILD}/#{gem_name}/lib"
@@ -9,8 +11,8 @@ module DependencyHelpers
         gemspec = "#{gem_name}.gemspec"
         lib_file = "lib/#{gem_name}.rb"
 
-        File.open gemspec, 'w' do |file|
-          file.puts <<-gemspec
+        File.open gemspec, "w" do |file|
+          file.puts <<-GEMSPEC
             Gem::Specification.new do |s|
               s.name    = #{gem_name.inspect}
               s.version = #{version.inspect}
@@ -21,14 +23,14 @@ module DependencyHelpers
               s.homepage = 'http://github.com/thoughtbot/#{gem_name}'
               s.required_ruby_version = '>= 2.3.0'
             end
-          gemspec
+          GEMSPEC
         end
 
-        File.open lib_file, 'w' do |file|
+        File.open lib_file, "w" do |file|
           file.puts "$#{gem_name}_version = '#{version}'"
         end
 
-        redirect = ENV['VERBOSE'] ? '' : '2>&1'
+        redirect = ENV["VERBOSE"] ? "" : "2>&1"
 
         puts "building gem: #{gem_name} #{version}" if ENV["VERBOSE"]
         `gem build #{gemspec} #{redirect}`
@@ -45,7 +47,7 @@ module DependencyHelpers
     gems.each { |gem| build_gem(gem) }
   end
 
-  def build_git_gem(gem_name, version = '1.0.0')
+  def build_git_gem(gem_name, version = "1.0.0")
     puts "building git gem: #{gem_name} #{version}" if ENV["VERBOSE"]
     build_gem gem_name, version
 

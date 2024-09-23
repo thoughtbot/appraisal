@@ -1,28 +1,30 @@
-require 'rspec/expectations/expectation_target'
-require 'active_support/core_ext/string/strip'
-require 'active_support/core_ext/string/filters'
-require 'active_support/concern'
-require 'appraisal/utils'
+# frozen_string_literal: true
+
+require "rspec/expectations/expectation_target"
+require "active_support/core_ext/string/strip"
+require "active_support/core_ext/string/filters"
+require "active_support/concern"
+require "appraisal/utils"
 require "./spec/support/dependency_helpers"
 
 module AcceptanceTestHelpers
   extend ActiveSupport::Concern
   include DependencyHelpers
 
-  BUNDLER_ENVIRONMENT_VARIABLES = %w(
+  BUNDLER_ENVIRONMENT_VARIABLES = %w[
     RUBYOPT
     BUNDLE_PATH
     BUNDLE_BIN_PATH
     BUNDLE_GEMFILE
     BUNDLER_SETUP
-  ).freeze
+  ].freeze
 
   included do
     metadata[:type] = :acceptance
 
-    before :parallel => true do
+    before parallel: true do
       unless Appraisal::Utils.support_parallel_installation?
-        pending 'This Bundler version does not support --jobs flag.'
+        pending "This Bundler version does not support --jobs flag."
       end
     end
 
@@ -44,7 +46,7 @@ module AcceptanceTestHelpers
   def save_environment_variables
     @original_environment_variables = {}
 
-    (BUNDLER_ENVIRONMENT_VARIABLES + %w(PATH)).each do |key|
+    (BUNDLER_ENVIRONMENT_VARIABLES + %w[PATH]).each do |key|
       @original_environment_variables[key] = ENV[key]
     end
   end
@@ -56,7 +58,7 @@ module AcceptanceTestHelpers
   end
 
   def add_binstub_path
-    ENV['PATH'] = "bin:#{ENV['PATH']}"
+    ENV["PATH"] = "bin:#{ENV['PATH']}"
   end
 
   def restore_environment_variables
@@ -66,28 +68,28 @@ module AcceptanceTestHelpers
   end
 
   def build_appraisal_file(content)
-    write_file 'Appraisals', content.strip_heredoc
+    write_file "Appraisals", content.strip_heredoc
   end
 
   def build_gemfile(content)
-    write_file 'Gemfile', content.strip_heredoc
+    write_file "Gemfile", content.strip_heredoc
   end
 
   def add_gemspec_to_gemfile
     in_test_directory do
-      File.open('Gemfile', 'a') { |file| file.puts 'gemspec' }
+      File.open("Gemfile", "a") { |file| file.puts "gemspec" }
     end
   end
 
   def build_gemspec
-    write_file "stage.gemspec", <<-gemspec
+    write_file "stage.gemspec", <<-GEMSPEC
       Gem::Specification.new do |s|
         s.name = 'stage'
         s.version = '0.1'
         s.summary = 'Awesome Gem!'
         s.authors = "Appraisal"
       end
-    gemspec
+    GEMSPEC
   end
 
   def content_of(path)
@@ -107,11 +109,11 @@ module AcceptanceTestHelpers
   private
 
   def current_directory
-    File.expand_path('tmp/stage')
+    File.expand_path("tmp/stage")
   end
 
   def write_file(filename, content)
-    in_test_directory { File.open(filename, 'w') { |file| file.puts content } }
+    in_test_directory { File.open(filename, "w") { |file| file.puts content } }
   end
 
   def cleanup_artifacts
@@ -121,8 +123,8 @@ module AcceptanceTestHelpers
   def build_default_dummy_gems
     FileUtils.mkdir_p(TMP_GEM_ROOT)
 
-    build_gem 'dummy', '1.0.0'
-    build_gem 'dummy', '1.1.0'
+    build_gem "dummy", "1.0.0"
+    build_gem "dummy", "1.1.0"
   end
 
   def ensure_bundler_is_available
@@ -140,11 +142,11 @@ module AcceptanceTestHelpers
   end
 
   def build_default_gemfile
-    build_gemfile <<-Gemfile
+    build_gemfile <<-GEMFILE
       source 'https://rubygems.org'
 
       gem 'appraisal', :path => '#{PROJECT_ROOT}'
-    Gemfile
+    GEMFILE
 
     run "bundle install --local"
     run "bundle binstubs --all"
@@ -165,10 +167,10 @@ module AcceptanceTestHelpers
         end
 
         if raise_on_error && exitstatus != 0
-          raise RuntimeError, <<-error_message.strip_heredoc
+          raise RuntimeError, <<-ERROR_MESSAGE.strip_heredoc
             Command #{command.inspect} exited with status #{exitstatus}. Output:
             #{output.gsub(/^/, '  ')}
-          error_message
+          ERROR_MESSAGE
         end
       end
     end
