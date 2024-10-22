@@ -161,8 +161,8 @@ module Appraisal
         if Utils.support_parallel_installation?
           options_strings << "--jobs=#{jobs}"
         else
-          warn "Your current version of Bundler does not support parallel installation. Please " +
-            "upgrade Bundler to version >= 1.4.0, or invoke `appraisal` without `--jobs` option."
+          warn "Your current version of Bundler does not support parallel installation. Please " \
+               "upgrade Bundler to version >= 1.4.0, or invoke `appraisal` without `--jobs` option."
         end
       end
 

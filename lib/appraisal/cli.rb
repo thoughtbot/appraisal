@@ -54,11 +54,11 @@ module Appraisal
     method_option "retry", type: :numeric, default: 1,
       desc: "Retry network and git requests that have failed"
     method_option "without", banner: "GROUP_NAMES",
-      desc: "A space-separated list of groups referencing gems to skip " +
-        "during installation. Bundler will remember this option."
+      desc: "A space-separated list of groups referencing gems to skip " \
+            "during installation. Bundler will remember this option."
     method_option "full-index", type: :boolean,
                                 desc: "Run bundle install with the " \
-                                         "full-index argument."
+                                      "full-index argument."
     method_option "path", type: :string,
                           desc: "Install gems in the specified directory. " \
                                 "Bundler will remember this option."

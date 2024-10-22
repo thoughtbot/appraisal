@@ -15,7 +15,7 @@ module Appraisal
       if @options.empty?
         "git #{Utils.prefix_path(@source).inspect} do\n#{indent(super)}\nend"
       else
-        "git #{Utils.prefix_path(@source).inspect}, #{Utils.format_string(@options)} do\n" +
+        "git #{Utils.prefix_path(@source).inspect}, #{Utils.format_string(@options)} do\n" \
           "#{indent(super)}\nend"
       end
     end
@@ -25,7 +25,7 @@ module Appraisal
       if @options.empty?
         "git #{@source.inspect} do\n#{indent(super)}\nend"
       else
-        "git #{@source.inspect}, #{Utils.format_string(@options)} do\n" +
+        "git #{@source.inspect}, #{Utils.format_string(@options)} do\n" \
           "#{indent(super)}\nend"
       end
     end
