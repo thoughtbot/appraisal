@@ -15,7 +15,7 @@ module Appraisal
       if @options.empty?
         "path #{Utils.prefix_path(@source).inspect} do\n#{indent(super)}\nend"
       else
-        "path #{Utils.prefix_path(@source).inspect}, #{Utils.format_string(@options)} do\n" +
+        "path #{Utils.prefix_path(@source).inspect}, #{Utils.format_string(@options)} do\n" \
           "#{indent(super)}\nend"
       end
     end
@@ -25,7 +25,7 @@ module Appraisal
       if @options.empty?
         "path #{@source.inspect} do\n#{indent(super)}\nend"
       else
-        "path #{@source.inspect}, #{Utils.format_string(@options)} do\n" +
+        "path #{@source.inspect}, #{Utils.format_string(@options)} do\n" \
           "#{indent(super)}\nend"
       end
     end
