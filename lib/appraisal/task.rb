@@ -11,22 +11,22 @@ module Appraisal
       namespace :appraisal do
         desc "DEPRECATED: Generate a Gemfile for each appraisal"
         task :gemfiles do
-          warn "`rake appraisal:gemfile` task is deprecated and will be removed soon. " +
-            "Please use `appraisal generate`."
+          warn "`rake appraisal:gemfile` task is deprecated and will be removed soon. " \
+               "Please use `appraisal generate`."
           exec "bundle exec appraisal generate"
         end
 
         desc "DEPRECATED: Resolve and install dependencies for each appraisal"
         task :install do
-          warn "`rake appraisal:install` task is deprecated and will be removed soon. " +
-            "Please use `appraisal install`."
+          warn "`rake appraisal:install` task is deprecated and will be removed soon. " \
+               "Please use `appraisal install`."
           exec "bundle exec appraisal install"
         end
 
         desc "DEPRECATED: Remove all generated gemfiles from gemfiles/ folder"
         task :cleanup do
-          warn "`rake appraisal:cleanup` task is deprecated and will be removed soon. " +
-            "Please use `appraisal clean`."
+          warn "`rake appraisal:cleanup` task is deprecated and will be removed soon. " \
+               "Please use `appraisal clean`."
           exec "bundle exec appraisal clean"
         end
 
@@ -35,8 +35,8 @@ module Appraisal
             desc "DEPRECATED: Run the given task for appraisal #{appraisal.name}"
             task appraisal.name do
               ARGV.shift
-              warn "`rake appraisal:#{appraisal.name}` task is deprecated and will be removed soon. " +
-                "Please use `appraisal #{appraisal.name} rake #{ARGV.join(' ')}`."
+              warn "`rake appraisal:#{appraisal.name}` task is deprecated and will be removed soon. " \
+                   "Please use `appraisal #{appraisal.name} rake #{ARGV.join(' ')}`."
               exec "bundle exec appraisal #{appraisal.name} rake #{ARGV.join(' ')}"
             end
           end
