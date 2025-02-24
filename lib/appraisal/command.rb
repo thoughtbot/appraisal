@@ -26,9 +26,7 @@ module Appraisal
           ENV[key] = value
         end
 
-        unless Kernel.system(command_as_string)
-          exit(1)
-        end
+        exit(1) unless Kernel.system(command_as_string)
       end
     end
 
@@ -36,20 +34,20 @@ module Appraisal
 
     def ensure_bundler_is_available
       version = Utils.bundler_version
-      unless system %(gem list --silent -i bundler -v #{version})
-        puts ">> Reinstall Bundler into #{ENV["GEM_HOME"]}"
+      return if system(%(gem list --silent -i bundler -v #{version}))
 
-        unless system "gem install bundler --version #{version}"
-          puts
-          puts <<-ERROR.strip.gsub(/\s+/, " ")
-            Bundler installation failed.
-            Please try running:
-              `GEM_HOME="#{ENV["GEM_HOME"]}" gem install bundler --version #{version}`
-            manually.
-          ERROR
-          exit(1)
-        end
-      end
+      puts ">> Reinstall Bundler into #{ENV["GEM_HOME"]}"
+
+      return if system("gem install bundler --version #{version}")
+
+      puts
+      puts <<-ERROR.rstrip
+Bundler installation failed.
+Please try running:
+  `GEM_HOME="#{ENV["GEM_HOME"]}" gem install bundler --version #{version}`
+manually.
+      ERROR
+      exit(1)
     end
 
     def announce

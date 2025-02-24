@@ -1,12 +1,10 @@
 # frozen_string_literal: true
 
-require "spec_helper"
-
 RSpec.describe "CLI", "appraisal update" do
   before do
     build_gem "dummy2", "1.0.0"
 
-    build_appraisal_file <<-APPRAISAL
+    build_appraisal_file <<-APPRAISAL.strip_heredoc.rstrip
       appraise 'dummy' do
         gem 'dummy', '~> 1.0.0'
         gem 'dummy2', '~> 1.0.0'
@@ -20,8 +18,8 @@ RSpec.describe "CLI", "appraisal update" do
 
   after do
     in_test_directory do
-      `gem uninstall dummy -v 1.0.1`
-      `gem uninstall dummy2 -a`
+      %x(gem uninstall dummy -v 1.0.1)
+      %x(gem uninstall dummy2 -a)
     end
   end
 

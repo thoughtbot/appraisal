@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "spec_helper"
-
 RSpec.describe "CLI", "appraisal install" do
   it "raises error when there is no Appraisals file" do
     output = run "appraisal install 2>&1", false
@@ -10,7 +8,7 @@ RSpec.describe "CLI", "appraisal install" do
   end
 
   it "installs the dependencies" do
-    build_appraisal_file <<-APPRAISAL
+    build_appraisal_file <<-APPRAISAL.strip_heredoc.rstrip
       appraise '1.0.0' do
         gem 'dummy', '1.0.0'
       end
@@ -30,7 +28,7 @@ RSpec.describe "CLI", "appraisal install" do
     build_gemspec
     add_gemspec_to_gemfile
 
-    build_appraisal_file <<-APPRAISAL
+    build_appraisal_file <<-APPRAISAL.strip_heredoc.rstrip
       appraise '1.0.0' do
         gem 'dummy', '1.0.0'
       end
@@ -41,7 +39,7 @@ RSpec.describe "CLI", "appraisal install" do
     expect(content_of("gemfiles/1.0.0.gemfile.lock")).not_to include(current_directory)
   end
 
-  it "does not relativize directory of uris in gemfile.lock" do
+  it "does not relativize directory of uris in gemfile.lock", :git_local do
     build_gemspec
     add_gemspec_to_gemfile
 
@@ -49,7 +47,7 @@ RSpec.describe "CLI", "appraisal install" do
     uri_dummy_path = "#{current_directory}/uri_dummy"
     FileUtils.symlink(File.absolute_path("tmp/build/uri_dummy"), uri_dummy_path)
 
-    build_appraisal_file <<-APPRAISAL
+    build_appraisal_file <<-APPRAISAL.strip_heredoc.rstrip
       appraise '1.0.0' do
         gem 'uri_dummy', git: 'file://#{uri_dummy_path}'
       end
@@ -60,9 +58,9 @@ RSpec.describe "CLI", "appraisal install" do
     expect(content_of("gemfiles/1.0.0.gemfile.lock")).to include("file://#{uri_dummy_path}")
   end
 
-  context "with job size", parallel: true do
+  context "with job size", :parallel do
     before do
-      build_appraisal_file <<-APPRAISAL
+      build_appraisal_file <<-APPRAISAL.strip_heredoc.rstrip
         appraise '1.0.0' do
           gem 'dummy', '1.0.0'
         end
@@ -72,21 +70,21 @@ RSpec.describe "CLI", "appraisal install" do
     it "accepts --jobs option to set job size" do
       output = run "appraisal install --jobs=2"
 
-      expect(output).to include("bundle install --gemfile='#{file('gemfiles/1.0.0.gemfile')}' --jobs=2")
+      expect(output).to include("bundle install --gemfile='#{file("gemfiles/1.0.0.gemfile")}' --jobs=2")
     end
 
     it "ignores --jobs option if the job size is less than or equal to 1" do
       output = run "appraisal install --jobs=0"
 
-      expect(output).to     include("bundle install --gemfile='#{file('gemfiles/1.0.0.gemfile')}'")
-      expect(output).not_to include("bundle install --gemfile='#{file('gemfiles/1.0.0.gemfile')}' --jobs=0")
-      expect(output).not_to include("bundle install --gemfile='#{file('gemfiles/1.0.0.gemfile')}' --jobs=1")
+      expect(output).to include("bundle install --gemfile='#{file("gemfiles/1.0.0.gemfile")}'")
+      expect(output).not_to include("bundle install --gemfile='#{file("gemfiles/1.0.0.gemfile")}' --jobs=0")
+      expect(output).not_to include("bundle install --gemfile='#{file("gemfiles/1.0.0.gemfile")}' --jobs=1")
     end
   end
 
   context "with full-index", :parallel do
     before do
-      build_appraisal_file <<-APPRAISAL
+      build_appraisal_file <<-APPRAISAL.strip_heredoc.rstrip
         appraise '1.0.0' do
           gem 'dummy', '1.0.0'
         end
@@ -96,13 +94,13 @@ RSpec.describe "CLI", "appraisal install" do
     it "accepts --full-index option to pull the full RubyGems index" do
       output = run("appraisal install --full-index")
 
-      expect(output).to include("bundle install --gemfile='#{file('gemfiles/1.0.0.gemfile')}' --retry 1 --full-index true")
+      expect(output).to include("bundle install --gemfile='#{file("gemfiles/1.0.0.gemfile")}' --retry 1 --full-index true")
     end
   end
 
   context "with path", :parallel do
     before do
-      build_appraisal_file <<-APPRAISAL
+      build_appraisal_file <<-APPRAISAL.strip_heredoc.rstrip
         appraise '1.0.0' do
           gem 'dummy', '1.0.0'
         end
@@ -112,7 +110,7 @@ RSpec.describe "CLI", "appraisal install" do
     it "accepts --path option to specify the location to install gems into" do
       output = run("appraisal install --path vendor/appraisal")
 
-      expect(output).to include("bundle install --gemfile='#{file('gemfiles/1.0.0.gemfile')}' --path #{file('vendor/appraisal')} --retry 1")
+      expect(output).to include("bundle install --gemfile='#{file("gemfiles/1.0.0.gemfile")}' --path #{file("vendor/appraisal")} --retry 1")
     end
   end
 end

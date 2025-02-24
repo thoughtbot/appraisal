@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "spec_helper"
-
 RSpec.describe "CLI", "appraisal version" do
   context "with version subcommand" do
     it "prints out version string" do

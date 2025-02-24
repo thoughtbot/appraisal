@@ -16,7 +16,7 @@ RSpec.describe Appraisal::AppraisalFile do
   end
 
   describe "#customize_gemfiles" do
-    before(:each) do
+    before do
       allow(File).to receive(:exist?).with(anything).and_return(true)
       allow(IO).to receive(:read).with(anything).and_return("")
     end
@@ -33,13 +33,11 @@ RSpec.describe Appraisal::AppraisalFile do
       context "when the block returns a hash with :heading key" do
         subject do
           described_class.new.customize_gemfiles do
-            { heading: "foo" }
+            {:heading => "foo"}
           end
         end
 
         it "sets the heading" do
-          pending("test is broken: wrong number of arguments (given 0, expected 1)")
-
           expect { subject }.to change { Appraisal::Customize.heading }.to("foo")
         end
       end
@@ -47,7 +45,7 @@ RSpec.describe Appraisal::AppraisalFile do
       context "when the block returns a hash with :single_quotes key" do
         subject do
           described_class.new.customize_gemfiles do
-            { single_quotes: true }
+            {:single_quotes => true}
           end
         end
 
@@ -59,16 +57,14 @@ RSpec.describe Appraisal::AppraisalFile do
       context "when the block returns a hash with :heading and :single_quotes keys" do
         subject do
           described_class.new.customize_gemfiles do
-            { heading: "foo", single_quotes: true }
+            {:heading => "foo", :single_quotes => true}
           end
         end
 
         it "sets the heading and single_quotes" do
-          pending("test is broken: wrong number of arguments (given 0, expected 1)")
-
           subject
           expect(Appraisal::Customize.heading).to eq("foo")
-          expect(Appraisal::Customize.single_quotes).to eq(true)
+          expect(Appraisal::Customize.single_quotes).to be(true)
         end
       end
     end

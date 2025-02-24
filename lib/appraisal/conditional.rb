@@ -11,14 +11,22 @@ module Appraisal
     end
 
     def to_s
-      "install_if #{@condition} do\n#{indent(super)}\nend"
+      <<-OUTPUT.rstrip
+install_if #{@condition} do
+#{indent(super)}
+end
+      OUTPUT
     end
 
     # :nodoc:
     def for_dup
       return unless @condition.is_a?(String)
 
-      "install_if #{@condition} do\n#{indent(super)}\nend"
+      <<-OUTPUT.rstrip
+install_if #{@condition} do
+#{indent(super)}
+end
+      OUTPUT
     end
   end
 end

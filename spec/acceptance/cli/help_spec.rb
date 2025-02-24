@@ -1,10 +1,8 @@
 # frozen_string_literal: true
 
-require "spec_helper"
-
 RSpec.describe "CLI", "appraisal help" do
   it "prints usage along with commands, and list of appraisals" do
-    build_appraisal_file <<-APPRAISAL
+    build_appraisal_file <<-APPRAISAL.strip_heredoc.rstrip
       appraise '1.0.0' do
         gem 'dummy', '1.0.0'
       end

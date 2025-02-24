@@ -5,7 +5,7 @@ require "appraisal/dependency_list"
 
 RSpec.describe Appraisal::DependencyList do
   describe "#add" do
-    let(:dependency_list) { Appraisal::DependencyList.new }
+    let(:dependency_list) { described_class.new }
 
     it "adds dependency to the list" do
       dependency_list.add("rails", ["4.1.4"])
@@ -17,7 +17,7 @@ RSpec.describe Appraisal::DependencyList do
       dependency_list.add("rails", ["4.1.4"])
       dependency_list.add("bundler", ["1.7.2"])
 
-      expect(dependency_list.to_s).to eq <<-GEMS.strip_heredoc.strip
+      expect(dependency_list.to_s).to eq <<-GEMS.strip_heredoc.rstrip
         gem "rails", "4.1.4"
         gem "bundler", "1.7.2"
       GEMS
@@ -32,7 +32,7 @@ RSpec.describe Appraisal::DependencyList do
   end
 
   describe "#remove" do
-    let(:dependency_list) { Appraisal::DependencyList.new }
+    let(:dependency_list) { described_class.new }
 
     before do
       dependency_list.add("rails", ["4.1.4"])

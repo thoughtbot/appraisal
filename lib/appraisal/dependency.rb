@@ -14,12 +14,12 @@ module Appraisal
     end
 
     def to_s
-      formatted_output Utils.format_arguments(path_prefixed_requirements)
+      formatted_output(Utils.format_arguments(path_prefixed_requirements))
     end
 
     # :nodoc:
     def for_dup
-      formatted_output Utils.format_arguments(requirements)
+      formatted_output(Utils.format_arguments(requirements))
     end
 
     private
@@ -27,13 +27,9 @@ module Appraisal
     def path_prefixed_requirements
       requirements.map do |requirement|
         if requirement.is_a?(Hash)
-          if requirement[:path]
-            requirement[:path] = Utils.prefix_path(requirement[:path])
-          end
+          requirement[:path] = Utils.prefix_path(requirement[:path]) if requirement[:path]
 
-          if requirement[:git]
-            requirement[:git] = Utils.prefix_path(requirement[:git])
-          end
+          requirement[:git] = Utils.prefix_path(requirement[:git]) if requirement[:git]
         end
 
         requirement

@@ -19,11 +19,9 @@ module Appraisal
       @gemfile = Gemfile.new
       @gemfile.load(ENV["BUNDLE_GEMFILE"] || "Gemfile")
 
-      if File.exist? path
-        run IO.read(path)
-      else
-        raise AppraisalsNotFound
-      end
+      raise AppraisalsNotFound unless File.exist?(path)
+
+      run(File.read(path))
     end
 
     def each(&block)
@@ -37,7 +35,8 @@ module Appraisal
     end
 
     def customize_gemfiles(&_block)
-      Customize.new(**yield)
+      args = yield
+      Customize.new(args)
     end
 
     private

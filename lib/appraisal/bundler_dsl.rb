@@ -1,30 +1,47 @@
 # frozen_string_literal: true
 
 require "appraisal/dependency_list"
+require "appraisal/ordered_hash"
 
 module Appraisal
   class BundlerDSL
     attr_reader :dependencies
 
-    PARTS = %w[source ruby_version gits paths dependencies groups
-               platforms source_blocks install_if gemspec]
+    PARTS = %w[
+      source
+      ruby_version
+      gits
+      paths
+      dependencies
+      groups
+      platforms
+      source_blocks
+      install_if
+      gemspec
+      eval_gemfile
+    ]
 
     def initialize
       @sources = []
       @ruby_version = nil
       @dependencies = DependencyList.new
       @gemspecs = []
-      @groups = {}
-      @platforms = {}
-      @gits = {}
-      @paths = {}
-      @source_blocks = {}
+      @groups = OrderedHash.new
+      @platforms = OrderedHash.new
+      @gits = OrderedHash.new
+      @paths = OrderedHash.new
+      @source_blocks = OrderedHash.new
       @git_sources = {}
       @install_if = {}
+      @eval_gemfile = []
     end
 
     def run(&block)
       instance_exec(&block)
+    end
+
+    def eval_gemfile(path, contents = nil)
+      @eval_gemfile << [path, contents]
     end
 
     def gem(name, *requirements)
@@ -82,11 +99,11 @@ module Appraisal
     end
 
     def to_s
-      Utils.join_parts(PARTS.map { |part| send("#{part}_entry") })
+      Utils.join_parts(PARTS.map { |part| send(:"#{part}_entry") })
     end
 
     def for_dup
-      Utils.join_parts(PARTS.map { |part| send("#{part}_entry_for_dup") })
+      Utils.join_parts(PARTS.map { |part| send(:"#{part}_entry_for_dup") })
     end
 
     def gemspec(options = {})
@@ -103,6 +120,12 @@ module Appraisal
 
     private
 
+    def eval_gemfile_entry
+      @eval_gemfile.map { |(p, c)| "eval_gemfile(#{p.inspect}#{", #{c.inspect}" if c})" } * "\n\n"
+    end
+
+    alias_method :eval_gemfile_entry_for_dup, :eval_gemfile_entry
+
     def source_entry
       @sources.uniq.map { |source| "source #{source.inspect}" }.join("\n")
     end
@@ -114,7 +137,7 @@ module Appraisal
 
       case @ruby_version
       when String then "ruby #{@ruby_version.inspect}"
-      else "ruby(#{@ruby_version.inspect})"
+      else "ruby(#{Utils.format_string(@ruby_version)})"
       end
     end
 
@@ -136,8 +159,8 @@ module Appraisal
       @dependencies.for_dup
     end
 
-    %i[gits paths platforms groups source_blocks install_if].each do |method_name|
-      class_eval <<-METHODS, __FILE__, __LINE__
+    [:gits, :paths, :platforms, :groups, :source_blocks, :install_if].each do |method_name|
+      class_eval <<-METHODS, __FILE__, __LINE__ + 1
         private
 
         def #{method_name}_entry
@@ -151,16 +174,34 @@ module Appraisal
     end
 
     def indent(string)
-      string.strip.gsub(/^(.+)$/, '  \1')
+      indent_by = ENV.fetch("APPRAISAL_INDENTER", "lookaround")
+      if indent_by == "lookaround"
+        # Default indenter for Appraisal v3
+        # Uses a "look-around" of the "look-behind" variety to indent lines that are more than just empty space.
+        # In other words, retain existing indentation, and indent the line again, but not on empty lines.
+        string.
+          # NOTES:
+          #   (?![\r\n]) - Negative Look Behind which requires that the following pattern,
+          #                which is (\s*) in this case, *not* be followed by a new line character
+          #   (\s*) - Captures whitespace at beginning of the line
+          #   Learn more here: https://learnbyexample.github.io/Ruby_Regexp/lookarounds.html
+          gsub(/^(?![\r\n])(\s*)/, '  \0').
+          rstrip
+      elsif indent_by == "capture"
+        # Original indentation regex for Appraisal < v3
+        string.gsub(/^(.+)$/, '  \1').rstrip
+      else
+        string
+      end
     end
 
     def substitute_git_source(requirements)
       requirements.each do |requirement|
-        if requirement.is_a?(Hash)
-          (requirement.keys & @git_sources.keys).each do |matching_source|
-            value = requirement.delete(matching_source)
-            requirement[:git] = @git_sources[matching_source].call(value)
-          end
+        next unless requirement.is_a?(Hash)
+
+        (requirement.keys & @git_sources.keys).each do |matching_source|
+          value = requirement.delete(matching_source)
+          requirement[:git] = @git_sources[matching_source].call(value)
         end
       end
     end

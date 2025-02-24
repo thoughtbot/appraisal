@@ -6,23 +6,23 @@ require "tempfile"
 
 RSpec.describe Appraisal::Appraisal do
   it "converts spaces to underscores in the gemfile path" do
-    appraisal = Appraisal::Appraisal.new("one two", "Gemfile")
+    appraisal = described_class.new("one two", "Gemfile")
     expect(appraisal.gemfile_path).to match(/one_two\.gemfile$/)
   end
 
-  it "converts  punctuation to underscores in the gemfile path" do
-    appraisal = Appraisal::Appraisal.new("o&ne!", "Gemfile")
+  it "converts punctuation to underscores in the gemfile path" do
+    appraisal = described_class.new("o&ne!", "Gemfile")
     expect(appraisal.gemfile_path).to match(/o_ne_\.gemfile$/)
   end
 
   it "keeps dots in the gemfile path" do
-    appraisal = Appraisal::Appraisal.new("rails3.0", "Gemfile")
+    appraisal = described_class.new("rails3.0", "Gemfile")
     expect(appraisal.gemfile_path).to match(/rails3\.0\.gemfile$/)
   end
 
   it "generates a gemfile with a newline at the end of file" do
     output_file = Tempfile.new("gemfile")
-    appraisal = Appraisal::Appraisal.new("fake", "fake")
+    appraisal = described_class.new("fake", "fake")
     allow(appraisal).to receive(:gemfile_path).and_return(output_file.path)
 
     appraisal.write_gemfile
@@ -33,9 +33,9 @@ RSpec.describe Appraisal::Appraisal do
   context "gemfile customization" do
     it "generates a gemfile with a custom heading" do
       heading = "This file was generated with a custom heading!"
-      Appraisal::Customize.new(heading: heading)
+      Appraisal::Customize.new(:heading => heading)
       output_file = Tempfile.new("gemfile")
-      appraisal = Appraisal::Appraisal.new("custom", "Gemfile")
+      appraisal = described_class.new("custom", "Gemfile")
       allow(appraisal).to receive(:gemfile_path).and_return(output_file.path)
 
       appraisal.write_gemfile
@@ -45,18 +45,18 @@ RSpec.describe Appraisal::Appraisal do
     end
 
     it "generates a gemfile with multiple lines of custom heading" do
-      heading = <<~HEADING
+      heading = <<-HEADING.strip_heredoc.rstrip
         frozen_string_literal: true\n
         This file was generated with a custom heading!
       HEADING
-      Appraisal::Customize.new(heading: heading)
+      Appraisal::Customize.new(:heading => heading)
       output_file = Tempfile.new("gemfile")
-      appraisal = Appraisal::Appraisal.new("custom", "Gemfile")
+      appraisal = described_class.new("custom", "Gemfile")
       allow(appraisal).to receive(:gemfile_path).and_return(output_file.path)
 
       appraisal.write_gemfile
 
-      expected_output = <<~HEADING
+      expected_output = <<-HEADING.strip_heredoc.rstrip
         # frozen_string_literal: true\n
         # This file was generated with a custom heading!
       HEADING
@@ -64,9 +64,9 @@ RSpec.describe Appraisal::Appraisal do
     end
 
     it "generates a gemfile with single quotes rather than doubles" do
-      Appraisal::Customize.new(single_quotes: true)
+      Appraisal::Customize.new(:single_quotes => true)
       output_file = Tempfile.new("gemfile")
-      appraisal = Appraisal::Appraisal.new("quotes", 'gem "foo"')
+      appraisal = described_class.new("quotes", 'gem "foo"')
       allow(appraisal).to receive(:gemfile_path).and_return(output_file.path)
 
       appraisal.write_gemfile
@@ -77,7 +77,7 @@ RSpec.describe Appraisal::Appraisal do
     it "does not customize anything by default" do
       Appraisal::Customize.new
       output_file = Tempfile.new("gemfile")
-      appraisal = Appraisal::Appraisal.new("fake", 'gem "foo"')
+      appraisal = described_class.new("fake", 'gem "foo"')
       allow(appraisal).to receive(:gemfile_path).and_return(output_file.path)
 
       appraisal.write_gemfile
@@ -91,10 +91,10 @@ RSpec.describe Appraisal::Appraisal do
     include StreamHelpers
 
     before do
-      @appraisal = Appraisal::Appraisal.new("fake", "fake")
+      @appraisal = described_class.new("fake", "fake")
       allow(@appraisal).to receive(:gemfile_path).and_return("/home/test/test directory")
       allow(@appraisal).to receive(:project_root).and_return(Pathname.new("/home/test"))
-      allow(Appraisal::Command).to receive(:new).and_return(double(run: true))
+      allow(Appraisal::Command).to receive(:new).and_return(double(:run => true))
     end
 
     it "runs single install command on Bundler < 1.4.0" do

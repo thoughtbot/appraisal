@@ -11,7 +11,7 @@ module Appraisal
     class << self
       # Override help command to print out usage
       def help(shell, subcommand = false)
-        shell.say strip_heredoc(<<-HELP)
+        shell.say(strip_heredoc(<<-HELP))
           Appraisal: Find out what your Ruby gems are worth.
 
           Usage:
@@ -23,10 +23,10 @@ module Appraisal
 
         if File.exist?("Appraisals")
           shell.say
-          shell.say "Available Appraisal(s):"
+          shell.say("Available Appraisal(s):")
 
           AppraisalFile.each do |appraisal|
-            shell.say "  - #{appraisal.name}"
+            shell.say("  - #{appraisal.name}")
           end
         end
 
@@ -48,23 +48,31 @@ module Appraisal
     end
 
     desc "install", "Resolve and install dependencies for each appraisal"
-    method_option "jobs", aliases: "j", type: :numeric, default: 1,
-      banner: "SIZE",
-      desc: "Install gems in parallel using the given number of workers."
-    method_option "retry", type: :numeric, default: 1,
-      desc: "Retry network and git requests that have failed"
-    method_option "without", banner: "GROUP_NAMES",
-      desc: "A space-separated list of groups referencing gems to skip " +
+    method_option "jobs",
+      :aliases => "j",
+      :type => :numeric,
+      :default => 1,
+      :banner => "SIZE",
+      :desc => "Install gems in parallel using the given number of workers."
+    method_option "retry",
+      :type => :numeric,
+      :default => 1,
+      :desc => "Retry network and git requests that have failed"
+    method_option "without",
+      :banner => "GROUP_NAMES",
+      :desc => "A space-separated list of groups referencing gems to skip " \
         "during installation. Bundler will remember this option."
-    method_option "full-index", type: :boolean,
-                                desc: "Run bundle install with the " \
-                                         "full-index argument."
-    method_option "path", type: :string,
-                          desc: "Install gems in the specified directory. " \
-                                "Bundler will remember this option."
+    method_option "full-index",
+      :type => :boolean,
+      :desc => "Run bundle install with the " \
+        "full-index argument."
+    method_option "path",
+      :type => :string,
+      :desc => "Install gems in the specified directory. " \
+        "Bundler will remember this option."
 
     def install
-      invoke :generate, [], {}
+      invoke(:generate, [], {})
 
       AppraisalFile.each do |appraisal|
         appraisal.install(options)
@@ -81,12 +89,12 @@ module Appraisal
 
     desc "clean", "Remove all generated gemfiles and lockfiles from gemfiles folder"
     def clean
-      FileUtils.rm_f Dir["gemfiles/*.{gemfile,gemfile.lock}"]
+      FileUtils.rm_f(Dir["gemfiles/*.{gemfile,gemfile.lock}"])
     end
 
     desc "update [LIST_OF_GEMS]", "Remove all generated gemfiles and lockfiles, resolve, and install dependencies again"
     def update(*gems)
-      invoke :generate, []
+      invoke(:generate, [])
 
       AppraisalFile.each do |appraisal|
         appraisal.update(gems)
@@ -105,16 +113,16 @@ module Appraisal
 
     private
 
-    def method_missing(name, *args, &block)
+    def method_missing(name, *args)
       matching_appraisal = AppraisalFile.new.appraisals.detect do |appraisal|
         appraisal.name == name.to_s
       end
 
       if matching_appraisal
-        Command.new(args, gemfile: matching_appraisal.gemfile_path).run
+        Command.new(args, :gemfile => matching_appraisal.gemfile_path).run
       else
         AppraisalFile.each do |appraisal|
-          Command.new(ARGV, gemfile: appraisal.gemfile_path).run
+          Command.new(ARGV, :gemfile => appraisal.gemfile_path).run
         end
       end
     end

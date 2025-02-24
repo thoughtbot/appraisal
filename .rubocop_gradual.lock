@@ -1,0 +1,112 @@
+{
+  "Gemfile:3872962921": [
+    [26, 3, 4, "Security/Eval: The use of `eval` is a serious security risk.", 2087429787],
+    [28, 3, 4, "Security/Eval: The use of `eval` is a serious security risk.", 2087429787],
+    [30, 3, 4, "Security/Eval: The use of `eval` is a serious security risk.", 2087429787]
+  ],
+  "bin/bundle:41466308": [
+    [66, 5, 20, "ThreadSafety/ClassInstanceVariable: Avoid class instance variables.", 2485198147]
+  ],
+  "lib/appraisal/appraisal_file.rb:3950440874": [
+    [13, 5, 52, "Style/ClassMethodsDefinitions: Use `class << self` to define a class method.", 946226050]
+  ],
+  "lib/appraisal/cli.rb:435288507": [
+    [116, 5, 410, "Style/MissingRespondToMissing: When using `method_missing`, define `respond_to_missing?`.", 1969529734]
+  ],
+  "lib/appraisal/customize.rb:473220891": [
+    [12, 5, 138, "Style/ClassMethodsDefinitions: Use `class << self` to define a class method.", 2682968747],
+    [19, 5, 62, "Style/ClassMethodsDefinitions: Use `class << self` to define a class method.", 4082816720],
+    [23, 5, 516, "Style/ClassMethodsDefinitions: Use `class << self` to define a class method.", 2780620929]
+  ],
+  "lib/appraisal/utils.rb:3706894031": [
+    [6, 5, 129, "Style/ClassMethodsDefinitions: Use `class << self` to define a class method.", 733338411],
+    [10, 5, 124, "Style/ClassMethodsDefinitions: Use `class << self` to define a class method.", 222857520],
+    [17, 5, 354, "Style/ClassMethodsDefinitions: Use `class << self` to define a class method.", 119295155],
+    [39, 5, 152, "Style/ClassMethodsDefinitions: Use `class << self` to define a class method.", 1306460482],
+    [46, 5, 151, "Style/ClassMethodsDefinitions: Use `class << self` to define a class method.", 1120325158],
+    [52, 5, 98, "Style/ClassMethodsDefinitions: Use `class << self` to define a class method.", 714993131],
+    [56, 5, 244, "Style/ClassMethodsDefinitions: Use `class << self` to define a class method.", 1461524090],
+    [65, 5, 111, "Style/ClassMethodsDefinitions: Use `class << self` to define a class method.", 1909626476]
+  ],
+  "spec/acceptance/cli/clean_spec.rb:1564995421": [
+    [3, 23, 17, "RSpec/DescribeMethod: The second argument to describe should be the method being tested. '#instance' or '.class'.", 1606893221]
+  ],
+  "spec/acceptance/cli/generate_spec.rb:245350726": [
+    [3, 23, 20, "RSpec/DescribeMethod: The second argument to describe should be the method being tested. '#instance' or '.class'.", 3905826443]
+  ],
+  "spec/acceptance/cli/help_spec.rb:3569358941": [
+    [3, 23, 16, "RSpec/DescribeMethod: The second argument to describe should be the method being tested. '#instance' or '.class'.", 2148351217]
+  ],
+  "spec/acceptance/cli/install_spec.rb:3249736824": [
+    [3, 23, 19, "RSpec/DescribeMethod: The second argument to describe should be the method being tested. '#instance' or '.class'.", 3284642881]
+  ],
+  "spec/acceptance/cli/list_spec.rb:36921834": [
+    [3, 23, 16, "RSpec/DescribeMethod: The second argument to describe should be the method being tested. '#instance' or '.class'.", 2152687586]
+  ],
+  "spec/acceptance/cli/update_spec.rb:3754424074": [
+    [3, 23, 18, "RSpec/DescribeMethod: The second argument to describe should be the method being tested. '#instance' or '.class'.", 3752509585]
+  ],
+  "spec/acceptance/cli/version_spec.rb:2850459497": [
+    [3, 23, 19, "RSpec/DescribeMethod: The second argument to describe should be the method being tested. '#instance' or '.class'.", 316256858]
+  ],
+  "spec/appraisal/appraisal_file_spec.rb:1896479557": [
+    [28, 18, 7, "RSpec/NamedSubject: Name your test subject if you need to reference it explicitly.", 1892732441],
+    [33, 7, 57, "RSpec/NestedGroups: Maximum example group nesting exceeded [4/3].", 511689843],
+    [41, 20, 7, "RSpec/NamedSubject: Name your test subject if you need to reference it explicitly.", 1892732441],
+    [41, 33, 39, "RSpec/ExpectChange: Prefer `change(Appraisal::Customize, :heading)`.", 513325635],
+    [45, 7, 63, "RSpec/NestedGroups: Maximum example group nesting exceeded [4/3].", 1527582647],
+    [53, 20, 7, "RSpec/NamedSubject: Name your test subject if you need to reference it explicitly.", 1892732441],
+    [53, 33, 45, "RSpec/ExpectChange: Prefer `change(Appraisal::Customize, :single_quotes)`.", 627072007],
+    [57, 7, 77, "RSpec/NestedGroups: Maximum example group nesting exceeded [4/3].", 1960750461],
+    [65, 11, 7, "RSpec/NamedSubject: Name your test subject if you need to reference it explicitly.", 1892732441]
+  ],
+  "spec/appraisal/appraisal_spec.rb:3939376245": [
+    [33, 11, 23, "RSpec/ContextWording: Context description should match /^when\\b/, /^with\\b/, or /^without\\b/.", 2511581329],
+    [90, 11, 23, "RSpec/ContextWording: Context description should match /^when\\b/, /^with\\b/, or /^without\\b/.", 1120511218],
+    [95, 7, 83, "RSpec/ReceiveMessages: Use `receive_messages` instead of multiple stubs on lines [96].", 1453890366],
+    [95, 13, 10, "RSpec/InstanceVariable: Avoid instance variables - use let, a method call, or a local variable (if possible).", 4097172192],
+    [96, 7, 82, "RSpec/ReceiveMessages: Use `receive_messages` instead of multiple stubs on lines [95].", 1614459968],
+    [96, 13, 10, "RSpec/InstanceVariable: Avoid instance variables - use let, a method call, or a local variable (if possible).", 4097172192],
+    [97, 61, 20, "RSpec/VerifiedDoubles: Prefer using verifying doubles over normal doubles.", 2281802167],
+    [104, 9, 10, "RSpec/InstanceVariable: Avoid instance variables - use let, a method call, or a local variable (if possible).", 4097172192],
+    [114, 7, 10, "RSpec/InstanceVariable: Avoid instance variables - use let, a method call, or a local variable (if possible).", 4097172192],
+    [120, 7, 10, "RSpec/InstanceVariable: Avoid instance variables - use let, a method call, or a local variable (if possible).", 4097172192],
+    [126, 7, 10, "RSpec/InstanceVariable: Avoid instance variables - use let, a method call, or a local variable (if possible).", 4097172192]
+  ],
+  "spec/appraisal/customize_spec.rb:3636242792": [
+    [7, 1, 4472, "RSpec/MultipleMemoizedHelpers: Example group has too many memoized helpers [6/5]", 194570577],
+    [17, 3, 13, "RSpec/SubjectDeclaration: Use subject explicitly rather than using let", 3282510975],
+    [25, 3, 564, "RSpec/MultipleMemoizedHelpers: Example group has too many memoized helpers [6/5]", 3336288078],
+    [27, 7, 7, "RSpec/NamedSubject: Name your test subject if you need to reference it explicitly.", 1892732441],
+    [43, 3, 286, "RSpec/MultipleMemoizedHelpers: Example group has too many memoized helpers [6/5]", 4222920637],
+    [45, 7, 7, "RSpec/NamedSubject: Name your test subject if you need to reference it explicitly.", 1892732441],
+    [55, 3, 2985, "RSpec/MultipleMemoizedHelpers: Example group has too many memoized helpers [13/5]", 1576524985],
+    [65, 7, 62, "RSpec/ReceiveMessages: Use `receive_messages` instead of multiple stubs on lines [66, 67, 68].", 123979604],
+    [66, 7, 72, "RSpec/ReceiveMessages: Use `receive_messages` instead of multiple stubs on lines [65, 67, 68].", 3240119264],
+    [67, 7, 74, "RSpec/ReceiveMessages: Use `receive_messages` instead of multiple stubs on lines [65, 66, 68].", 3701550880],
+    [68, 7, 85, "RSpec/ReceiveMessages: Use `receive_messages` instead of multiple stubs on lines [65, 66, 67].", 3874694796],
+    [72, 7, 7, "RSpec/NamedSubject: Name your test subject if you need to reference it explicitly.", 1892732441]
+  ],
+  "spec/appraisal/gemfile_spec.rb:3969538335": [
+    [228, 11, 17, "RSpec/ContextWording: Context description should match /^when\\b/, /^with\\b/, or /^without\\b/.", 3608128140],
+    [229, 13, 13, "RSpec/ContextWording: Context description should match /^when\\b/, /^with\\b/, or /^without\\b/.", 420381022],
+    [236, 13, 15, "RSpec/ContextWording: Context description should match /^when\\b/, /^with\\b/, or /^without\\b/.", 3511037132],
+    [246, 13, 12, "RSpec/ContextWording: Context description should match /^when\\b/, /^with\\b/, or /^without\\b/.", 3100155342],
+    [256, 11, 24, "RSpec/ContextWording: Context description should match /^when\\b/, /^with\\b/, or /^without\\b/.", 3242693747],
+    [259, 13, 17, "RSpec/ContextWording: Context description should match /^when\\b/, /^with\\b/, or /^without\\b/.", 105800534],
+    [282, 13, 16, "RSpec/ContextWording: Context description should match /^when\\b/, /^with\\b/, or /^without\\b/.", 179066369],
+    [313, 13, 15, "RSpec/ContextWording: Context description should match /^when\\b/, /^with\\b/, or /^without\\b/.", 3912615366],
+    [357, 13, 14, "RSpec/ContextWording: Context description should match /^when\\b/, /^with\\b/, or /^without\\b/.", 2832187185],
+    [415, 13, 22, "RSpec/ContextWording: Context description should match /^when\\b/, /^with\\b/, or /^without\\b/.", 772581599],
+    [425, 11, 20, "RSpec/ContextWording: Context description should match /^when\\b/, /^with\\b/, or /^without\\b/.", 1076107314]
+  ],
+  "spec/appraisal/utils_spec.rb:2286225770": [
+    [62, 17, 58, "RSpec/VerifiedDoubles: Prefer using verifying doubles over normal doubles.", 1573223692]
+  ],
+  "spec/support/acceptance_test_helpers.rb:3072478660": [
+    [149, 5, 32, "Style/InvertibleUnlessCondition: Prefer `if $?.exitstatus == 0` over `unless $?.exitstatus != 0`.", 4187517264]
+  ],
+  "spec/support/stream_helpers.rb:3654818709": [
+    [10, 17, 4, "Security/Eval: The use of `eval` is a serious security risk.", 2087429787]
+  ]
+}
