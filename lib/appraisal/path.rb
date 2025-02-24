@@ -13,20 +13,34 @@ module Appraisal
 
     def to_s
       if @options.empty?
-        "path #{Utils.prefix_path(@source).inspect} do\n#{indent(super)}\nend"
+        <<-OUTPUT.rstrip
+path #{Utils.prefix_path(@source).inspect} do
+#{indent(super)}
+end
+        OUTPUT
       else
-        "path #{Utils.prefix_path(@source).inspect}, #{Utils.format_string(@options)} do\n" +
-          "#{indent(super)}\nend"
+        <<-OUTPUT.rstrip
+path #{Utils.prefix_path(@source).inspect}, #{Utils.format_string(@options)} do
+#{indent(super)}
+end"
+        OUTPUT
       end
     end
 
     # :nodoc:
     def for_dup
       if @options.empty?
-        "path #{@source.inspect} do\n#{indent(super)}\nend"
+        <<-OUTPUT.rstrip
+path #{@source.inspect} do
+#{indent(super)}
+end
+        OUTPUT
       else
-        "path #{@source.inspect}, #{Utils.format_string(@options)} do\n" +
-          "#{indent(super)}\nend"
+        <<-OUTPUT.rstrip
+path #{@source.inspect}, #{Utils.format_string(@options)} do
+#{indent(super)}
+end
+        OUTPUT
       end
     end
   end

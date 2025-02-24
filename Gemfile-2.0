@@ -1,0 +1,4 @@
+# These gems are locked for Ruby 1.9 & 2.0 compatibility
+gem "activesupport", "~> 4.2.7"
+gem "rack", "~> 1.6.5"
+gem "benchmark", "~> 0.3" # Removed from Std Lib in Ruby 3.5

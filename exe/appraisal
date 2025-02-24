@@ -10,5 +10,5 @@ begin
   Appraisal::CLI.start
 rescue Appraisal::AppraisalsNotFound => e
   puts e.message
-  exit 127
+  exit(127)
 end

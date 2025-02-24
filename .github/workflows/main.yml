@@ -17,15 +17,19 @@ jobs:
       fail-fast: false
       matrix:
         ruby:
+          - '3.4'
           - '3.3'
           - '3.2'
           - '3.1'
           - '3.0'
+          - '2.7'
           - 'head'
           - jruby
           - jruby-head
           - truffleruby
-          - truffleruby-head
+          # truffleruby-head is failing.
+          # TODO: Turn this back on once more important MRI Rubies are validated.
+          # - truffleruby-head
 
     steps:
       - uses: actions/checkout@v4
@@ -38,10 +42,23 @@ jobs:
       - name: Update bundler
         env:
           RUBY_VERSION: ${{ matrix.ruby }}
+        # See: https://dev.to/galtzo/matrix-ruby-gem-bundler-etc-4kk7
         run: |
           case ${RUBY_VERSION} in
-            truffleruby|truffleruby-head)
-              gem install bundler -v 2.5.18
+            1.8|1.9|2.0|2.1|2.2)
+              gem install bundler -v 1.17.3
+            ;;
+
+            2.3|2.4|2.5)
+              gem install bundler -v 2.3.27
+            ;;
+
+            2.6|2.7)
+              gem install bundler -v 2.4.22
+            ;;
+
+            3.0)
+              gem install bundler -v 2.5.23
             ;;
 
             *)

@@ -1,0 +1,20 @@
+inherit_gem:
+  rubocop-lts: config/rubygem_rspec.yml
+
+RSpec/ExampleLength:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: false
+
+RSpec/DescribeClass:
+  Enabled: false
+
+# TODO: We would need to implement Mutexes in order to make violations thread safe.
+#       But even then they would still trigger the violation.
+#       See: https://coderscat.com/ruby-change-current-working-directory/
+ThreadSafety/DirChdir:
+  Enabled: false
+
+Style/SymbolArray:
+  EnforcedStyle: brackets

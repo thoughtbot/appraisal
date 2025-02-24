@@ -10,7 +10,7 @@ require "pathname"
 module Appraisal
   # Represents one appraisal and its dependencies
   class Appraisal
-    DEFAULT_INSTALL_OPTIONS = { "jobs" => 1 }.freeze
+    DEFAULT_INSTALL_OPTIONS = {"jobs" => 1}.freeze
 
     attr_reader :name, :gemfile
 
@@ -74,28 +74,24 @@ module Appraisal
     def install(options = {})
       commands = [install_command(options).join(" ")]
 
-      if options["without"].nil? || options["without"].empty?
-        commands.unshift(check_command.join(" "))
-      end
+      commands.unshift(check_command.join(" ")) if options["without"].nil? || options["without"].empty?
 
       command = commands.join(" || ")
 
       if Bundler.settings[:path]
-        env = { "BUNDLE_DISABLE_SHARED_GEMS" => "1" }
-        Command.new(command, env: env).run
+        env = {"BUNDLE_DISABLE_SHARED_GEMS" => "1"}
+        Command.new(command, :env => env).run
       else
         Command.new(command).run
       end
     end
 
     def update(gems = [])
-      Command.new(update_command(gems), gemfile: gemfile_path).run
+      Command.new(update_command(gems), :gemfile => gemfile_path).run
     end
 
     def gemfile_path
-      unless gemfile_root.exist?
-        gemfile_root.mkdir
-      end
+      gemfile_root.mkdir unless gemfile_root.exist?
 
       gemfile_root.join(gemfile_name).to_s
     end
@@ -110,10 +106,10 @@ module Appraisal
       lockfile_content = File.read(lockfile_path)
 
       File.open(lockfile_path, "w") do |file|
-        file.write lockfile_content.gsub(
+        file.write(lockfile_content.gsub(
           / #{current_directory}/,
-          " #{relative_path}"
-        )
+          " #{relative_path}",
+        ))
       end
     end
 
@@ -150,7 +146,7 @@ module Appraisal
     end
 
     def clean_name
-      name.gsub(/[^\w\.]/, "_")
+      name.gsub(/[^\w.]/, "_")
     end
 
     def bundle_options(options)
@@ -161,8 +157,8 @@ module Appraisal
         if Utils.support_parallel_installation?
           options_strings << "--jobs=#{jobs}"
         else
-          warn "Your current version of Bundler does not support parallel installation. Please " +
-            "upgrade Bundler to version >= 1.4.0, or invoke `appraisal` without `--jobs` option."
+          warn("Your current version of Bundler does not support parallel installation. Please " \
+            "upgrade Bundler to version >= 1.4.0, or invoke `appraisal` without `--jobs` option.")
         end
       end
 

@@ -1,0 +1,12 @@
+# frozen_string_literal: true
+
+# We run rubocop on the latest version of Ruby,
+#   but in support of the oldest supported version of Ruby
+
+gem "rubocop-lts", "~> 0.1", ">= 0.1.1" # Style and Linting support for Ruby >= 1.8
+gem "rubocop-packaging", "~> 0.5", ">= 0.5.2"
+gem "rubocop-rspec", "~> 3.2"
+gem "standard", ">= 1.35.1", "!= 1.41.1", "!= 1.42.0"
+
+# Std Lib extractions
+gem "benchmark", "~> 0.4" # Removed from Std Lib in Ruby 3.5

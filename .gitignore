@@ -7,3 +7,5 @@ pkg
 Gemfile.lock
 .bundle
 .DS_Store
+
+spec/tmp

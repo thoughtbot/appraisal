@@ -7,6 +7,13 @@ module Appraisal
       Gem::Version.create(Bundler::VERSION) >= Gem::Version.create("1.4.0.pre.1")
     end
 
+    def self.support_git_local_installation?
+      Gem::Version.create(Bundler::VERSION) > Gem::Version.create("2.4.22")
+    end
+
+    # Appraisal needs to print Gemfiles in the oldest Ruby syntax that is supported by Appraisal.
+    # Otherwise, a project would not be able to use Appraisal to test compatibility
+    #   with older versions of Ruby, which is a core use case for Appraisal.
     def self.format_string(object, enclosing_object = false)
       case object
       when Hash
@@ -15,7 +22,7 @@ module Appraisal
         end
 
         if enclosing_object
-          "{ #{items.join(', ')} }"
+          "{ #{items.join(", ")} }"
         else
           items.join(", ")
         end
@@ -24,30 +31,31 @@ module Appraisal
       end
     end
 
+    # Appraisal needs to print Gemfiles in the oldest Ruby syntax that is supported by Appraisal.
+    # This means formatting Hashes as Rockets, until support for Ruby 1.8 is dropped.
+    # Regardless of what Ruby is used to generate appraisals,
+    #   generated appraisals may need to run on a different Ruby version.
+    # Generated appraisals should use a syntax compliant with the oldest supported Ruby version.
     def self.format_hash_value(key, value)
       key = format_string(key, true)
       value = format_string(value, true)
 
-      if key.start_with?(":")
-        "#{key.sub(/^:/, "")}: #{value}"
-      else
-        "#{key} => #{value}"
-      end
+      "#{key} => #{value}"
     end
 
     def self.format_arguments(arguments)
-      unless arguments.empty?
-        arguments.map { |object| format_string(object, false) }.join(", ")
-      end
+      return if arguments.empty?
+
+      arguments.map { |object| format_string(object, false) }.join(", ")
     end
 
     def self.join_parts(parts)
-      parts.reject(&:nil?).reject(&:empty?).join("\n\n").strip
+      parts.reject(&:nil?).reject(&:empty?).join("\n\n").rstrip
     end
 
     def self.prefix_path(path)
-      if path !~ /^(?:\/|\S:)/ && path !~ /^\S+:\/\// && path !~ /^\S+@\S+:/
-        cleaned_path = path.gsub(/(^|\/)\.(?:\/|$)/, "\\1")
+      if path !~ %r{^(?:/|\S:)} && path !~ %r{^\S+://} && path !~ /^\S+@\S+:/
+        cleaned_path = path.gsub(%r{(^|/)\.(?:/|$)}, '\\1')
         File.join("..", cleaned_path)
       else
         path

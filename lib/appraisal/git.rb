@@ -13,20 +13,34 @@ module Appraisal
 
     def to_s
       if @options.empty?
-        "git #{Utils.prefix_path(@source).inspect} do\n#{indent(super)}\nend"
+        <<-OUTPUT.rstrip
+git #{Utils.prefix_path(@source).inspect} do
+#{indent(super)}
+end
+        OUTPUT
       else
-        "git #{Utils.prefix_path(@source).inspect}, #{Utils.format_string(@options)} do\n" +
-          "#{indent(super)}\nend"
+        <<-OUTPUT.rstrip
+git #{Utils.prefix_path(@source).inspect}, #{Utils.format_string(@options)} do
+#{indent(super)}
+end
+        OUTPUT
       end
     end
 
     # :nodoc:
     def for_dup
       if @options.empty?
-        "git #{@source.inspect} do\n#{indent(super)}\nend"
+        <<-OUTPUT.rstrip
+git #{@source.inspect} do
+#{indent(super)}
+end
+        OUTPUT
       else
-        "git #{@source.inspect}, #{Utils.format_string(@options)} do\n" +
-          "#{indent(super)}\nend"
+        <<-OUTPUT.rstrip
+git #{@source.inspect}, #{Utils.format_string(@options)} do
+#{indent(super)}
+end
+        OUTPUT
       end
     end
   end

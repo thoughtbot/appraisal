@@ -24,7 +24,7 @@ module Appraisal
 
     def exported_options
       @options.merge(
-        path: Utils.prefix_path(@options[:path])
+        :path => Utils.prefix_path(@options[:path]),
       )
     end
   end

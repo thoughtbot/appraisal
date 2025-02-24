@@ -10,5 +10,14 @@ RSpec::Core::RakeTask.new do |t|
   t.verbose = false
 end
 
-desc "Default: run the rspec examples"
-task default: [:spec]
+begin
+  require "rubocop/lts"
+  Rubocop::Lts.install_tasks
+rescue LoadError
+  task(:rubocop_gradual) do
+    warn("RuboCop (Gradual) is disabled")
+  end
+end
+
+desc "Default: rubocop_gradual's autocorrect and run the rspec examples"
+task :default => ["rubocop_gradual:autocorrect", :spec]
