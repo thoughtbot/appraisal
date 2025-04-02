@@ -440,4 +440,20 @@ RSpec.describe Appraisal::Gemfile do
       expect(gemfile.load(tmpfile.path)).to include(File.dirname(tmpfile.path))
     end
   end
+
+  it "supports the ruby file: syntax" do
+    gemfile = Appraisal::Gemfile.new
+
+    gemfile.ruby file: ".ruby-version"
+    gemfile.source "one"
+
+    ruby_version = gemfile.instance_variable_get("@ruby_version")
+    expected = ruby_version.is_a?(String) ? "ruby #{ruby_version.inspect}" : "ruby(#{ruby_version.inspect})"
+
+    expect(gemfile.to_s).to eq <<-GEMFILE.strip_heredoc.strip
+      source "one"
+
+      #{expected}
+    GEMFILE
+  end
 end

@@ -65,8 +65,9 @@ module Appraisal
       end
     end
 
-    def ruby(ruby_version)
+    def ruby(ruby_version = nil, **kwargs)
       @ruby_version = ruby_version
+      @ruby_version = kwargs unless ruby_version
     end
 
     def git(source, options = {}, &block)
