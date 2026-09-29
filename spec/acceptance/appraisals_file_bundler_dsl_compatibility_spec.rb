@@ -175,7 +175,7 @@ RSpec.describe "Appraisals file Bundler DSL compatibility" do
 
       source "https://rubygems.org"
 
-      ruby({:file=>".ruby-version"})
+      ruby({ :file => ".ruby-version" })
 
       gem "appraisal", :path => #{PROJECT_ROOT.inspect}
     GEMFILE

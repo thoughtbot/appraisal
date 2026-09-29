@@ -26,6 +26,48 @@ RSpec.describe Appraisal::Gemfile do
     expect(gemfile.to_s.strip).to eq %(source "one")
   end
 
+  it "supports removing a gem" do
+    gemfile = Appraisal::Gemfile.new
+    gemfile.gem "one"
+    gemfile.remove_gem "one"
+    expect(gemfile.to_s.strip).to eq ""
+  end
+
+  it "supports source syntax with a block" do
+    gemfile = Appraisal::Gemfile.new
+
+    gemfile.source "https://example.com" do
+      gem "one"
+    end
+
+    expect(gemfile.to_s).to eq <<-GEMFILE.strip_heredoc.strip
+      source "https://example.com" do
+        gem "one"
+      end
+    GEMFILE
+  end
+
+  it "supports install_if syntax" do
+    gemfile = Appraisal::Gemfile.new
+
+    gemfile.install_if "RUBY_VERSION >= '3.0'" do
+      gem "one"
+    end
+
+    expect(gemfile.to_s).to eq <<-GEMFILE.strip_heredoc.strip
+      install_if RUBY_VERSION >= '3.0' do
+        gem "one"
+      end
+    GEMFILE
+  end
+
+  it "supports a ruby version expressed as a hash" do
+    gemfile = Appraisal::Gemfile.new
+    gemfile.ruby(file: ".ruby-version")
+
+    expect(gemfile.to_s).to eq(%(ruby({ file: ".ruby-version" })))
+  end
+
   it "preserves dependency order" do
     gemfile = Appraisal::Gemfile.new
     gemfile.gem "one"
@@ -438,6 +480,50 @@ RSpec.describe Appraisal::Gemfile do
       tmpfile.write "__FILE__"
       tmpfile.rewind
       expect(gemfile.load(tmpfile.path)).to include(File.dirname(tmpfile.path))
+    end
+  end
+
+  describe "#dup" do
+    it "produces a copy that renders identically to the original" do
+      gemfile = Appraisal::Gemfile.new
+      gemfile.source "https://rubygems.org"
+      gemfile.source "https://internal.example.com" do
+        gem "from-source-block"
+      end
+      gemfile.ruby "3.2.0"
+      gemfile.gem "rails", path: "../rails"
+      gemfile.gemspec
+      gemfile.group(:test) { gem "rspec" }
+      gemfile.platform(:jruby) { gem "jruby-only" }
+      gemfile.git("git://example.com/repo.git", ref: "abc123") { gem "from-git" }
+      gemfile.git("git://example.com/other-repo.git") { gem "from-other-git" }
+      gemfile.path("../vendor", glob: "*.gemspec") { gem "from-path" }
+      gemfile.path("../other-vendor") { gem "from-other-path" }
+      gemfile.install_if("true") { gem "from-install-if" }
+
+      duplicate = gemfile.dup
+
+      expect(duplicate.to_s).to eq(gemfile.to_s)
+    end
+
+    it "drops install_if blocks whose condition is not a literal string" do
+      gemfile = Appraisal::Gemfile.new
+      gemfile.install_if(-> { true }) { gem "dropped" }
+
+      duplicate = gemfile.dup
+
+      expect(duplicate.to_s).to eq("")
+    end
+
+    it "is independent from the original gemfile" do
+      gemfile = Appraisal::Gemfile.new
+      gemfile.gem "one"
+
+      duplicate = gemfile.dup
+      duplicate.gem "two"
+
+      expect(gemfile.to_s).to eq(%(gem "one"))
+      expect(duplicate.to_s).to include(%(gem "two"))
     end
   end
 end

@@ -49,4 +49,13 @@ RSpec.describe Appraisal::DependencyList do
       expect(dependency_list.to_s).to eq("")
     end
   end
+
+  describe "#for_dup" do
+    it "renders dependencies without path-prefixing" do
+      dependency_list = Appraisal::DependencyList.new
+      dependency_list.add("rails", [{ path: "../rails" }])
+
+      expect(dependency_list.for_dup).to eq(%(gem "rails", path: "../rails"))
+    end
+  end
 end

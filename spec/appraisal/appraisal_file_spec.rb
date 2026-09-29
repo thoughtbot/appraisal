@@ -12,7 +12,48 @@ RSpec.describe Appraisal::AppraisalFile do
   it "complains when no Appraisals file is found" do
     allow(File).to receive(:exist?).with(/Gemfile/).and_return(true)
     allow(File).to receive(:exist?).with("Appraisals").and_return(false)
-    expect { described_class.new }.to raise_error(Appraisal::AppraisalsNotFound)
+    expect { described_class.new }.to raise_error(
+      Appraisal::AppraisalsNotFound,
+      "Unable to locate 'Appraisals' file in the current directory."
+    )
+  end
+
+  describe "loading appraisals" do
+    before do
+      allow(File).to receive(:exist?).with(/Gemfile/).and_return(true)
+      allow(File).to receive(:exist?).with("Appraisals").and_return(true)
+      allow(IO).to receive(:read).with(/Gemfile/).and_return("")
+      allow(IO).to receive(:read).with("Appraisals").and_return(<<~APPRAISALS)
+        appraise "one" do
+          gem "one"
+        end
+
+        appraise "two" do
+          gem "two"
+        end
+      APPRAISALS
+    end
+
+    it "evaluates each appraise block into an Appraisal instance" do
+      appraisal_file = described_class.new
+
+      expect(appraisal_file.appraisals.map(&:name)).to eq(%w[one two])
+      expect(appraisal_file.appraisals.first.gemfile.to_s).to eq(%(gem "one"))
+    end
+
+    it "yields each defined appraisal via the class method" do
+      names = []
+      described_class.each { |appraisal| names << appraisal.name }
+
+      expect(names).to eq(%w[one two])
+    end
+
+    it "yields each defined appraisal via the instance method" do
+      names = []
+      described_class.new.each { |appraisal| names << appraisal.name }
+
+      expect(names).to eq(%w[one two])
+    end
   end
 
   describe "#customize_gemfiles" do

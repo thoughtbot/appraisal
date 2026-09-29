@@ -4,7 +4,7 @@ require "spec_helper"
 
 RSpec.describe "Bundler without flag" do
   it "passes --without flag to Bundler on install" do
-    build_gems %w[pancake orange_juice waffle coffee sausage soda]
+    build_gems %w[pancake orange_juice waffle coffee sausage fizzy_soda]
 
     build_gemfile <<-GEMFILE
       source "https://rubygems.org"
@@ -32,7 +32,7 @@ RSpec.describe "Bundler without flag" do
         gem "sausage"
 
         group :drinks do
-          gem "soda"
+          gem "fizzy_soda"
         end
       end
     APPRAISALS
@@ -44,7 +44,7 @@ RSpec.describe "Bundler without flag" do
     expect(output).to include("Bundle complete")
     expect(output).not_to include("orange_juice")
     expect(output).not_to include("coffee")
-    expect(output).not_to include("soda")
+    expect(output).not_to include("fizzy_soda")
 
     output = run "appraisal install"
 
