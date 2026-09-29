@@ -18,9 +18,9 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- exe/*`.split("\n").map { |f| File.basename(f) }
   s.bindir        = "exe"
 
-  s.required_ruby_version = ">= 2.3.0"
+  s.required_ruby_version = ">= 3.0.0"
 
   s.add_dependency("rake")
   s.add_dependency("bundler")
-  s.add_dependency("thor", ">= 0.14.0")
+  s.add_dependency("thor", ">= 1.0")
 end
