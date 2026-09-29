@@ -4,6 +4,8 @@ require "appraisal/bundler_dsl"
 require "appraisal/utils"
 
 module Appraisal
+  # Represents a `platforms` block, scoping its dependencies to the named
+  # platform(s) when the generated Gemfile is written out.
   class Platform < BundlerDSL
     def initialize(platform_names)
       super()

@@ -4,6 +4,8 @@ require "thor"
 require "fileutils"
 
 module Appraisal
+  # The `appraisal` command-line executable. Each public method below is a
+  # Thor task; see each task's +desc+ for the behavior it implements.
   class CLI < Thor
     default_task :install
     map ["-v", "--version"] => "version"

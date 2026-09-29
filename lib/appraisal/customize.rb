@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 module Appraisal
+  # Stores the options passed to `customize_gemfiles` in an Appraisals file,
+  # letting callers override the heading comment and quote style used when
+  # generated gemfiles are written to disk.
   class Customize
     def initialize(heading: nil, single_quotes: false)
       @@heading = heading&.chomp

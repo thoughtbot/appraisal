@@ -3,6 +3,10 @@
 require "appraisal/dependency_list"
 
 module Appraisal
+  # Base class implementing the subset of the Bundler Gemfile DSL that
+  # Appraisal understands (+gem+, +group+, +source+, +git+, +path+, etc).
+  # Subclasses such as Group, Platform, Source, Git, Path and Conditional
+  # reuse this to represent nested blocks within a Gemfile.
   class BundlerDSL
     attr_reader :dependencies
 
@@ -114,7 +118,7 @@ module Appraisal
 
       case @ruby_version
       when String then "ruby #{@ruby_version.inspect}"
-      else "ruby(#{@ruby_version.inspect})"
+      else "ruby(#{Utils.format_string(@ruby_version, true)})"
       end
     end
 

@@ -4,6 +4,8 @@ require "appraisal/bundler_dsl"
 require "appraisal/utils"
 
 module Appraisal
+  # Represents a `group` block, scoping its dependencies to the named
+  # group(s) when the generated Gemfile is written out.
   class Group < BundlerDSL
     def initialize(group_names)
       super()

@@ -4,6 +4,8 @@ require "appraisal/bundler_dsl"
 require "appraisal/utils"
 
 module Appraisal
+  # Represents a `path` block, scoping its dependencies to the given local
+  # path source when the generated Gemfile is written out.
   class Path < BundlerDSL
     def initialize(source, options = {})
       super()

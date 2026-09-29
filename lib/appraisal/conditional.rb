@@ -4,6 +4,8 @@ require "appraisal/bundler_dsl"
 require "appraisal/utils"
 
 module Appraisal
+  # Represents an `install_if` block, installing its dependencies only when
+  # the given condition evaluates to true when the generated Gemfile is run.
   class Conditional < BundlerDSL
     def initialize(condition)
       super()

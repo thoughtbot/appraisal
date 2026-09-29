@@ -3,6 +3,8 @@
 require "appraisal/utils"
 
 module Appraisal
+  # Represents a `gemspec` declaration, re-emitted with its `:path` option
+  # rewritten to stay valid from inside the generated `gemfiles/` directory.
   class Gemspec
     attr_reader :options
 

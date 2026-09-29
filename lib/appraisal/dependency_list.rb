@@ -4,6 +4,8 @@ require "appraisal/dependency"
 require "set"
 
 module Appraisal
+  # An ordered collection of Dependency instances declared via `gem`, with
+  # support for later removing a dependency by name via `remove_gem`.
   class DependencyList
     def initialize
       @dependencies = {}

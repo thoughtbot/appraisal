@@ -4,6 +4,8 @@ require "appraisal/bundler_dsl"
 require "appraisal/utils"
 
 module Appraisal
+  # Represents a `source` block, scoping its dependencies to the given
+  # additional gem source when the generated Gemfile is written out.
   class Source < BundlerDSL
     def initialize(source)
       super()

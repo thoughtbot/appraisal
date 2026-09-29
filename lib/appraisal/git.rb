@@ -4,6 +4,8 @@ require "appraisal/bundler_dsl"
 require "appraisal/utils"
 
 module Appraisal
+  # Represents a `git` block, scoping its dependencies to the given Git
+  # repository source when the generated Gemfile is written out.
   class Git < BundlerDSL
     def initialize(source, options = {})
       super()

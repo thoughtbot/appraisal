@@ -19,6 +19,9 @@ module Appraisal
       @gemfile = source_gemfile.dup
     end
 
+    # The methods below mirror the Bundler Gemfile DSL and simply delegate
+    # to this appraisal's own copy of the Gemfile.
+
     def gem(*args)
       gemfile.gem(*args)
     end
@@ -63,6 +66,8 @@ module Appraisal
       gemfile.git_source(*args, &block)
     end
 
+    # Writes this appraisal's Gemfile to its generated path in gemfiles/,
+    # preceded by a comment heading (customizable via `customize_gemfiles`).
     def write_gemfile
       File.open(gemfile_path, "w") do |file|
         signature =
@@ -71,6 +76,8 @@ module Appraisal
       end
     end
 
+    # Runs `bundle check` (unless a `without` option is given) followed by
+    # `bundle install` against this appraisal's generated Gemfile.
     def install(options = {})
       commands = [install_command(options).join(" ")]
 
@@ -88,10 +95,14 @@ module Appraisal
       end
     end
 
+    # Runs `bundle update` for the given gem names (or all gems, if none are
+    # given) against this appraisal's generated Gemfile.
     def update(gems = [])
       Command.new(update_command(gems), gemfile: gemfile_path).run
     end
 
+    # The absolute path to this appraisal's generated Gemfile, creating the
+    # gemfiles/ directory if it does not already exist.
     def gemfile_path
       unless gemfile_root.exist?
         gemfile_root.mkdir
@@ -100,10 +111,15 @@ module Appraisal
       gemfile_root.join(gemfile_name).to_s
     end
 
+    # The path to this appraisal's generated Gemfile, relative to the
+    # project root.
     def relative_gemfile_path
       File.join("gemfiles", gemfile_name)
     end
 
+    # Rewrites absolute paths recorded in the generated lockfile (e.g. under
+    # BUNDLE_PATH) to be relative, so the lockfile does not embed
+    # machine-specific paths.
     def relativize
       current_directory = Pathname.new(Dir.pwd)
       relative_path = current_directory.relative_path_from(gemfile_root).cleanpath
